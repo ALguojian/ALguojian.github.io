@@ -86,12 +86,10 @@
 <meta property="og:site_name" content="-ccccccal">
 <meta property="og:description" content="通过lifecycle来控制生命周期相对来说会少写很多无用代码，例如可以在viewModel中控制一些需要在生命周期中使用的注册的方法等，因为按照传统方法，如果想要在viewModel中实现声明周期方法等，必须在avtivity或者fragment中进行viewModel相对应的方法进行回调等 使用Lifecycle的三种方式1. 直接实现LifecycleObserver接口，然后手动进行对应周">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/alguojian/PictureSave/master/20190722151959.jpg">
-<meta property="og:updated_time" content="2019-07-22T07:47:59.874Z">
+<meta property="og:updated_time" content="2020-01-06T02:46:48.542Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MVVM--之Lifecycle的使用">
 <meta name="twitter:description" content="通过lifecycle来控制生命周期相对来说会少写很多无用代码，例如可以在viewModel中控制一些需要在生命周期中使用的注册的方法等，因为按照传统方法，如果想要在viewModel中实现声明周期方法等，必须在avtivity或者fragment中进行viewModel相对应的方法进行回调等 使用Lifecycle的三种方式1. 直接实现LifecycleObserver接口，然后手动进行对应周">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/alguojian/PictureSave/master/20190722151959.jpg">
 
 
 
@@ -319,20 +317,6 @@
 
       
       
-        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
-          
-          
-            <div class="post-gallery-row">
-              <a class="post-gallery-img fancybox" href="https://raw.githubusercontent.com/alguojian/PictureSave/master/20190722151959.jpg" rel="gallery_ck51u64b40000c55yxyw0xnm1" itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
-                <img src="https://raw.githubusercontent.com/alguojian/PictureSave/master/20190722151959.jpg" itemprop="contentUrl">
-              </a>
-            
-          
-
-          
-          </div>
-        </div>
-      
 
       
         <p>通过lifecycle来控制生命周期相对来说会少写很多无用代码，例如可以在viewModel中控制一些需要在生命周期中使用的注册的方法等，因为按照传统方法，如果想要在viewModel中实现声明周期方法等，必须在avtivity或者fragment中进行viewModel相对应的方法进行回调等</p>
@@ -372,7 +356,9 @@ class MyLifecycleObserver : LifecycleObserver {
     fun onAny(owner: LifecycleOwner, event: Lifecycle.Event) {
         println(&quot;lifecycle的ON_ANY方法&quot;)
     }
-}</code></pre><h4 id="2-实现GenericLifecycleObserver接口，实现回调方法onStateChanged"><a href="#2-实现GenericLifecycleObserver接口，实现回调方法onStateChanged" class="headerlink" title="2.实现GenericLifecycleObserver接口，实现回调方法onStateChanged"></a>2.实现GenericLifecycleObserver接口，实现回调方法onStateChanged</h4><pre><code>/**
+}</code></pre><a id="more"></a>
+
+<h4 id="2-实现GenericLifecycleObserver接口，实现回调方法onStateChanged"><a href="#2-实现GenericLifecycleObserver接口，实现回调方法onStateChanged" class="headerlink" title="2.实现GenericLifecycleObserver接口，实现回调方法onStateChanged"></a>2.实现GenericLifecycleObserver接口，实现回调方法onStateChanged</h4><pre><code>/**
  * 使用lifecycle的第二种方法为 直接继承GenericLifecycleObserver
  *
  * @author alguojian

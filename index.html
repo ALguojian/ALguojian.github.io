@@ -319,25 +319,10 @@
 
       
       
-        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
-          
-          
-            <div class="post-gallery-row">
-              <a class="post-gallery-img fancybox" href="https://raw.githubusercontent.com/alguojian/PictureSave/master/20190722151959.jpg" rel="gallery_ck51u64b40000c55yxyw0xnm1" itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
-                <img src="https://raw.githubusercontent.com/alguojian/PictureSave/master/20190722151959.jpg" itemprop="contentUrl">
-              </a>
-            
-          
-
-          
-          </div>
-        </div>
-      
 
       
         
-          
-            <p>通过lifecycle来控制生命周期相对来说会少写很多无用代码，例如可以在viewModel中控制一些需要在生命周期中使用的注册的方法等，因为按照传统方法，如果想要在viewModel中实现声明周期方法等，必须在avtivity或者fragment中进行viewModel相对应的方法进行回调等</p>
+          <p>通过lifecycle来控制生命周期相对来说会少写很多无用代码，例如可以在viewModel中控制一些需要在生命周期中使用的注册的方法等，因为按照传统方法，如果想要在viewModel中实现声明周期方法等，必须在avtivity或者fragment中进行viewModel相对应的方法进行回调等</p>
 <h3 id="使用Lifecycle的三种方式"><a href="#使用Lifecycle的三种方式" class="headerlink" title="使用Lifecycle的三种方式"></a>使用Lifecycle的三种方式</h3><h4 id="1-直接实现LifecycleObserver接口，然后手动进行对应周期的方法注册（通过注解）"><a href="#1-直接实现LifecycleObserver接口，然后手动进行对应周期的方法注册（通过注解）" class="headerlink" title="1. 直接实现LifecycleObserver接口，然后手动进行对应周期的方法注册（通过注解）"></a>1. 直接实现LifecycleObserver接口，然后手动进行对应周期的方法注册（通过注解）</h4><pre><code>/**
  * lifeCycle的使用，之后可以让ViewModel使用该发方法，以便使用生命周期的方法
  *
@@ -374,56 +359,14 @@ class MyLifecycleObserver : LifecycleObserver {
     fun onAny(owner: LifecycleOwner, event: Lifecycle.Event) {
         println(&quot;lifecycle的ON_ANY方法&quot;)
     }
-}</code></pre><h4 id="2-实现GenericLifecycleObserver接口，实现回调方法onStateChanged"><a href="#2-实现GenericLifecycleObserver接口，实现回调方法onStateChanged" class="headerlink" title="2.实现GenericLifecycleObserver接口，实现回调方法onStateChanged"></a>2.实现GenericLifecycleObserver接口，实现回调方法onStateChanged</h4><pre><code>/**
- * 使用lifecycle的第二种方法为 直接继承GenericLifecycleObserver
- *
- * @author alguojian
- * @date 2019/1/29
- */
-class MyLifecycleObserverTwo : GenericLifecycleObserver {
-    override fun onStateChanged(source: LifecycleOwner?, event: Lifecycle.Event?) {
-        when (event) {
-            Lifecycle.Event.ON_CREATE -&gt; {
-                println(&quot;使用lifecycle的第二种方法为 直接继承GenericLifecycleObserver&quot;)
-            }
-            Lifecycle.Event.ON_START -&gt; {
-            }
-            Lifecycle.Event.ON_DESTROY -&gt; {
-            }
-            else -&gt; {
-            }
-        }
-    }
-}</code></pre><h4 id="3-实现接口DefaultLifecycleObserver，直接重写对应的声明周期的方法（推荐使用）"><a href="#3-实现接口DefaultLifecycleObserver，直接重写对应的声明周期的方法（推荐使用）" class="headerlink" title="3.实现接口DefaultLifecycleObserver，直接重写对应的声明周期的方法（推荐使用）"></a>3.实现接口DefaultLifecycleObserver，直接重写对应的声明周期的方法（推荐使用）</h4><blockquote>
-<p>注意：该方法使用java8，并且需要添加依赖   <code>implementation &#39;android.arch.lifecycle:common-java8:1.1.1&#39;</code></p>
-</blockquote>
-<pre><code>/**
- * 使用lifecycle的第三种方法为 直接实现DefaultLifecycleObserver
- *
- * 使用该方法需要添加依赖：implementation &#39;android.arch.lifecycle:common-java8:1.1.1&#39;
- *
- * 使用java8，该方法作为优先选择，因为不需要再写其他注解等，，，，ø
- *
- * @author alguojian
- * @date 2019/1/29
- */
-class MyLifecycleObserverThree : DefaultLifecycleObserver {
-
-    override fun onCreate(@NonNull owner: LifecycleOwner) {
-        println(&quot;使用lifecycle的第三种方法为 直接实现DefaultLifecycleObserver&quot;)
-    }
-}</code></pre><h3 id="在activity或者fragment中使用："><a href="#在activity或者fragment中使用：" class="headerlink" title="在activity或者fragment中使用："></a>在activity或者fragment中使用：</h3><pre><code>  //activity
-  lifecycle.addObserver(MyLifecycleObserver())
-
-
-    /**
-     * fragment中使用需要在构造方法中进行注册
-     */
-    init {
-        lifecycle.addObserver(MyLifecycleObserverThree())
-    }</code></pre><p>activity和fragment持有LifecycleOwner的对象，通过getLifecycle()获得Lifecycle对象，实际获得的是Lifecycle的一个实现类LifecycleRegistry，通过addObserver()方法添加我们的观察者，LifecycleObserver</p>
-
-          
+}</code></pre>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/23/themes-life/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
