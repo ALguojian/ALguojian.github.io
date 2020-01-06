@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="默默码码的copy-seven">
-<meta property="og:type" content="website">
+<meta name="description" content="title: android本地存储目录 date: 2019-06-23 17:21:34android本地存储目录 内部存储 外部存储 应用私有目录 外部目录">
+<meta property="og:type" content="article">
 <meta property="og:title" content="-ccccccal">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/01/06/android本地存储目录/index.html">
 <meta property="og:site_name" content="-ccccccal">
-<meta property="og:description" content="默默码码的copy-seven">
+<meta property="og:description" content="title: android本地存储目录 date: 2019-06-23 17:21:34android本地存储目录 内部存储 外部存储 应用私有目录 外部目录">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-01-06T03:01:45.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="-ccccccal">
-<meta name="twitter:description" content="默默码码的copy-seven">
+<meta name="twitter:description" content="title: android本地存储目录 date: 2019-06-23 17:21:34android本地存储目录 内部存储 外部存储 应用私有目录 外部目录">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2020/01/06/android本地存储目录/">
 
 
 
 
 
-  <title>-ccccccal</title>
+  <title> | -ccccccal</title>
   
 
 
@@ -143,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -237,9 +237,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -269,9 +269,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/06/android本地存储目录/" itemprop="url">未命名</a></h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -321,8 +319,7 @@
       
 
       
-        
-          <p>title: android本地存储目录</p>
+        <p>title: android本地存储目录</p>
 <h2 id="date-2019-06-23-17-21-34"><a href="#date-2019-06-23-17-21-34" class="headerlink" title="date: 2019-06-23 17:21:34"></a>date: 2019-06-23 17:21:34</h2><h1 id="android本地存储目录"><a href="#android本地存储目录" class="headerlink" title="android本地存储目录"></a>android本地存储目录</h1><ul>
 <li>内部存储</li>
 <li>外部存储<ul>
@@ -331,14 +328,69 @@
 </ul>
 </li>
 </ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/01/06/android本地存储目录/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+<a id="more"></a>
+
+
+<h2 id="获得内部存储目录"><a href="#获得内部存储目录" class="headerlink" title="获得内部存储目录"></a>获得内部存储目录</h2><pre><code>    /**
+     * 获得私有目录文件，卸载之后会自动删除，7.0之后私有目录访问权限必须添加fileprovider访问
+     */
+    private void init() {
+
+        //绝对路径,=/data/user/0/packname/files
+        File filesDir = mContext.getFilesDir();
+        filesDir.getAbsolutePath();
+
+        //缓存路径，sp等,=/data/user/0/packname/cache
+        File cacheDir = mContext.getCacheDir();
+        cacheDir.getAbsolutePath();
+
+        boolean b = mContext.deleteFile(&quot;&quot;);
+
+        String[] strings = mContext.fileList();
+
+        //获得私有目录内的自建目录，=/data/user/0/packname/app_myFile
+        String myFile = mContext.getDir(&quot;myFile&quot;, MODE_PRIVATE).getAbsolutePath();
+
+        //获得data目录=/data
+        File dataDirectory = Environment.getDataDirectory();
+
+    }</code></pre><h2 id="获得外部存储目录"><a href="#获得外部存储目录" class="headerlink" title="获得外部存储目录"></a>获得外部存储目录</h2><pre><code>    /**
+     * 外部存储路径，sd等
+     * &lt;p&gt;
+     * /storage/emulated/0/Android/data/app package name
+     */
+    private void init2() {
+
+        //在4.4以前系统中可能会获得null，因为4.4之前如果没有插sd卡，就代表没有外部存储，
+        //获得某个应用在外部存储中的files路径，=/storage/emulated/0/Android/data/packname/files
+        File externalFilesDir = mContext.getExternalFilesDir(&quot;&quot;);
+        String absolutePath = externalFilesDir.getAbsolutePath();
+
+        //获得某个应用在外部存储中的cache路径,=/storage/emulated/0/Android/data/packname/cache
+        String absolutePath1 = mContext.getExternalCacheDir().getAbsolutePath();
+
+
+        //通过Environment获得的时候需要申请权限,获得外部存储的根路径=/storage/emulated/0
+        String absolutePath3 = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+        //,获得外部存储的根路径=/storage/emulated/0
+        String absolutePath2 = Environment.getExternalStoragePublicDirectory(&quot;&quot;).getAbsolutePath();
+
+    }
+</code></pre><h1 id="获得外部存储目录-1"><a href="#获得外部存储目录-1" class="headerlink" title="获得外部存储目录"></a>获得外部存储目录</h1><pre><code> /**
+     * 获得外部存储路径,包括机身外部存储以及sd卡存储
+     */
+    public void getExternalStoragePath() {
+
+        File[] files;
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) {
+            files = mContext.getExternalFilesDirs(Environment.MEDIA_MOUNTED);
+            for (File file : files) {
+                Log.e(&quot;main&quot;, file.getPath());
+            }
+        }
+    }</code></pre><h1 id="其他目录"><a href="#其他目录" class="headerlink" title="其他目录"></a>其他目录</h1><pre><code>     Environment.getDownloadCacheDirectory();//,=/cache
+     Environment.getRootDirectory();//,=system</code></pre>
       
     </div>
     
@@ -355,139 +407,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/创建bitmap的几种方法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="alguojian">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="-ccccccal">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/23/创建bitmap的几种方法/" itemprop="url">创建bitmap的几种方法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T17:22:34+08:00">
-                2019-06-23
-              </time>
+              <a href="/2019/06/23/创建bitmap的几种方法/" rel="next" title="创建bitmap的几种方法">
+                <i class="fa fa-chevron-left"></i> 创建bitmap的几种方法
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <ul>
-<li>创建一个位图的方法,切记通过工厂得到的位图不能通过矩阵进行一系列转换，必须重新创建一个</li>
-<li>通过流获得bitmap是会更省内存  </li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/23/创建bitmap的几种方法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -497,171 +438,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/MVVM--之Lifecycle的使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="alguojian">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="-ccccccal">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/23/MVVM--之Lifecycle的使用/" itemprop="url">MVVM--之Lifecycle的使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T17:20:34+08:00">
-                2019-06-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>通过lifecycle来控制生命周期相对来说会少写很多无用代码，例如可以在viewModel中控制一些需要在生命周期中使用的注册的方法等，因为按照传统方法，如果想要在viewModel中实现声明周期方法等，必须在avtivity或者fragment中进行viewModel相对应的方法进行回调等</p>
-<h3 id="使用Lifecycle的三种方式"><a href="#使用Lifecycle的三种方式" class="headerlink" title="使用Lifecycle的三种方式"></a>使用Lifecycle的三种方式</h3><h4 id="1-直接实现LifecycleObserver接口，然后手动进行对应周期的方法注册（通过注解）"><a href="#1-直接实现LifecycleObserver接口，然后手动进行对应周期的方法注册（通过注解）" class="headerlink" title="1. 直接实现LifecycleObserver接口，然后手动进行对应周期的方法注册（通过注解）"></a>1. 直接实现LifecycleObserver接口，然后手动进行对应周期的方法注册（通过注解）</h4><pre><code>/**
- * lifeCycle的使用，之后可以让ViewModel使用该发方法，以便使用生命周期的方法
- *
- * lifecycle可以将lifecycleOwner对应的生命周期时间传递给内部的Lifecycle对象去处理，
- * 于是生命周期的改变就可以被lifecycle所注册的观察者LifecycleObserver观察到并触发其对应的事件
- *
- * @author alguojian
- * @date 2019/1/29
- */
-class MyLifecycleObserver : LifecycleObserver {
-
-    /**
-     * 通过lifecycle的注解注入，将activity的生命周期同步与该方法
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate() {
-        println(&quot;lifecycle的onCreate方法&quot;)
-    }
-
-
-    /**
-     * 可以接受参数，第一个参数必须是LifecycleOwner
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onPause(owner: LifecycleOwner) {
-        println(&quot;lifecycle的ON_PAUSE方法&quot;)
-    }
-
-
-    /**
-     * 使用any可以接受两个参数，第一个参数必须是LifecycleOwner，第二个是Lifecycle.Event)
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-    fun onAny(owner: LifecycleOwner, event: Lifecycle.Event) {
-        println(&quot;lifecycle的ON_ANY方法&quot;)
-    }
-}</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/23/MVVM--之Lifecycle的使用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -669,6 +450,10 @@ class MyLifecycleObserver : LifecycleObserver {
 
 
           
+
+  
+
+
 
         </div>
         
@@ -689,8 +474,17 @@ class MyLifecycleObserver : LifecycleObserver {
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -732,6 +526,22 @@ class MyLifecycleObserver : LifecycleObserver {
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#date-2019-06-23-17-21-34"><span class="nav-number">1.</span> <span class="nav-text">date: 2019-06-23 17:21:34</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#android本地存储目录"><span class="nav-number"></span> <span class="nav-text">android本地存储目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#获得内部存储目录"><span class="nav-number">1.</span> <span class="nav-text">获得内部存储目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获得外部存储目录"><span class="nav-number">2.</span> <span class="nav-text">获得外部存储目录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获得外部存储目录-1"><span class="nav-number"></span> <span class="nav-text">获得外部存储目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他目录"><span class="nav-number"></span> <span class="nav-text">其他目录</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -872,6 +682,10 @@ class MyLifecycleObserver : LifecycleObserver {
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
