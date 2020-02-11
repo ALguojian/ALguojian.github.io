@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基础命令dir 无参数： 查看当前所在目录的文件和文件夹  /s： 查看当前目录以及其子目录的文件和文件夹  /a： 查看包括银行文件的所有文件  /ah： 只显示隐含文件  /w： 以紧凑方式（一行显示5个文件）显示文件和文件夹  /p： 以分页方式（显示一页之后会自动暂停）显示  |more： 前面那个符号是&amp;quot;\&amp;quot;上面的那个，叫做重定向符号，就是一个命令的结果输出为灵位一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用DOS命令">
+<meta property="og:url" content="http://yoursite.com/2018/06/27/常用DOS命令/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="基础命令dir 无参数： 查看当前所在目录的文件和文件夹  /s： 查看当前目录以及其子目录的文件和文件夹  /a： 查看包括银行文件的所有文件  /ah： 只显示隐含文件  /w： 以紧凑方式（一行显示5个文件）显示文件和文件夹  /p： 以分页方式（显示一页之后会自动暂停）显示  |more： 前面那个符号是&amp;quot;\&amp;quot;上面的那个，叫做重定向符号，就是一个命令的结果输出为灵位一">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7426378-68c9e1cf612ddbae.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2020-02-11T08:56:10.302Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常用DOS命令">
+<meta name="twitter:description" content="基础命令dir 无参数： 查看当前所在目录的文件和文件夹  /s： 查看当前目录以及其子目录的文件和文件夹  /a： 查看包括银行文件的所有文件  /ah： 只显示隐含文件  /w： 以紧凑方式（一行显示5个文件）显示文件和文件夹  /p： 以分页方式（显示一页之后会自动暂停）显示  |more： 前面那个符号是&amp;quot;\&amp;quot;上面的那个，叫做重定向符号，就是一个命令的结果输出为灵位一">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7426378-68c9e1cf612ddbae.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/27/常用DOS命令/">
+
+
+
+
+
+  <title>常用DOS命令 | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/27/常用DOS命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">常用DOS命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-27T17:20:34+08:00">
+                2018-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/7426378-68c9e1cf612ddbae.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<h1 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h1><h2 id="dir"><a href="#dir" class="headerlink" title="dir"></a>dir</h2><ul>
+<li><p>无参数： 查看当前所在目录的文件和文件夹</p>
+</li>
+<li><p><code>/s</code>： 查看当前目录以及其子目录的文件和文件夹</p>
+</li>
+<li><p><code>/a</code>： 查看包括银行文件的所有文件</p>
+</li>
+<li><p><code>/ah</code>： 只显示隐含文件</p>
+</li>
+<li><p><code>/w</code>： 以紧凑方式（一行显示5个文件）显示文件和文件夹</p>
+</li>
+<li><p><code>/p</code>： 以分页方式（显示一页之后会自动暂停）显示</p>
+</li>
+<li><p><code>|more</code>： 前面那个符号是<code>&quot;\&quot;</code>上面的那个，叫做重定向符号，就是一个命令的结果输出为灵位一个命令的参数，<code>more</code>也是一个命令，<code>dir/w|more</code>得到的结果和<code>dir/w/p</code>的结果是一样的</p>
+</li>
+<li><p>更多参数可以使用： <code>dir/？</code>查看</p>
+</li>
+</ul>
+<a id="more"></a>
+
+
+<h2 id="cd"><a href="#cd" class="headerlink" title="cd"></a>cd</h2><ul>
+<li><p><code>cd 目录名</code>： 进入特定的目录，如果看到有个目录显示为sdk就是：<code>cd sdk</code>回车就行</p>
+</li>
+<li><p><code>cd\</code> 回到根目录</p>
+</li>
+<li><p><code>cd..</code> 返回上一级</p>
+</li>
+</ul>
+<h2 id="md-rd"><a href="#md-rd" class="headerlink" title="md   rd"></a>md   rd</h2><ul>
+<li><p><code>md 目录名</code>： 建立特定的文件夹（dos下面叫目录，win下面叫文件夹）</p>
+</li>
+<li><p><code>rd 目录名</code>： 删除特定的文件夹</p>
+</li>
+</ul>
+<h2 id="cls"><a href="#cls" class="headerlink" title="cls"></a>cls</h2><ul>
+<li>清屏</li>
+</ul>
+<h2 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h2><ul>
+<li><code>copy 路径\文件名 路径\文件名</code> ：把一个文件拷贝到另一个地方</li>
+</ul>
+<h2 id="move"><a href="#move" class="headerlink" title="move"></a>move</h2><ul>
+<li><code>move 路径\文件名 路径\文件名</code>：把一个文件移动（剪切+复制）到另一个地方</li>
+</ul>
+<h2 id="del"><a href="#del" class="headerlink" title="del"></a>del</h2><ul>
+<li><p><code>del文件名</code>： 删除一个文件</p>
+</li>
+<li><p><code>del*.*</code>： 删除当前文件夹下所有文件</p>
+</li>
+<li><p><code>del</code>不能删除文件夹</p>
+</li>
+</ul>
+<h2 id="deltree"><a href="#deltree" class="headerlink" title="deltree"></a>deltree</h2><ul>
+<li>删除文件夹和它下面的所有子文件夹还有文件</li>
+</ul>
+<h2 id="format"><a href="#format" class="headerlink" title="format"></a>format</h2><ul>
+<li><code>format x:</code>： X代表盘符，格式化一个分区，在dos下是用fat文件系统格式化的</li>
+</ul>
+<h2 id="type"><a href="#type" class="headerlink" title="type"></a>type</h2><ul>
+<li><code>type文本文件名</code>： 显示楚文本文件的内容</li>
+</ul>
+<h2 id="edit"><a href="#edit" class="headerlink" title="edit"></a>edit</h2><ul>
+<li>小程序，编辑文本使用</li>
+</ul>
+<h2 id="ren"><a href="#ren" class="headerlink" title="ren"></a>ren</h2><ul>
+<li><code>ren旧文件名 新文件名</code>： 该文件名字</li>
+</ul>
+<h1 id="关于网络常用命令"><a href="#关于网络常用命令" class="headerlink" title="关于网络常用命令"></a>关于网络常用命令</h1><h2 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h2><ul>
+<li><p><code>ping主机ip或名字</code>： 向目标主机发送4个icmp数据包，测试对方主机是否收到并响应，一半常用于做普通网络是否通畅的测试。当时ping不同不代表网络不通，有可能目标主机有防火墙并且阻止的icmp的响应。</p>
+</li>
+<li><p><code>ping-t</code>： 不停的发送数据包，当然都很小，不能称作攻击，有些人自己写了一些类似于ping命令的程序，不停的发送很大的数据包，以阻塞目标主机的网络连接。</p>
+</li>
+</ul>
+<h2 id="net"><a href="#net" class="headerlink" title="net"></a>net</h2><ul>
+<li>建议使用<code>net/？</code>获取帮助信息。实在是有很多参数，参数下面还有参数，常用：<code>net view \\主机</code>来看共享，<code>net start/stop</code> 服务来启动和停止服务</li>
+</ul>
+<h2 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h2><ul>
+<li><code>netstat主机</code>： 查看主机当前<code>tcp/ip</code>连接状态，如端口的状态。</li>
+</ul>
+<h2 id="nbtstat"><a href="#nbtstat" class="headerlink" title="nbtstat"></a>nbtstat</h2><ul>
+<li><code>nbtstat主机</code>： 查看主机使用的 NetBIOS name</li>
+</ul>
+<h2 id="tracert"><a href="#tracert" class="headerlink" title="tracert"></a>tracert</h2><ul>
+<li><code>tracert主机</code>： 查看从你自己到目标主机道济经过了那些路径</li>
+</ul>
+<h2 id="pathping"><a href="#pathping" class="headerlink" title="pathping"></a>pathping</h2><ul>
+<li><code>pathping主机</code>： 类似tracert，但可以显示一些tracert不能显示出来的信息</li>
+</ul>
+<h2 id="telnet"><a href="#telnet" class="headerlink" title="telnet"></a>telnet</h2><ul>
+<li>字符方式的远程登录程序，是网络人员及其爱用的远程登录程序</li>
+</ul>
+<h2 id="ipconfig"><a href="#ipconfig" class="headerlink" title="ipconfig"></a>ipconfig</h2><p>非常有用的网络配置、排错。。。命令。 不加参数显示当前机器的网络接口状态。 </p>
+<ul>
+<li><code>/all</code> 先是详细的信息。 </li>
+<li><code>/release</code> 释放当前ip。 </li>
+<li><code>/renew</code> 重新申请ip。 </li>
+<li><code>/flushdns</code> 刷新dns缓存。 </li>
+<li><code>/registerdns</code> 重新栽dns服务器上注册自己。  </li>
+</ul>
+<h2 id="arp-操作当前的arp缓存。"><a href="#arp-操作当前的arp缓存。" class="headerlink" title="arp 操作当前的arp缓存。"></a>arp 操作当前的arp缓存。</h2><ul>
+<li><code>-a</code> 显示arp缓存。 </li>
+<li><code>-d</code> 删除一条缓存纪录。 </li>
+<li><code>-s</code> 田家一条缓存纪录。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/23/Live Teplates 的使用/" rel="next" title="Live Teplates 的使用">
+                <i class="fa fa-chevron-left"></i> Live Teplates 的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/23/Android反编译/" rel="prev" title="Android反编译">
+                Android反编译 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础命令"><span class="nav-number">1.</span> <span class="nav-text">基础命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dir"><span class="nav-number">1.1.</span> <span class="nav-text">dir</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cd"><span class="nav-number">1.2.</span> <span class="nav-text">cd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#md-rd"><span class="nav-number">1.3.</span> <span class="nav-text">md   rd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cls"><span class="nav-number">1.4.</span> <span class="nav-text">cls</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#copy"><span class="nav-number">1.5.</span> <span class="nav-text">copy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#move"><span class="nav-number">1.6.</span> <span class="nav-text">move</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#del"><span class="nav-number">1.7.</span> <span class="nav-text">del</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deltree"><span class="nav-number">1.8.</span> <span class="nav-text">deltree</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#format"><span class="nav-number">1.9.</span> <span class="nav-text">format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#type"><span class="nav-number">1.10.</span> <span class="nav-text">type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#edit"><span class="nav-number">1.11.</span> <span class="nav-text">edit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ren"><span class="nav-number">1.12.</span> <span class="nav-text">ren</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于网络常用命令"><span class="nav-number">2.</span> <span class="nav-text">关于网络常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ping"><span class="nav-number">2.1.</span> <span class="nav-text">ping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#net"><span class="nav-number">2.2.</span> <span class="nav-text">net</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#netstat"><span class="nav-number">2.3.</span> <span class="nav-text">netstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nbtstat"><span class="nav-number">2.4.</span> <span class="nav-text">nbtstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tracert"><span class="nav-number">2.5.</span> <span class="nav-text">tracert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pathping"><span class="nav-number">2.6.</span> <span class="nav-text">pathping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#telnet"><span class="nav-number">2.7.</span> <span class="nav-text">telnet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ipconfig"><span class="nav-number">2.8.</span> <span class="nav-text">ipconfig</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#arp-操作当前的arp缓存。"><span class="nav-number">2.9.</span> <span class="nav-text">arp 操作当前的arp缓存。</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="HTML 中的脚本必须位于  与  标签之间。###脚本可被放置在 HTML 页面的  和  部分中。 JavaScript 能够直接写在Html输出流中，&amp;lt;script&amp;gt; document.write(&amp;quot;&amp;lt;h1&amp;gt;This is a heading&amp;lt;/h1&amp;gt;&amp;quot;); document.write(&amp;quot;&amp;lt;p&amp;gt;This is a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS笔记-001-基本实现">
+<meta property="og:url" content="http://yoursite.com/2019/03/12/JS笔记-001-基本实现/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="HTML 中的脚本必须位于  与  标签之间。###脚本可被放置在 HTML 页面的  和  部分中。 JavaScript 能够直接写在Html输出流中，&amp;lt;script&amp;gt; document.write(&amp;quot;&amp;lt;h1&amp;gt;This is a heading&amp;lt;/h1&amp;gt;&amp;quot;); document.write(&amp;quot;&amp;lt;p&amp;gt;This is a">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-11T08:52:21.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS笔记-001-基本实现">
+<meta name="twitter:description" content="HTML 中的脚本必须位于  与  标签之间。###脚本可被放置在 HTML 页面的  和  部分中。 JavaScript 能够直接写在Html输出流中，&amp;lt;script&amp;gt; document.write(&amp;quot;&amp;lt;h1&amp;gt;This is a heading&amp;lt;/h1&amp;gt;&amp;quot;); document.write(&amp;quot;&amp;lt;p&amp;gt;This is a">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/12/JS笔记-001-基本实现/"/>
+
+
+
+
+
+  <title>JS笔记-001-基本实现 | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/12/JS笔记-001-基本实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS笔记-001-基本实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-12T17:20:34+08:00">
+                2019-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="HTML-中的脚本必须位于-与-标签之间。"><a href="#HTML-中的脚本必须位于-与-标签之间。" class="headerlink" title="HTML 中的脚本必须位于  与  标签之间。"></a>HTML 中的脚本必须位于 <script> 与 </script> 标签之间。</h3><p>###脚本可被放置在 HTML 页面的 <body> 和 <head><meta name="generator" content="Hexo 3.9.0"> 部分中。</head></body></p>
+<h5 id="JavaScript-能够直接写在Html输出流中，"><a href="#JavaScript-能够直接写在Html输出流中，" class="headerlink" title="JavaScript 能够直接写在Html输出流中，"></a>JavaScript 能够直接写在Html输出流中，</h5><pre><code>&lt;script&gt;
+document.write(&quot;&lt;h1&gt;This is a heading&lt;/h1&gt;&quot;);
+document.write(&quot;&lt;p&gt;This is a paragraph.&lt;/p&gt;&quot;);
+&lt;/script&gt;</code></pre><p>您只能在 HTML 输出流中使用 document.write。 如果您在文档已加载后使用它（比如在函数中），会覆盖整个文档。</p>
+<a id="more"></a>
+
+
+<h5 id="点击事件，都需要分号括起来"><a href="#点击事件，都需要分号括起来" class="headerlink" title="点击事件，都需要分号括起来"></a>点击事件，都需要分号括起来</h5><p>先添加type声明是一个button，onclick点击事件弹窗（alert弹窗dialog），弹窗内容使用括号加起来，标签中间声明button的内容</p>
+<pre><code>&lt;button type=&quot;button&quot; onclick=&quot;alert(&#39;Welcome!&#39;)&quot;&gt;点击这里&lt;/button&gt;</code></pre><h5 id="改变html的内容"><a href="#改变html的内容" class="headerlink" title="改变html的内容"></a>改变html的内容</h5><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;h1&gt;我的第一段 JavaScript&lt;/h1&gt;
+
+&lt;p id = &quot;demo&quot;&gt;
+JavaScript 能改变 HTML 元素的内容。
+&lt;/p&gt;
+
+&lt;script&gt;
+     funcation myFuncation()//类似于封装一个方法
+{
+    x= document.getElementById(&quot;demo&quot;);//找到具体元素,类似于android中ID
+    x.innerHTML=&quot;Hello World !&quot;
+}     
+&lt;/script&gt;
+
+&lt;button type=&quot;button&quot; onclick=&quot;myFunction()&quot;&gt;点击这里&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h5 id="js改变图片地址"><a href="#js改变图片地址" class="headerlink" title="js改变图片地址"></a>js改变图片地址</h5><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;script&gt;
+function changeImage()
+{
+element=document.getElementById(&#39;myimage&#39;)//获得图片控件对象
+if (element.src.match(&quot;bulbon&quot;))//判断src是否包含&quot;bulbon&quot;, 类似于indexOf()
+  {
+  element.src=&quot;/i/eg_bulboff.gif&quot;;
+  }
+else
+  {
+  element.src=&quot;/i/eg_bulbon.gif&quot;;
+  }
+}
+&lt;/script&gt;
+
+&lt;img id=&quot;myimage&quot; onclick=&quot;changeImage()&quot; src=&quot;/i/eg_bulboff.gif&quot;&gt;
+
+&lt;p&gt;点击灯泡来点亮或熄灭这盏灯&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h5 id="JavaScript：改变-HTML-样式"><a href="#JavaScript：改变-HTML-样式" class="headerlink" title="JavaScript：改变 HTML 样式"></a>JavaScript：改变 HTML 样式</h5><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;h1&gt;我的第一段 JavaScript&lt;/h1&gt;
+
+&lt;p id=&quot;demo&quot;&gt;
+JavaScript 能改变 HTML 元素的样式。
+&lt;/p&gt;
+
+&lt;script&gt;
+function myFunction()
+{
+x=document.getElementById(&quot;demo&quot;) // 找到元素
+x.style.color=&quot;#57caa1&quot;;          // 改变样式
+}
+&lt;/script&gt;
+
+&lt;button type=&quot;button&quot; onclick=&quot;myFunction()&quot;&gt;点击这里&lt;/button&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h5 id="JavaScript：验证输入"><a href="#JavaScript：验证输入" class="headerlink" title="JavaScript：验证输入"></a>JavaScript：验证输入</h5><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;h1&gt;我的第一段 JavaScript&lt;/h1&gt;
+
+&lt;p&gt;请输入数字。如果输入值不是数字，浏览器会弹出提示框。&lt;/p&gt;
+
+&lt;input id=&quot;demo&quot; type=&quot;text&quot;&gt;
+
+&lt;script&gt;
+function myFunction()
+{
+var x=document.getElementById(&quot;demo&quot;).value;//通过id得到值，去做判断
+if(x==&quot;&quot;||isNaN(x))//isNan（）用于判断是否为数字，类似于number类
+    {
+    alert(&quot;请输入合法内容&quot;);
+    }
+}
+&lt;/script&gt;
+
+&lt;button type=&quot;button&quot; onclick=&quot;myFunction()&quot;&gt;点击这里&lt;/button&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/11/android日常开发的一些规范/" rel="next" title="android日常开发的一些规范">
+                <i class="fa fa-chevron-left"></i> android日常开发的一些规范
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/13/JS 笔记-002-基本语句/" rel="prev" title="JS 笔记-002-基本语句">
+                JS 笔记-002-基本语句 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML-中的脚本必须位于-与-标签之间。"><span class="nav-number">1.</span> <span class="nav-text">HTML 中的脚本必须位于  与  标签之间。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JavaScript-能够直接写在Html输出流中，"><span class="nav-number">1.0.1.</span> <span class="nav-text">JavaScript 能够直接写在Html输出流中，</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#点击事件，都需要分号括起来"><span class="nav-number">1.0.2.</span> <span class="nav-text">点击事件，都需要分号括起来</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#改变html的内容"><span class="nav-number">1.0.3.</span> <span class="nav-text">改变html的内容</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#js改变图片地址"><span class="nav-number">1.0.4.</span> <span class="nav-text">js改变图片地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JavaScript：改变-HTML-样式"><span class="nav-number">1.0.5.</span> <span class="nav-text">JavaScript：改变 HTML 样式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JavaScript：验证输入"><span class="nav-number">1.0.6.</span> <span class="nav-text">JavaScript：验证输入</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

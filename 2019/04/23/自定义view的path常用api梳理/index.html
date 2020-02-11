@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基本方法 reset()   清除掉path里面所有线条以及曲线，但不会改变他的fill-type，不保留原有数据结构  rewind()  清除path里面线条和曲线，保留内部数据结构以便复用,删除fill-type（一般选择reset()）  set(Path mPath) 用新path替换旧path  moveTo(float x,float y)  设置当前点位置，后面的绘制从该点开始，设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义view的path常用api梳理">
+<meta property="og:url" content="http://yoursite.com/2019/04/23/自定义view的path常用api梳理/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="基本方法 reset()   清除掉path里面所有线条以及曲线，但不会改变他的fill-type，不保留原有数据结构  rewind()  清除path里面线条和曲线，保留内部数据结构以便复用,删除fill-type（一般选择reset()）  set(Path mPath) 用新path替换旧path  moveTo(float x,float y)  设置当前点位置，后面的绘制从该点开始，设">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-11T08:50:31.201Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义view的path常用api梳理">
+<meta name="twitter:description" content="基本方法 reset()   清除掉path里面所有线条以及曲线，但不会改变他的fill-type，不保留原有数据结构  rewind()  清除path里面线条和曲线，保留内部数据结构以便复用,删除fill-type（一般选择reset()）  set(Path mPath) 用新path替换旧path  moveTo(float x,float y)  设置当前点位置，后面的绘制从该点开始，设">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/23/自定义view的path常用api梳理/">
+
+
+
+
+
+  <title>自定义view的path常用api梳理 | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/23/自定义view的path常用api梳理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">自定义view的path常用api梳理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-23T17:20:34+08:00">
+                2019-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基本方法"><a href="#基本方法" class="headerlink" title="基本方法"></a>基本方法</h2><ul>
+<li><p>reset()   清除掉path里面所有线条以及曲线，但不会改变他的fill-type，不保留原有数据结构</p>
+</li>
+<li><p>rewind()  清除path里面线条和曲线，保留内部数据结构以便复用,删除fill-type（一般选择reset()）</p>
+</li>
+<li><p>set(Path mPath) 用新path替换旧path</p>
+</li>
+<li><p>moveTo(float x,float y)  设置当前点位置，后面的绘制从该点开始，设置绘制起点</p>
+</li>
+<li><p>setLastPoint(300, 300) 设置上个点移动到该点处，以后从该点开始绘制</p>
+</li>
+<li><p>lineTo(float x,float y) 上次结束点连接改点，如果上次没有操作，则设置改点为绘制起点</p>
+</li>
+<li><p>close() 设置闭合路径，即连接最后一个点和第一个点，如果无法连接，则什么都不做</p>
+</li>
+</ul>
+<a id="more"></a>
+
+
+<h2 id="FILL-TYPE属性"><a href="#FILL-TYPE属性" class="headerlink" title="FILL_TYPE属性"></a>FILL_TYPE属性</h2><ul>
+<li>WINDING 默认</li>
+<li>EVEN_ODD 叠加的地方切割，颜色为默认白色</li>
+<li>INVERSE_WINDING 全部为默认白色</li>
+<li>INVERSE_EVEN_ODD 叠加的地方为绘制颜色，其他地方为默认白色</li>
+</ul>
+<p><strong>toggleInverseFillType()切换相反的填充模式</strong></p>
+<h2 id="添加基本图形"><a href="#添加基本图形" class="headerlink" title="添加基本图形"></a>添加基本图形</h2><h4 id="添加圆弧"><a href="#添加圆弧" class="headerlink" title="添加圆弧,"></a>添加圆弧,</h4><pre><code>startAngle,确定角度起始位置
+sweepAngle，确定扫过的角度
+public void addArc(Rectf ovel ,float startAngle,float sweepAngle)</code></pre><h4 id="添加圆弧，与上面方法唯一不同的是：如果圆弧的起点和上次最后一个坐标点不相同，就连接两个点"><a href="#添加圆弧，与上面方法唯一不同的是：如果圆弧的起点和上次最后一个坐标点不相同，就连接两个点" class="headerlink" title="添加圆弧，与上面方法唯一不同的是：如果圆弧的起点和上次最后一个坐标点不相同，就连接两个点"></a>添加圆弧，与上面方法唯一不同的是：如果圆弧的起点和上次最后一个坐标点不相同，就连接两个点</h4><pre><code>public void arcTo (RectF oval, float startAngle, float sweepAngle)</code></pre><h4 id="添加圆弧，是否将之前路径的结束点设置为圆弧起点"><a href="#添加圆弧，是否将之前路径的结束点设置为圆弧起点" class="headerlink" title="添加圆弧，是否将之前路径的结束点设置为圆弧起点"></a>添加圆弧，是否将之前路径的结束点设置为圆弧起点</h4><p>true,在新的起点画圆弧，不连接最后一个点与圆弧起点，即与之前路径没有交集（同addArc()）<br>false,在新的起点画圆弧，连接之前路径的结束点与圆弧起点，即与之前路径有交集，（同arcTo(三参数)）</p>
+<pre><code>public void arcTi(RectF oval, float startAngle, float sweepAngle,boolean forcemoveTo)</code></pre><h4 id="添加圆形，添加之后下次路径起点变为圆在X轴正方向最大的点"><a href="#添加圆形，添加之后下次路径起点变为圆在X轴正方向最大的点" class="headerlink" title="添加圆形，添加之后下次路径起点变为圆在X轴正方向最大的点"></a>添加圆形，添加之后下次路径起点变为圆在X轴正方向最大的点</h4><p>起点 x轴正方向的0度<br>坐标点<br>半径<br>dir，指定绘制时是顺时针还是逆时针，CW为顺时针，CCW为逆时针</p>
+<pre><code>addCircle(float x ,float y, float radius ,Path.Direction dir)</code></pre><h4 id="添加椭圆形路径"><a href="#添加椭圆形路径" class="headerlink" title="添加椭圆形路径"></a>添加椭圆形路径</h4><p>oval,椭圆的外切矩形区域</p>
+<pre><code>addOval(Rectf oval,Path.Direction dir)</code></pre><h4 id="加入矩形路径"><a href="#加入矩形路径" class="headerlink" title="加入矩形路径"></a>加入矩形路径</h4><p>路径起点变为矩形的左上角起点</p>
+<pre><code>addRect(Rectf oval,Path.Direction dir)</code></pre><h4 id="加入圆角矩形路径"><a href="#加入圆角矩形路径" class="headerlink" title="加入圆角矩形路径"></a>加入圆角矩形路径</h4><p>添加圆形路径后会改变路径的起点</p>
+<pre><code>addRoundRect(Rectf oval,float x,float y,Path.Direction dir)</code></pre><h4 id="添加新的path"><a href="#添加新的path" class="headerlink" title="添加新的path"></a>添加新的path</h4><p>将圆形路径移动到（dx,dy），再添加到新的path内部</p>
+<pre><code> public void addPath(Path src, float dx, float dy)</code></pre><p>将mPath进行Matrix变换再添加到当前path</p>
+<pre><code>public void addPath (Path mPath, Matrix matrix)</code></pre><h4 id="平移路径-与canvas的translate-类似"><a href="#平移路径-与canvas的translate-类似" class="headerlink" title="平移路径,与canvas的translate()类似"></a>平移路径,与canvas的translate()类似</h4><pre><code>path.offset(float x , float y);</code></pre><h4 id="设置新的path路径"><a href="#设置新的path路径" class="headerlink" title="设置新的path路径"></a>设置新的path路径</h4><pre><code>set(Path src)</code></pre><h2 id="有关布尔值操作"><a href="#有关布尔值操作" class="headerlink" title="有关布尔值操作"></a>有关布尔值操作</h2><ul>
+<li>进行不同的path之间的运算</li>
+<li>把简单的图形通过一定规则合成复杂的图形</li>
+</ul>
+<pre><code>对 path1 和 path2 执行布尔运算，运算方式由第二个参数指定
+运算结果存入到path1中。
+
+boolean op (Path path, Path.Op op)
+path1.op(path2, Path.Op.DIFFERENCE);
+
+
+对 path1 和 path2 执行布尔运算，运算方式由第三个参数指定
+运算结果存入到path3中。
+
+boolean op (Path path1, Path path2, Path.Op op)
+path3.op(path1, path2, Path.Op.DIFFERENCE)</code></pre><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DIFFERENCE</td>
+<td>path1不同于path2的区域</td>
+</tr>
+<tr>
+<td>REVERSE_DIFFERENCE</td>
+<td>path2不同于path1的区域</td>
+</tr>
+<tr>
+<td>INTERSECT</td>
+<td>path1和path2的交集</td>
+</tr>
+<tr>
+<td>UNION</td>
+<td>path1和path2的并集</td>
+</tr>
+<tr>
+<td>XOR</td>
+<td>减去二者交集所剩下的</td>
+</tr>
+</tbody></table>
+<h2 id="贝塞尔曲线，通过一个数据点以及多个控制点描述"><a href="#贝塞尔曲线，通过一个数据点以及多个控制点描述" class="headerlink" title="贝塞尔曲线，通过一个数据点以及多个控制点描述"></a>贝塞尔曲线，通过一个数据点以及多个控制点描述</h2><ul>
+<li>数据点：值路径的起始点和终止点</li>
+<li>控制点：决定路径的弯曲估计</li>
+<li>n+1阶贝塞尔曲线=有n个控制点</li>
+<li>1阶=一条直线</li>
+</ul>
+<h3 id="path方法如下："><a href="#path方法如下：" class="headerlink" title="path方法如下："></a>path方法如下：</h3><ul>
+<li><p>绘制二阶贝塞尔曲线（x1,y1）为控制点，(x2,y2)为终点<br>quadTo(float x1,floaty1,float x2,float y2)</p>
+</li>
+<li><p>(x1,y1)为控制点距离起点的偏移量，(x2,y2)为终点距离起点的偏移量<br>rQuadTo(float x1, float y1, float x2, float y2)</p>
+</li>
+<li><p>绘制三阶贝塞尔曲线,(x1,y1),(x2,y2)为控制点，(x3,y3)为终点<br>cubicTo(float x1, float y1, float x2, float y2, float x3, float y3)</p>
+</li>
+<li><p>(x1,y1)，(x2,y2)为控制点距离起点的偏移量，(x3,y3)为终点距离起点的偏移量<br>rCubicTo(float x1, float y1, float x2, float y2, float x3, float y3)</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/29/自定义view测量onMeasure梳理/" rel="next" title="自定义view测量onMeasure梳理">
+                <i class="fa fa-chevron-left"></i> 自定义view测量onMeasure梳理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/23/自定义view的画笔Paint的梳理/" rel="prev" title="自定义view的画笔Paint的梳理">
+                自定义view的画笔Paint的梳理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本方法"><span class="nav-number">1.</span> <span class="nav-text">基本方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FILL-TYPE属性"><span class="nav-number">2.</span> <span class="nav-text">FILL_TYPE属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加基本图形"><span class="nav-number">3.</span> <span class="nav-text">添加基本图形</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加圆弧"><span class="nav-number">3.0.1.</span> <span class="nav-text">添加圆弧,</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加圆弧，与上面方法唯一不同的是：如果圆弧的起点和上次最后一个坐标点不相同，就连接两个点"><span class="nav-number">3.0.2.</span> <span class="nav-text">添加圆弧，与上面方法唯一不同的是：如果圆弧的起点和上次最后一个坐标点不相同，就连接两个点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加圆弧，是否将之前路径的结束点设置为圆弧起点"><span class="nav-number">3.0.3.</span> <span class="nav-text">添加圆弧，是否将之前路径的结束点设置为圆弧起点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加圆形，添加之后下次路径起点变为圆在X轴正方向最大的点"><span class="nav-number">3.0.4.</span> <span class="nav-text">添加圆形，添加之后下次路径起点变为圆在X轴正方向最大的点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加椭圆形路径"><span class="nav-number">3.0.5.</span> <span class="nav-text">添加椭圆形路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加入矩形路径"><span class="nav-number">3.0.6.</span> <span class="nav-text">加入矩形路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加入圆角矩形路径"><span class="nav-number">3.0.7.</span> <span class="nav-text">加入圆角矩形路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加新的path"><span class="nav-number">3.0.8.</span> <span class="nav-text">添加新的path</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#平移路径-与canvas的translate-类似"><span class="nav-number">3.0.9.</span> <span class="nav-text">平移路径,与canvas的translate()类似</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置新的path路径"><span class="nav-number">3.0.10.</span> <span class="nav-text">设置新的path路径</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#有关布尔值操作"><span class="nav-number">4.</span> <span class="nav-text">有关布尔值操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝塞尔曲线，通过一个数据点以及多个控制点描述"><span class="nav-number">5.</span> <span class="nav-text">贝塞尔曲线，通过一个数据点以及多个控制点描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#path方法如下："><span class="nav-number">5.1.</span> <span class="nav-text">path方法如下：</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

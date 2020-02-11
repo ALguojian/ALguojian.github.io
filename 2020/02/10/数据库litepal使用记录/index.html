@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="title: 数据库litepal使用记录 date: 2019-02-05 17:20:34简介：litepal是郭霖的一款开源的android数据库框架，采用关系映射(ORM)的模式，这是github地址，最新版本已经更新到1.6，支持eclipse，gridle使用如下：  compile &amp;#39;org.litepal.android:core:1.6.0&amp;#39;配置：创建assets">
+<meta property="og:type" content="article">
+<meta property="og:title" content="-ccccccal">
+<meta property="og:url" content="http://yoursite.com/2020/02/10/数据库litepal使用记录/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="title: 数据库litepal使用记录 date: 2019-02-05 17:20:34简介：litepal是郭霖的一款开源的android数据库框架，采用关系映射(ORM)的模式，这是github地址，最新版本已经更新到1.6，支持eclipse，gridle使用如下：  compile &amp;#39;org.litepal.android:core:1.6.0&amp;#39;配置：创建assets">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7426378-007c1a5ff7749d52.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2020-02-11T08:55:11.296Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="-ccccccal">
+<meta name="twitter:description" content="title: 数据库litepal使用记录 date: 2019-02-05 17:20:34简介：litepal是郭霖的一款开源的android数据库框架，采用关系映射(ORM)的模式，这是github地址，最新版本已经更新到1.6，支持eclipse，gridle使用如下：  compile &amp;#39;org.litepal.android:core:1.6.0&amp;#39;配置：创建assets">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7426378-007c1a5ff7749d52.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/02/10/数据库litepal使用记录/">
+
+
+
+
+
+  <title> | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/10/数据库litepal使用记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-10T17:28:22+08:00">
+                2020-02-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>title: 数据库litepal使用记录</p>
+<h2 id="date-2019-02-05-17-20-34"><a href="#date-2019-02-05-17-20-34" class="headerlink" title="date: 2019-02-05 17:20:34"></a>date: 2019-02-05 17:20:34</h2><h3 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h3><p>litepal是郭霖的一款开源的android数据库框架，采用关系映射(ORM)的模式，<a href="https://github.com/LitePalFramework/LitePal" target="_blank" rel="noopener">这是github<br>地址</a>，最新版本已经更新到1.6，支持eclipse，gridle使用如下：</p>
+<pre><code> compile &#39;org.litepal.android:core:1.6.0&#39;</code></pre><h3 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h3><p>创建<code>assets</code>目录，新建<code>litepal.xml</code>文件：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;litepal&gt;
+    &lt;!--数据库名字 --&gt;
+    &lt;dbname value=&quot;demo&quot; /&gt;
+
+    &lt;!--数据库版本 --&gt;
+    &lt;version value=&quot;1&quot; /&gt;
+
+    &lt;!--数据库实体类,用于映射--&gt;
+    &lt;list&gt;
+            &lt;mapping class=&quot;com.test.model.Reader&quot; /&gt;
+            &lt;mapping class=&quot;com.test.model.Magazine&quot; /&gt;
+    &lt;/list&gt;
+
+&lt;/litepal&gt;</code></pre><a id="more"></a>
+
+<p>litepal初始化有两种方式：</p>
+<p>1.将你清单文件的<code>Application</code>换成<code>LitePalApplication</code></p>
+<pre><code>&lt;manifest&gt;
+    &lt;application
+        android:name=&quot;org.litepal.LitePalApplication&quot;
+        ...
+    &gt;
+        ...
+    &lt;/application&gt;
+&lt;/manifest&gt;</code></pre><p>2.将你的<code>Application</code>继承自<code>Application</code>,然后在onCreat()，进行<code>litepal</code>的初始化</p>
+<pre><code>public class MyOwnApplication extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        LitePal.initialize(this);
+    }
+    ...
+}</code></pre><h3 id="使用litepal"><a href="#使用litepal" class="headerlink" title="使用litepal"></a>使用litepal</h3><p><img src="http://upload-images.jianshu.io/upload_images/7426378-007c1a5ff7749d52.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<h4 id="创建实体类"><a href="#创建实体类" class="headerlink" title="创建实体类"></a>创建实体类</h4><p><code>litepal</code>需要用于映射的实体类需要继承<code>DataSupport</code>，并生成get和set方法，关于这两个方法，推荐一个库:<br><code>lombok</code>，gridle使用添加:</p>
+<blockquote>
+<p>compile ‘org.projectlombok:lombok:1.16.18’</p>
+</blockquote>
+<p>添加之后你的get和set方法只用在类名上面添加注解@Data就可以了，如下</p>
+<pre><code>@Data
+public class Man{  
+
+   @Column(unique = true, defaultValue = &quot;unknown&quot;)
+    private int age;  
+
+    private String name;  
+}</code></pre><p>实体类支持注解约束：</p>
+<pre><code>@Column(unique = true)                //是否唯一
+@Column(defaultValue = &quot;unknown&quot;)    //指定字段默认值
+@Column(nullable = false)            //是否可以为空
+@Column(ignore = true)                //是否可以忽略</code></pre><h4 id="修改litepal-xml"><a href="#修改litepal-xml" class="headerlink" title="修改litepal.xml"></a>修改litepal.xml</h4><p>当你添加表或修改表结构，都要修改litepal.xml，首先版本号要+1，如果添加表，还要添加</p>
+<pre><code> &lt;list&gt;  
+        &lt;mapping class=&quot;com.example.alguojian.bean.Man&quot;&gt;&lt;/mapping&gt;  
+ &lt;/list&gt;  </code></pre><h4 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h4><pre><code>Album album = new Album();
+album.setName(&quot;album&quot;);
+album.setPrice(10.99f);
+album.setCover(getCoverImageBytes());
+album.save();
+Song song1 = new Song();
+song1.setName(&quot;song1&quot;);
+song1.setDuration(320);
+song1.setAlbum(album);
+song1.save();
+Song song2 = new Song();
+song2.setName(&quot;song2&quot;);
+song2.setDuration(356);
+song2.setAlbum(album);
+song2.save();</code></pre><h4 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h4><p>1.指定id:</p>
+<pre><code>Album albumToUpdate = new Album();
+albumToUpdate.setPrice(20.99f); // raise the price
+albumToUpdate.update(2);</code></pre><p>2.条件更新：</p>
+<pre><code>Album albumToUpdate = new Album();
+albumToUpdate.setPrice(20.99f); // raise the price
+albumToUpdate.updateAll(&quot;name = ?&quot;, &quot;小明&quot;);</code></pre><p>3.多个条件用and连接</p>
+<pre><code>Album album= new Album();  
+album.setTitle(&quot;第3次更新&quot;);  
+album.updateAll(&quot;title = ? and age&gt; ?&quot;, &quot;第2次更新&quot;, &quot;12&quot;);
+</code></pre><p>4.更新全部数据,将表所有数据名字修改：</p>
+<pre><code>Man values = new Man();  
+values.put(&quot;Name&quot;, &quot;小化工&quot;);  
+DataSupport.updateAll(Man.class, values);</code></pre><p>5.异步更新数据</p>
+<pre><code>Album album = new Album();
+album.setName(&quot;album&quot;);
+album.setPrice(10.99f);
+album.setCover(getCoverImageBytes());
+album.saveAsync().listen(new SaveCallback() {
+    @Override
+    public void onFinish(boolean success) {
+
+    }
+});</code></pre><h4 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h4><p>1.指定ID</p>
+<pre><code>DataSupport.delete(Man.class, id);</code></pre><p>2.条件删除,多个条件用and连接</p>
+<pre><code>DataSupport.deleteAll(Man.class, &quot;age &gt; ?&quot; , &quot;15&quot;);</code></pre><p>3.删除全表数据</p>
+<pre><code>DataSupport.deleteAll(Man.class);</code></pre><h4 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h4><p>1.查询第一条以及最后一条</p>
+<pre><code>News firstNews = DataSupport.findFirst(News.class);
+
+News lastNews = DataSupport.findLast(News.class);</code></pre><p>2.指定id</p>
+<pre><code>Song song = DataSupport.find(Song.class, id);
+
+//指定多个id如下
+//方式一：
+List&lt;News&gt; newsList = DataSupport.findAll(News.class, 1, 3, 5, 7);
+
+//方式二：
+long[] ids = new long[] { 1, 3, 5, 7 };  
+List&lt;News&gt; newsList = DataSupport.findAll(News.class, ids);
+</code></pre><p>3.查询所有</p>
+<pre><code>List&lt;Song&gt; allSongs = DataSupport.findAll(Song.class);</code></pre><p>4.条件查询</p>
+<p>查询 Man表 中 年龄大于12 的 第5到20条 数据，以插入时间倒序 排序方式呈现，只取 “名字”和“性别”和“身高” 三列内容。</p>
+<pre><code>List&lt;Man&gt; list = DataSupport.select(&quot;name&quot;, &quot;sex&quot;,&quot;height&quot;)//需要的条目
+                                 .where(&quot;age&gt; ?&quot;, &quot;12&quot;)//条件
+                                 .order(&quot;inputTime desc&quot;)//倒序字段
+                                 .offset(5)//开始查询位置
+                                 .limit(15)//数据长度
+                                 .find(Man.class);//查询表
+</code></pre><p>5.异步查询，用于代替findAll</p>
+<pre><code>DataSupport.findAllAsync(Song.class).listen(new FindMultiCallback() {
+    @Override
+    public &lt;T&gt; void onFinish(List&lt;T&gt; t) {
+        List&lt;Song&gt; allSongs = (List&lt;Song&gt;) t;
+    }
+});</code></pre><h4 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h4><p><code>LitePal.deleteDatabase(&quot;数据库名&quot;);</code></p>
+<h3 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h3><p>关于litepal更多用法可以查看源码<br>github地址：<a href="https://github.com/LitePalFramework/LitePal" target="_blank" rel="noopener">https://github.com/LitePalFramework/LitePal</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/06/android本地存储目录/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#date-2019-02-05-17-20-34"><span class="nav-number">1.</span> <span class="nav-text">date: 2019-02-05 17:20:34</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介："><span class="nav-number">1.1.</span> <span class="nav-text">简介：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置："><span class="nav-number">1.2.</span> <span class="nav-text">配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用litepal"><span class="nav-number">1.3.</span> <span class="nav-text">使用litepal</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建实体类"><span class="nav-number">1.3.1.</span> <span class="nav-text">创建实体类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改litepal-xml"><span class="nav-number">1.3.2.</span> <span class="nav-text">修改litepal.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加数据"><span class="nav-number">1.3.3.</span> <span class="nav-text">添加数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新数据"><span class="nav-number">1.3.4.</span> <span class="nav-text">更新数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除数据"><span class="nav-number">1.3.5.</span> <span class="nav-text">删除数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询数据"><span class="nav-number">1.3.6.</span> <span class="nav-text">查询数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除数据库"><span class="nav-number">1.3.7.</span> <span class="nav-text">删除数据库</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完结"><span class="nav-number">1.4.</span> <span class="nav-text">完结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

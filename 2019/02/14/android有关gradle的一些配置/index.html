@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="gradle使用source  set 的概念，一个source  set就是一系列资源文件，其将会被便衣和执行，对于android项目，main就是一个source  set，其包含了所有的资源文件，相对main测试文件test也是一个source  set，只做测试基础命令： 查看gradle版本 gradlew -v 查看所有可运行的tasksgradlew tasks 清除目录下的outp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android有关gradle的一些配置">
+<meta property="og:url" content="http://yoursite.com/2019/02/14/android有关gradle的一些配置/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="gradle使用source  set 的概念，一个source  set就是一系列资源文件，其将会被便衣和执行，对于android项目，main就是一个source  set，其包含了所有的资源文件，相对main测试文件test也是一个source  set，只做测试基础命令： 查看gradle版本 gradlew -v 查看所有可运行的tasksgradlew tasks 清除目录下的outp">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-11T08:54:36.476Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android有关gradle的一些配置">
+<meta name="twitter:description" content="gradle使用source  set 的概念，一个source  set就是一系列资源文件，其将会被便衣和执行，对于android项目，main就是一个source  set，其包含了所有的资源文件，相对main测试文件test也是一个source  set，只做测试基础命令： 查看gradle版本 gradlew -v 查看所有可运行的tasksgradlew tasks 清除目录下的outp">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/14/android有关gradle的一些配置/">
+
+
+
+
+
+  <title>android有关gradle的一些配置 | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/14/android有关gradle的一些配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">android有关gradle的一些配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-14T17:20:34+08:00">
+                2019-02-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="gradle使用source-set-的概念，一个source-set就是一系列资源文件，其将会被便衣和执行，对于android项目，main就是一个source-set，其包含了所有的资源文件，相对main测试文件test也是一个source-set，只做测试"><a href="#gradle使用source-set-的概念，一个source-set就是一系列资源文件，其将会被便衣和执行，对于android项目，main就是一个source-set，其包含了所有的资源文件，相对main测试文件test也是一个source-set，只做测试" class="headerlink" title="gradle使用source  set 的概念，一个source  set就是一系列资源文件，其将会被便衣和执行，对于android项目，main就是一个source  set，其包含了所有的资源文件，相对main测试文件test也是一个source  set，只做测试"></a>gradle使用source  set 的概念，一个source  set就是一系列资源文件，其将会被便衣和执行，对于android项目，main就是一个source  set，其包含了所有的资源文件，相对main测试文件test也是一个source  set，只做测试</h5><h3 id="基础命令："><a href="#基础命令：" class="headerlink" title="基础命令："></a>基础命令：</h3><ul>
+<li>查看gradle版本 <code>gradlew -v</code></li>
+<li>查看所有可运行的tasks<code>gradlew tasks</code></li>
+<li>清除目录下的output文件夹 <code>gradlew clean</code></li>
+<li>打包编译, 包括debug和release<code>gradlew build</code></li>
+<li>编译并打Debug包 <code>gradlew assembleDebug</code></li>
+<li>编译并打Release的包 <code>gradlewassembleRelease</code></li>
+<li>只打包阿里release版本 <code>gradlew assemblealiRelease</code></li>
+<li>关于多moudle <code>gradlew :UpdateAppUtils:assembleDebug</code></li>
+<li>帮助 <code>gradlew --help</code></li>
+<li>查看编译信息 <code>gradlew build --info</code>或<code>–stacktrace</code></li>
+<li>制定module <code>gradlew -p app build</code></li>
+</ul>
+<a id="more"></a>
+
+
+<p>打包需要在build配置签名文件以及密码</p>
+<pre><code> signingConfigs {
+        debug {
+            // No debug config
+        }
+
+        release {
+            storeFile file(&quot;../yourapp.keystore&quot;)
+            storePassword &quot;your password&quot;
+            keyAlias &quot;your alias&quot;
+            keyPassword &quot;your password&quot;
+        }
+    }</code></pre><h3 id="gradlew配置文件结构和eclipse结构相同"><a href="#gradlew配置文件结构和eclipse结构相同" class="headerlink" title="gradlew配置文件结构和eclipse结构相同"></a>gradlew配置文件结构和eclipse结构相同</h3><pre><code>android {
+     sourceSets {
+       main {
+         manifest.srcFile &#39;AndroidManifest.xml&#39;
+         java.srcDirs = [&#39;src&#39;]
+         resources.srcDirs = [&#39;src&#39;]
+         aidl.srcDirs = [&#39;src&#39;]
+         renderscript.srcDirs = [&#39;src&#39;]
+         res.srcDirs = [&#39;res&#39;]
+         assets.srcDirs = [&#39;assets&#39;]
+    }
+     androidTest.setRoot(&#39;tests&#39;)
+    } 
+}</code></pre><p>在grade文件中配置，将会保存eclipse目录结构，如果有依赖的jar包，需要告诉gradle，假设jar包会在一个叫做libs的文件夹内，那么你应该这么配置(现在这条会默认配置)：</p>
+<pre><code>dependencies {
+       compile fileTree(dir: &#39;libs&#39;, include: [&#39;*.jar&#39;])
+}</code></pre><h3 id="gradle-配置解析："><a href="#gradle-配置解析：" class="headerlink" title="gradle 配置解析："></a>gradle 配置解析：</h3><p>创建一个新的android项目时，会默认生成三个gradle文件</p>
+<ul>
+<li>project 的build.gradle文件</li>
+<li>settings.build文件（声明包含的moudle都有哪些）</li>
+<li>默认moudle的App下的build.gradle文件</li>
+</ul>
+<h4 id="根目录的gradle文件一般如下"><a href="#根目录的gradle文件一般如下" class="headerlink" title="根目录的gradle文件一般如下"></a>根目录的gradle文件一般如下</h4><pre><code>//声明自定义的gradle文件
+apply from: &quot;config.gradle&quot;
+buildscript {
+    repositories {//配置仓库，使用jcenter，现在studio3.0以后默认使用google
+        jcenter()
+        google()
+    }
+    dependencies {//配置gradle的插件默认配置gradle，我这里还配置tinker插件，用于热更新
+        classpath &#39;com.android.tools.build:gradle:3.0.1&#39;
+        classpath &#39;com.tencent.bugly:tinker-support:1.1.1&#39;
+        }
+}
+
+allprojects {//定义模块默认属性
+    repositories {
+        jcenter()
+        google()
+    }
+}
+
+task clean(type: Delete) {//我这里配置task clean的时候直接删除项目的build文件夹
+    delete rootProject.buildDir
+}
+</code></pre><h3 id="模块内build-gradle文件"><a href="#模块内build-gradle文件" class="headerlink" title="模块内build.gradle文件"></a>模块内build.gradle文件</h3><p>以下是studio3.0之前的配置，3.0之后稍后改动</p>
+<pre><code>//声明模块要使用的插件，默认配置android.application
+apply plugin: &#39;com.android.application&#39;
+   android {
+       compileSdkVersion 22//配置编译app的api版本
+       buildToolsVersion &quot;22.0.1&quot;//3.0之后已经去除，不需要再配置
+       defaultConfig {
+           applicationId &quot;com.gradleforandroid.gettingstarted&quot;//默认对应清单文件里的包名
+           minSdkVersion 14//兼容的最小版本号
+           targetSdkVersion 22//最适合的版本号
+           versionCode 1//版本号标识
+           versionName &quot;1.0&quot;//版本名字，一般用于给用户展示，除此没有其他用处
+       }
+       buildTypes {
+           release {
+               minifyEnabled false
+               proguardFiles getDefaultProguardFile
+                (&#39;proguard-android.txt&#39;), &#39;proguard-rules.pro&#39;
+           }
+        } 
+    }
+    dependencies {//3.0以后使用implementation  来代替compile
+       compile fileTree(dir: &#39;libs&#39;, include: [&#39;*.jar&#39;])
+       compile &#39;com.android.support:appcompat-v7:22.2.0&#39;
+       implementation  &#39;com.android.support:appcompat-v7:22.2.0&#39;
+
+     }</code></pre><h3 id="使用BuildConfig和resources动态配置不同渠道资源"><a href="#使用BuildConfig和resources动态配置不同渠道资源" class="headerlink" title="使用BuildConfig和resources动态配置不同渠道资源"></a>使用BuildConfig和resources动态配置不同渠道资源</h3><p>比如baseUrl</p>
+<pre><code>  release {
+            //关闭日志输出
+            buildConfigField(&quot;boolean&quot;, &quot;LOG_DEBUG&quot;, &quot;false&quot;)
+            //配置默认baseUrl
+            buildConfigField(&quot;String&quot;, &quot;SERVER_URL&quot;, rootProject.ext.configs[&#39;releaseUrl&#39;])
+            //配置下载地址
+            buildConfigField(&quot;String&quot;, &quot;DOWNLOAD_URL&quot;, rootProject.ext.download[&#39;releaseUrl&#39;])
+            // 移除无用的resource文件
+            shrinkResources true
+            //是否混淆
+            minifyEnabled true
+            //混淆文件(.text处于SDK下面，针对全项目，.pro只针对本项目)
+            proguardFiles getDefaultProguardFile(&#39;proguard-android.txt&#39;), &#39;proguard-rules.pro&#39;
+            //配置签名文件
+            signingConfig signingConfigs.sweetorange_sign
+        }</code></pre><p>比如app名字：</p>
+<pre><code>android {
+       buildTypes {
+           debug {
+               resValue &quot;string&quot;, &quot;app_name&quot;, &quot;我的测试版本&quot;
+           }
+           release {
+               resValue &quot;string&quot;, &quot;app_name&quot;, &quot;我是正式版本&quot;
+            } 
+       }
+}
+</code></pre><h3 id="配置全局配置"><a href="#配置全局配置" class="headerlink" title="配置全局配置"></a>配置全局配置</h3><p>关于多moudle开发，方便多人分模块开发，这也是组件化开发的模式，这样每个moudle都会配置各自的build.gradle文件，为了配置统一，一般配置全局配置，让各个moudle去调用</p>
+<p>全局配置有两种方法</p>
+<ul>
+<li>直接在project的build.gradle文件中配置</li>
+<li>自定义一个gradle文件，然后再project中声明一下，然后去调用</li>
+</ul>
+<p>两种方式一样，个人觉得第二种更方便管理</p>
+<p>有关第二种：</p>
+<ul>
+<li>醒目目录改为project，主目录下创建一个.gradle文件名字随便，例如我的config.gradle文件</li>
+</ul>
+<p>主要是配置了项目所使用到的第三方依赖库，有关依赖哭的混淆可以看我的混淆配置<a href="https://www.jianshu.com/p/181d6f2d5bae" target="_blank" rel="noopener">https://www.jianshu.com/p/181d6f2d5bae</a></p>
+<pre><code>ext {
+
+    configs = [//配置baseUrl
+            debugUrl  : &#39;&quot;http://111.111.1.111.8080&quot;&#39;,
+            releaseUrl: &#39;&quot;https://www.baidu.com&quot;&#39;,
+    ]
+
+       android = [compileSdkVersion        : 25,
+               applicationId            : &quot;com.sweetorange.read&quot;,
+               minSdkVersion            : 16,
+               targetSdkVersion         : 25,
+               versionCode              : 13,
+               versionName              : &quot;1.3&quot;,
+               testInstrumentationRunner: &quot;android.support.test.runner.AndroidJUnitRunner&quot;]
+
+    dependencies = [//配置所有的第三方依赖库（不多不多，也就二十个）
+
+            //multidex方法书超过64K
+            &quot;multidex&quot;                     : &#39;com.android.support:multidex:1.0.1&#39;,
+
+            //bumptech，用于glide配置okhttp请求
+            &quot;bumptech&quot;                     : &#39;com.github.bumptech.glide:okhttp3-integration:1.4.0@aar&#39;,
+
+            //pgyer蒲公英用于测试
+            &quot;pgyer&quot;                        : &#39;com.pgyersdk:sdk:2.8.1&#39;,
+
+            //MZBannerView，banner轮播图，用于引导页面
+            &quot;MZBannerView&quot;                 : &#39;com.github.pinguo-zhouwei:MZBannerView:v2.0.0&#39;,
+
+            //bugly ，热修复
+            &quot;bugly&quot;                        : &#39;com.tencent.bugly:crashreport_upgrade:1.3.4&#39;,
+
+            //微信
+            &quot;wechat&quot;                       : &#39;com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2&#39;,
+
+            //伸缩textView
+            &quot;expandableTextView&quot;           : &#39;com.ms-square:expandableTextView:0.1.4&#39;,
+
+            //屏幕适配
+            &quot;autolayout&quot;                   : &#39;com.zhy:autolayout:1.4.5&#39;,
+
+            //v7包
+            &quot;support_v7&quot;                   : &#39;com.android.support:appcompat-v7:25.3.1&#39;,
+
+            //设置阅读页动画
+            &quot;nineoldandroids&quot;              : &#39;com.nineoldandroids:library:2.4.0&#39;,
+
+            //Xutils3用于网络请求
+            &quot;xutils&quot;                       : &#39;org.xutils:xutils:3.3.40&#39;,
+
+            //design包
+            &quot;support_design&quot;               : &#39;com.android.support:design:25.3.0&#39;,
+
+            //glide
+            &quot;glide&quot;                        : &#39;com.github.bumptech.glide:glide:3.7.0&#39;,
+
+            //v4
+            &quot;support_v4&quot;                   : &#39;com.android.support:support-v4:25.3.0&#39;,
+
+            //drawable
+            &quot;support_drawable&quot;             : &#39;com.android.support:support-vector-drawable:25.1.0&#39;,
+
+            //eventbus
+            &quot;eventbus&quot;                     : &#39;org.greenrobot:eventbus:3.0.0&#39;,
+
+            //fastJson
+            &quot;fastjson&quot;                     : &#39;com.alibaba:fastjson:1.2.23&#39;,
+
+            //litepal
+            &quot;litepal&quot;                      : &#39;org.litepal.android:core:1.5.1&#39;,
+
+            //circleimageview
+            &quot;circleimageview&quot;              : &#39;de.hdodenhof:circleimageview:2.1.0&#39;,
+
+            //klog
+            &quot;klog&quot;                         : &#39;com.github.zhaokaiqiang.klog:library:1.5.0&#39;,
+
+            //Luban
+            &quot;Luban&quot;                        : &#39;top.zibin:Luban:1.1.3&#39;,
+
+            //jsoup
+            &quot;jsoup&quot;                        : &#39;org.jsoup:jsoup:1.10.2&#39;,
+
+            //permission
+            &quot;permission&quot;                   : &#39;com.yanzhenjie:permission:1.0.7&#39;,
+
+            //album
+            &quot;album&quot;                        : &#39;com.yanzhenjie:album:1.0.7&#39;,
+
+            //constraint-layout
+            &quot;constraint_layout&quot;            : &#39;com.android.support.constraint:constraint-layout:1.0.0-alpha8&#39;,
+
+            //BaseRecyclerViewAdapterHelper
+            &quot;BaseRecyclerViewAdapterHelper&quot;: &#39;com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.18&#39;,
+
+            //badgeview
+            &quot;badgeview&quot;                    : &#39;q.rorbin:badgeview:1.1.2&#39;,
+
+            //butterknife
+            &quot;butterknife&quot;                  : &#39;com.jakewharton:butterknife:8.7.0&#39;,
+
+            //butterknife
+            &quot;butterknife_two&quot;              : &#39;com.jakewharton:butterknife-compiler:8.7.0&#39;,
+
+            //lombok
+            &quot;lombok&quot;                       : &#39;org.projectlombok:lombok:1.16.18&#39;,
+
+            //nohttp
+            &quot;nohttp&quot;                       : &#39;com.yanzhenjie.nohttp:nohttp:1.1.4&#39;,
+
+            //junit
+            &quot;junit&quot;                        : &#39;junit:junit:4.12&#39;,
+
+            //okhttp
+            &quot;okhttp&quot;                       : &#39;com.yanzhenjie.nohttp:okhttp:1.1.4&#39;,
+
+            //添加注解，配合lombok
+            &quot;annotation&quot;                   : &#39;org.glassfish:javax.annotation:10.0-b28&#39;,
+
+            &quot;SmartRefreshLayout&quot;           : &#39;com.scwang.smartrefresh:SmartRefreshLayout:1.0.3&#39;,
+            &quot;SmartRefreshHeader&quot;           : &#39;com.scwang.smartrefresh:SmartRefreshHeader:1.0.3&#39;,
+    ]
+}</code></pre><h3 id="使用全局配置"><a href="#使用全局配置" class="headerlink" title="使用全局配置"></a>使用全局配置</h3><p>主项目build文件声明自定义的build文件</p>
+<pre><code>apply from: &quot;config.gradle&quot;</code></pre><p>在moudle中使用</p>
+<pre><code>apply plugin: &#39;com.android.application&#39;
+
+// 依赖插件脚本
+apply from: &#39;tinker-support.gradle&#39;
+
+android {
+
+    //项目编译版本
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    defaultConfig {
+        //项目包名
+        applicationId rootProject.ext.android.applicationId
+        //最低兼容
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        //最佳使用版本
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        //版本号
+        versionCode rootProject.ext.android.versionCode
+        //版本名
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner rootProject.ext.android.testInstrumentationRunner
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+        flavorDimensions &quot;versionCode&quot;
+    }
+    buildTypes {
+        release {
+            //关闭日志输出
+            buildConfigField(&quot;boolean&quot;, &quot;LOG_DEBUG&quot;, &quot;false&quot;)
+            //配置默认baseUrl
+            buildConfigField(&quot;String&quot;, &quot;SERVER_URL&quot;, rootProject.ext.configs[&#39;releaseUrl&#39;])
+            //配置下载地址
+            buildConfigField(&quot;String&quot;, &quot;DOWNLOAD_URL&quot;, rootProject.ext.download[&#39;releaseUrl&#39;])
+            // 移除无用的resource文件
+            shrinkResources true
+            //是否混淆
+            minifyEnabled true
+            //混淆文件(.text处于SDK下面，针对全项目，.pro只针对本项目)
+            proguardFiles getDefaultProguardFile(&#39;proguard-android.txt&#39;), &#39;proguard-rules.pro&#39;
+           }
+
+        debug {
+            buildConfigField(&quot;String&quot;, &quot;SERVER_URL&quot;, rootProject.ext.configs[&#39;debugUrl&#39;])
+            minifyEnabled true
+            //混淆文件(.text处于SDK下面，针对全项目，.pro只针对本项目)
+            proguardFiles getDefaultProguardFile(&#39;proguard-android.txt&#39;), &#39;proguard-rules.pro&#39;
+            buildConfigField(&quot;boolean&quot;, &quot;LOG_DEBUG&quot;, &quot;true&quot;)
+            //配置下载地址
+            buildConfigField(&quot;String&quot;, &quot;DOWNLOAD_URL&quot;, rootProject.ext.download[&#39;debugUrl&#39;])
+            }
+    }
+
+    //配置多渠道包
+    productFlavors {
+        huawei {}
+        xiaomi {}
+        qh360 {}
+        baidu {}
+    }
+
+     //使用友盟多渠道打包替换
+    productFlavors.all {
+        flavor -&gt; flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+    //layout文件分包
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            &#39;src/main/res/layouts/activities&#39;,
+                            &#39;src/main/res/layouts/dialogs&#39;,
+                            &#39;src/main/res/layouts/fragments&#39;,
+                            &#39;src/main/res/layouts/headviews&#39;,
+                            &#39;src/main/res/layouts/items&#39;,
+                            &#39;src/main/res/layouts/views&#39;,
+                            &#39;src/main/res/layouts&#39;,
+                            &#39;src/main/res&#39;
+                    ]
+        }
+    }
+
+    //配置使用lambda表达式
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+//配置仓库，可以使用全局配置，默认jcenter，3.0以后默认google
+allprojects {
+    repositories {
+        jcenter()
+        maven { url &quot;https://jitpack.io&quot; }
+        maven { url &quot;https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master&quot; }
+
+    }
+}
+
+dependencies {
+    implementation fileTree(include: [&#39;*.jar&#39;], dir: &#39;libs&#39;)
+    androidTestImplementation(&#39;com.android.support.test.espresso:espresso-core:2.2.2&#39;, {
+        exclude group: &#39;com.android.support&#39;, module: &#39;support-annotations&#39;
+    })
+    implementation files(&#39;libs/alipaySdk-20170309.jar&#39;)
+    implementation project(&#39;:sharelibrary&#39;)
+    implementation project(&#39;:UpdateAppUtils&#39;)
+    implementation rootProject.ext.dependencies.pgyer
+    implementation rootProject.ext.dependencies.bumptech
+    implementation rootProject.ext.dependencies.wechat
+    implementation rootProject.ext.dependencies.MZBannerView
+    implementation rootProject.ext.dependencies.expandableTextView
+    implementation rootProject.ext.dependencies.autolayout
+    implementation rootProject.ext.dependencies.support_v7
+    implementation rootProject.ext.dependencies.nineoldandroids
+    implementation rootProject.ext.dependencies.xutils
+    implementation rootProject.ext.dependencies.support_design
+    implementation rootProject.ext.dependencies.glide
+    implementation rootProject.ext.dependencies.support_v4
+    implementation rootProject.ext.dependencies.support_drawable
+    implementation rootProject.ext.dependencies.eventbus
+    implementation rootProject.ext.dependencies.fastjson
+    implementation rootProject.ext.dependencies.litepal
+    implementation rootProject.ext.dependencies.circleimageview
+    implementation rootProject.ext.dependencies.klog
+    implementation rootProject.ext.dependencies.Luban
+    implementation rootProject.ext.dependencies.jsoup
+    implementation rootProject.ext.dependencies.permission
+    implementation rootProject.ext.dependencies.album
+    implementation rootProject.ext.dependencies.constraint_layout
+    implementation rootProject.ext.dependencies.BaseRecyclerViewAdapterHelper
+    implementation rootProject.ext.dependencies.badgeview
+    implementation rootProject.ext.dependencies.butterknife
+    annotationProcessor rootProject.ext.dependencies.butterknife_two
+    implementation rootProject.ext.dependencies.lombok
+    annotationProcessor rootProject.ext.dependencies.lombok
+    implementation rootProject.ext.dependencies.nohttp
+    implementation rootProject.ext.dependencies.okhttp
+    testImplementation rootProject.ext.dependencies.junit
+    provided rootProject.ext.dependencies.annotation
+    implementation rootProject.ext.dependencies.SmartRefreshLayout
+    implementation rootProject.ext.dependencies.SmartRefreshHeader
+    implementation rootProject.ext.dependencies.bugly
+    implementation rootProject.ext.dependencies.multidex
+    implementation project(&#39;:PushSDK&#39;)
+    implementation files(&#39;libs/umeng-analytics-7.4.0.jar&#39;)
+    implementation files(&#39;libs/umeng-common-1.4.0.jar&#39;)
+}
+</code></pre><h3 id="gradle的以依赖管理"><a href="#gradle的以依赖管理" class="headerlink" title="gradle的以依赖管理"></a>gradle的以依赖管理</h3><p>gradle支持三种仓库</p>
+<ul>
+<li>Maven</li>
+<li>lvy</li>
+<li>文件夹</li>
+</ul>
+<p>一个依赖需要三个元素：</p>
+<ul>
+<li>group——组织名字</li>
+<li>name——库名字</li>
+<li>version—-库版本</li>
+</ul>
+<p>例如：</p>
+<pre><code>implementation &#39;com.github.ALguojian:SpannableHelper:1.0&#39;</code></pre><p>gradle使用groovy编写，完整表述如下：</p>
+<pre><code>implementation group: &#39;com.github.ALguojian&#39; , name: &#39;SpannableHelper&#39; , version: &#39;1.0&#39;</code></pre><p>有关公司私人权限仓库配置：</p>
+<pre><code>repositories {
+       maven {
+           url &quot;http://repo.acmecorp.com/maven2&quot;
+           credentials {
+               username &#39;user&#39;
+               password &#39;secretpassword&#39;
+           }
+        } 
+</code></pre><p>建议有关密码都配置在gradle.properties文件中，并添加到忽略文件</p>
+<pre><code># 应用版本名称
+VERSION_NAME=1.0.0
+# 应用版本号
+VERSION_CODE=100</code></pre><p>使用如下：</p>
+<pre><code>android {
+    compileSdkVersion project.ANDROID_BUILD_SDK_VERSION as int
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        versionCode project.VERSION_CODE as int
+        versionName project.VERSION_NAME
+        minSdkVersion project.ANDROID_BUILD_MIN_SDK_VERSION as int
+        targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION as int
+    }
+}</code></pre><h4 id="添加so包如下："><a href="#添加so包如下：" class="headerlink" title="添加so包如下："></a>添加so包如下：</h4><p>用c或者c++写的library叫做so包，android插件默认是支持的，需要把so文件放在对应文件夹中</p>
+<pre><code>app
+   ├── AndroidManifest.xml
+   └── jniLibs
+       ├── armeabi
+       │   └── nativelib.so
+       ├── armeabi-v7a
+       │   └── nativelib.so
+       ├── mips
+       │   └── nativelib.so
+       └── x86
+           └── nativelib.so</code></pre><p>被依赖的moudle编译之后会生成aar文件，使用aar文件和jar相同</p>
+<p>关于以来的配置：</p>
+<ul>
+<li>implementation 其含义是包含所有的依赖包，即在APK里，implementation 的依赖会存在。</li>
+<li>Runtime only 仅仅编译是使用</li>
+<li>testImplementation 添加额外的library支持针对测试</li>
+<li>androidTestCompile添加额外的library支持针对测试</li>
+<li>Debug implementation 针对不同的渠道配置</li>
+</ul>
+<h3 id="关于配置多版本"><a href="#关于配置多版本" class="headerlink" title="关于配置多版本"></a>关于配置多版本</h3><p>buildTypes下面配置多渠道配置：</p>
+<pre><code>android {
+    buildTypes {
+        alguojain{
+            applicationIdSuffix &quot;.alguojain&quot;
+            versionNameSuffix &quot;-alguojain&quot;
+            buildConfigField &quot;String&quot;，&quot;API_URL&quot;，&quot;\&quot;http://alguojain.com&quot;\&quot;
+         }
+    }
+}</code></pre><h3 id="关于配制多渠道-product-flavors"><a href="#关于配制多渠道-product-flavors" class="headerlink" title="关于配制多渠道 product flavors"></a>关于配制多渠道 product flavors</h3><pre><code>android {
+
+    flavorDimensions &quot;123&quot;, &quot;456&quot;
+    productFlavors {
+        aaa{
+             applicationId &#39;com.alguojian.aaa&#39;
+              flavorDimension &quot;123&quot;
+             versionCode 3
+        }
+        bbb{
+             flavorDimension &quot;456&quot;
+             applicationId &#39;com.alguojian.bbb&#39;
+             minSdkVersion 14
+             versionCode 4
+        }
+    }
+}</code></pre><h4 id="配置渠道过滤器"><a href="#配置渠道过滤器" class="headerlink" title="配置渠道过滤器"></a>配置渠道过滤器</h4><pre><code>android.variantFilter { variant -&gt;
+       if(variant.buildType.name.equals(&#39;release&#39;)) {
+           variant.getFlavors().each() { flavor -&gt;
+               if (flavor.name.equals(tbl)) { variant.setIgnore(true);
+            }
+        }
+    }
+}</code></pre><h3 id="配置多版本的签名文件"><a href="#配置多版本的签名文件" class="headerlink" title="配置多版本的签名文件"></a>配置多版本的签名文件</h3><p>有关签名，debug版本shistudio默认的签名，使用的是公共的签名文件，下面alguojian版本使用initWith方法是使用debug版本的配置</p>
+<pre><code>android {
+       signingConfigs {
+
+           alguojian.initWith(signingConfigs.debug)
+
+           release {
+               storeFile file(&quot;release.keystore&quot;)
+               storePassword&quot;secretpassword&quot;
+               keyAlias &quot;gradleforandroid&quot;
+               keyPassword &quot;secretpassword&quot;
+           }
+      }
+}</code></pre><h3 id="针对不同版本不同渠道配置不同签名"><a href="#针对不同版本不同渠道配置不同签名" class="headerlink" title="针对不同版本不同渠道配置不同签名"></a>针对不同版本不同渠道配置不同签名</h3><pre><code>android {
+       buildTypes {
+           release {
+               productFlavors.red.signingConfig signingConfigs.aaa
+               productFlavors.blue.signingConfig signingConfigs.bbb
+           }
+       }
+}</code></pre><h3 id="多moudle开启多线程构建（电脑内存要大，要大，要大！！！）"><a href="#多moudle开启多线程构建（电脑内存要大，要大，要大！！！）" class="headerlink" title="多moudle开启多线程构建（电脑内存要大，要大，要大！！！）"></a>多moudle开启多线程构建（电脑内存要大，要大，要大！！！）</h3><p>需要在grade.properties文件中配置如下属性：</p>
+<pre><code>
+org.gradle.parallel=true
+</code></pre><h3 id="自定义gradle插件，待定，正在学习grovvy"><a href="#自定义gradle插件，待定，正在学习grovvy" class="headerlink" title="自定义gradle插件，待定，正在学习grovvy"></a>自定义gradle插件，待定，正在学习grovvy</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/12/项目用到的库以及配置的混淆文件/" rel="next" title="项目用到的库以及配置的混淆文件">
+                <i class="fa fa-chevron-left"></i> 项目用到的库以及配置的混淆文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/18/android常用注解以及自定义注解替代枚举/" rel="prev" title="android常用注解以及自定义注解替代枚举">
+                android常用注解以及自定义注解替代枚举 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#gradle使用source-set-的概念，一个source-set就是一系列资源文件，其将会被便衣和执行，对于android项目，main就是一个source-set，其包含了所有的资源文件，相对main测试文件test也是一个source-set，只做测试"><span class="nav-number">1.</span> <span class="nav-text">gradle使用source  set 的概念，一个source  set就是一系列资源文件，其将会被便衣和执行，对于android项目，main就是一个source  set，其包含了所有的资源文件，相对main测试文件test也是一个source  set，只做测试</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#基础命令："><span class="nav-number"></span> <span class="nav-text">基础命令：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gradlew配置文件结构和eclipse结构相同"><span class="nav-number"></span> <span class="nav-text">gradlew配置文件结构和eclipse结构相同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gradle-配置解析："><span class="nav-number"></span> <span class="nav-text">gradle 配置解析：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#根目录的gradle文件一般如下"><span class="nav-number"></span> <span class="nav-text">根目录的gradle文件一般如下</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块内build-gradle文件"><span class="nav-number"></span> <span class="nav-text">模块内build.gradle文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用BuildConfig和resources动态配置不同渠道资源"><span class="nav-number"></span> <span class="nav-text">使用BuildConfig和resources动态配置不同渠道资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置全局配置"><span class="nav-number"></span> <span class="nav-text">配置全局配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用全局配置"><span class="nav-number"></span> <span class="nav-text">使用全局配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gradle的以依赖管理"><span class="nav-number"></span> <span class="nav-text">gradle的以依赖管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加so包如下："><span class="nav-number"></span> <span class="nav-text">添加so包如下：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于配置多版本"><span class="nav-number"></span> <span class="nav-text">关于配置多版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于配制多渠道-product-flavors"><span class="nav-number"></span> <span class="nav-text">关于配制多渠道 product flavors</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置渠道过滤器"><span class="nav-number"></span> <span class="nav-text">配置渠道过滤器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置多版本的签名文件"><span class="nav-number"></span> <span class="nav-text">配置多版本的签名文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#针对不同版本不同渠道配置不同签名"><span class="nav-number"></span> <span class="nav-text">针对不同版本不同渠道配置不同签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多moudle开启多线程构建（电脑内存要大，要大，要大！！！）"><span class="nav-number"></span> <span class="nav-text">多moudle开启多线程构建（电脑内存要大，要大，要大！！！）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义gradle插件，待定，正在学习grovvy"><span class="nav-number"></span> <span class="nav-text">自定义gradle插件，待定，正在学习grovvy</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

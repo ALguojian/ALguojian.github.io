@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="创建Canvas的方式        Bitmap bitmap = Bitmap.createBitmap(500, 500,   Bitmap.Config.ARGB_8888);         Canvas canvas1 = new Canvas();         Canvas canvas2 = new Canvas(bitmap);           //使用于绘制高质量图形，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义view的Canvas梳理">
+<meta property="og:url" content="http://yoursite.com/2019/06/23/自定义view的Canvas梳理/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="创建Canvas的方式        Bitmap bitmap = Bitmap.createBitmap(500, 500,   Bitmap.Config.ARGB_8888);         Canvas canvas1 = new Canvas();         Canvas canvas2 = new Canvas(bitmap);           //使用于绘制高质量图形，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-11T08:50:15.377Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义view的Canvas梳理">
+<meta name="twitter:description" content="创建Canvas的方式        Bitmap bitmap = Bitmap.createBitmap(500, 500,   Bitmap.Config.ARGB_8888);         Canvas canvas1 = new Canvas();         Canvas canvas2 = new Canvas(bitmap);           //使用于绘制高质量图形，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/23/自定义view的Canvas梳理/">
+
+
+
+
+
+  <title>自定义view的Canvas梳理 | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/自定义view的Canvas梳理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">自定义view的Canvas梳理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T17:20:34+08:00">
+                2019-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="创建Canvas的方式"><a href="#创建Canvas的方式" class="headerlink" title="创建Canvas的方式"></a>创建Canvas的方式</h3><pre><code>        Bitmap bitmap = Bitmap.createBitmap(500, 500,   Bitmap.Config.ARGB_8888);
+        Canvas canvas1 = new Canvas();
+        Canvas canvas2 = new Canvas(bitmap);
+
+
+        //使用于绘制高质量图形，刷新频率高，但是系统花销比较大
+        SurfaceView surfaceView = new SurfaceView(context);
+        SurfaceHolder holder = surfaceView.getHolder();
+        Canvas canvas = holder.lockCanvas();
+        holder.unlockCanvasAndPost(canvas);</code></pre><a id="more"></a>
+
+
+<h3 id="基本绘制方法"><a href="#基本绘制方法" class="headerlink" title="基本绘制方法"></a>基本绘制方法</h3><pre><code>
+        //绘制图片
+        drawable.draw(Canvas canvas)
+
+        //绘制颜色
+        canvas.drawColor(Color.BLUE);
+        canvas.drawColor(Color.BLUE, PorterDuff.Mode.SRC_IN);
+
+
+        //绘制点
+        canvas.drawPoint(300, 300, paint);
+        //绘制多个点
+        canvas.drawPoints(new float[]{299, 399, 123, 234, 123, 567}, paint);
+
+        //绘制直线
+        canvas.drawLine(100, 200, 400, 500, paint);
+        //绘制多条直线
+        canvas.drawLines(new float[]{100, 200, 400, 500, 400, 200, 800, 20}, paint);
+
+        //绘制矩形
+        Rect rect = new Rect(100, 100, 500, 500);
+        canvas.drawRect(rect, paint);
+
+        //与rect的区别,Rect = int , RectF = float
+        RectF rectF = new RectF(100, 100, 600, 800);
+        canvas.drawRect(rectF, paint);
+
+        //绘制圆角矩形，50代表着圆角对应的椭圆半径
+        canvas.drawRoundRect(rectF, 50, 50, paint);
+
+        //绘制椭圆，椭圆半径就是矩形的宽高一半
+        canvas.drawOval(rectF, paint);
+
+        //绘制圆形
+        canvas.drawCircle(500, 500, 300, paint);
+
+        //绘制圆弧，开始角度，扫过得角度，是否使用中心点，使用的话绘制的就是弧线以及中心点连接形成的图案，不适用就是弧线起点以及终点连接的图案
+        canvas.drawArc(rectF, 15, 180, true, paint);
+
+        //绘制文字,起始点默认为文本的左下角
+
+        String string = &quot;请问饿哦草我啊是多空我看&quot;;
+        canvas.drawText(string, 200, 300, paint);
+
+        //指定绘制文本字体开始以及结束索引
+        canvas.drawText(string, 2, 6, 300, 400, paint);
+
+        //指定开始索引，以及绘制的长度
+        char[] chars = string.toCharArray();
+        canvas.drawText(chars, 1, 5, 300, 300, paint);
+
+        //指定每一个字的坐标点，切记是每一个字，文本过长可能造成卡顿，不用包含表情
+        canvas.drawPosText(string, new float[]{10, 20, 100, 200, 200, 200}, paint);
+
+        //在path路径上绘制文字，与路径起始点的水平偏移距离，与路径中心的垂直偏移距离
+        canvas.drawTextOnPath(string, new Path(), 50, 0, paint);
+
+        //绘制位图，图片左上角为绘制原点
+
+        //获得图片资源从drawable等
+        Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_launcher_foreground);
+
+        //从assets获得图片
+        try {
+            InputStream open = mContext.getAssets().open(&quot;aaa.png&quot;);
+
+            Bitmap bitmap1 = BitmapFactory.decodeStream(open);
+            open.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //从内存卡获得图片
+        Bitmap bitmap1 = BitmapFactory.decodeFile(&quot;/sdcard/aaa.png&quot;);
+
+        //matrix用于绘制是对图片进行一下改变
+        canvas.drawBitmap(bitmap, new Matrix(), paint);
+
+        //指定绘制原点
+        canvas.drawBitmap(bitmap, 300, 400, paint);
+
+
+        //指定绘制区域
+        Rect rect1 = new Rect(0, 0, bitmap.getWidth() / 2, bitmap.getHeight());
+        //指定图片要显示在那块区域
+        Rect rect2 = new Rect(100, 200, 400, 500);
+        canvas.drawBitmap(bitmap, rect1, rect2, paint);
+
+        //向有一栋300px，向下移动400px
+        canvas.translate(300,400);
+
+        //设置缩放，以及缩放中心点，默认是原点
+        canvas.scale(1.2f,0.8f,100,0);
+
+        //已点（30，50）旋转90度，即与x轴角度增大90度，切记：屏幕坐标系与数学坐标系成镜像显示
+        canvas.rotate(90,30,50);
+
+        //向x轴正方向倾斜45度
+        canvas.skew(1f,0);
+
+
+        //画布裁剪，其他区域不在编辑
+        canvas.clipPath(new Path());
+
+        //指定裁剪叠加裁剪时的效果,有关Region.OP全部参数看下面
+        canvas.clipPath(new Path(), Region.Op.XOR);
+
+        //裁剪矩形
+        canvas.clipRect(rect);
+
+        //保存全部状态
+        canvas.save();
+
+        //获得保存次数
+        canvas.getSaveCount();
+
+        //回退上一次
+        canvas.restore();
+
+        //指定回退的版本
+        canvas.restoreToCount(2);</code></pre><h3 id="Region-OP参数，和path的布尔值操作类似"><a href="#Region-OP参数，和path的布尔值操作类似" class="headerlink" title="Region.OP参数，和path的布尔值操作类似"></a>Region.OP参数，和path的布尔值操作类似</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DIFFERENCE</td>
+<td>第一次不同于第二次区域</td>
+</tr>
+<tr>
+<td>INTERSECT</td>
+<td>二次交集</td>
+</tr>
+<tr>
+<td>UNION</td>
+<td>两次的合集</td>
+</tr>
+<tr>
+<td>XOR</td>
+<td>二者合集减去二者交集</td>
+</tr>
+<tr>
+<td>REVERSE_DIFFERENCE</td>
+<td>第二次不同于第一次区域</td>
+</tr>
+<tr>
+<td>REPLACE</td>
+<td>第二次全部区域</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/23/自定义view的画笔Paint的梳理/" rel="next" title="自定义view的画笔Paint的梳理">
+                <i class="fa fa-chevron-left"></i> 自定义view的画笔Paint的梳理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/23/MVVM--之Lifecycle的使用/" rel="prev" title="MVVM--之Lifecycle的使用">
+                MVVM--之Lifecycle的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建Canvas的方式"><span class="nav-number">1.</span> <span class="nav-text">创建Canvas的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本绘制方法"><span class="nav-number">2.</span> <span class="nav-text">基本绘制方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Region-OP参数，和path的布尔值操作类似"><span class="nav-number">3.</span> <span class="nav-text">Region.OP参数，和path的布尔值操作类似</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

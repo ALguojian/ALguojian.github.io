@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="git 配置，可以重复设置，二者相对应git config —global user.name &amp;quot;ALguojian&amp;quot; git config —global user.email &amp;quot;jzhszy@foxmail.com&amp;quot; 重置远程库的账号密码，针对https连接git config --global credential.helper store">
+<meta property="og:type" content="article">
+<meta property="og:title" content="再不学git我们就老了">
+<meta property="og:url" content="http://yoursite.com/2019/08/23/再不学git我们就老了/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="git 配置，可以重复设置，二者相对应git config —global user.name &amp;quot;ALguojian&amp;quot; git config —global user.email &amp;quot;jzhszy@foxmail.com&amp;quot; 重置远程库的账号密码，针对https连接git config --global credential.helper store">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-11T08:49:02.649Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="再不学git我们就老了">
+<meta name="twitter:description" content="git 配置，可以重复设置，二者相对应git config —global user.name &amp;quot;ALguojian&amp;quot; git config —global user.email &amp;quot;jzhszy@foxmail.com&amp;quot; 重置远程库的账号密码，针对https连接git config --global credential.helper store">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/23/再不学git我们就老了/">
+
+
+
+
+
+  <title>再不学git我们就老了 | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/再不学git我们就老了/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">再不学git我们就老了</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-23T17:20:34+08:00">
+                2019-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="git-配置，可以重复设置，二者相对应"><a href="#git-配置，可以重复设置，二者相对应" class="headerlink" title="git 配置，可以重复设置，二者相对应"></a>git 配置，可以重复设置，二者相对应</h3><p><code>git config —global user.name &quot;ALguojian&quot;</code></p>
+<p><code>git config —global user.email &quot;jzhszy@foxmail.com&quot;</code></p>
+<h3 id="重置远程库的账号密码，针对https连接"><a href="#重置远程库的账号密码，针对https连接" class="headerlink" title="重置远程库的账号密码，针对https连接"></a>重置远程库的账号密码，针对https连接</h3><p><code>git config --global credential.helper store</code></p>
+<a id="more"></a>
+
+<h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><ul>
+<li><p>git branch -m devel develop (重命名本地分支名字,命名之后，直接提交到远程，然后需要将本地和远程分支同步一次)</p>
+</li>
+<li><p>git branch –set-upstream-to=origin/develop （同步本地和远程连接）</p>
+</li>
+<li><p>git rm -r –cached . (删除在git管理中文件的缓存)</p>
+</li>
+<li><p>git rm -f aa.build  (强制删除在git管理中文件的缓存)</p>
+</li>
+<li><p><code>mkdir test</code> （创建文件夹test）</p>
+</li>
+<li><p><code>cd test</code> （切换到test目录）</p>
+</li>
+<li><p><code>touch a.md</code> （新建a.md文件）</p>
+</li>
+<li><p><code>git init</code> (初始化git仓库)默认在master分支</p>
+</li>
+<li><p><code>git status</code>（查看状态）</p>
+</li>
+<li><p><code>git add</code>   (缓存，待提交)</p>
+</li>
+<li><p><code>git add .</code> (添加所有文件)</p>
+</li>
+<li><p><code>git add -u</code>     (将文件的修改、文件的删除，添加到暂存区)</p>
+</li>
+<li><p><code>git add -A</code>    (将文件的修改，文件的删除，文件的新建，添加到暂存区)</p>
+</li>
+<li><p><code>git rm --cached</code> (删除缓存)</p>
+</li>
+<li><p><code>git fetch origin</code>  （自动获取更新远程分支）</p>
+</li>
+<li><p><code>git commit</code>    (提交)      git commit -m “第一次提交”</p>
+</li>
+<li><p><code>git commit -am &quot;提交信息&quot;</code>    (所有的改动都更新到缓存区并提交，相当于git add .和git commit -m 的合并)</p>
+</li>
+<li><p><code>git log</code> （commit记录）</p>
+</li>
+<li><p><code>git branch</code> 分支（查看本地分支）</p>
+</li>
+<li><p><code>git branch -r</code>   （查看远程分支列表）</p>
+</li>
+<li><p><code>git checkout develop origin/develop</code>    （远程的 develop 分支迁到本地）</p>
+</li>
+<li><p><code>git checkout -b develop origin/develop</code>    （把远程分支迁到本地顺便切换到该分支）</p>
+</li>
+<li><p><code>git branch a</code> （创建分支 a）</p>
+</li>
+<li><p><code>git checkout a</code> （切换到 a 分支）</p>
+</li>
+<li><p><code>git checkout -b a</code> (创建并切换到 a分支)</p>
+</li>
+<li><p><code>git merge a</code>（合并分支 a 到主分支）合并之前先切换到master分支（在master执行）</p>
+</li>
+<li><p><code>git rebase a</code>    （合并分支a）（在a分支处理）</p>
+</li>
+<li><p><code>git rebase -i  &lt;commitID&gt;</code>(删去那些无关紧要的提交,整理提交记录)</p>
+</li>
+<li><p><code>git rebase side another</code> 合并another分支到side分支上，并且提交记录在最前端</p>
+</li>
+<li><p><code>git commit --amend -m &quot;这是新的提交日志&quot;</code>修改上次提交日志</p>
+</li>
+</ul>
+<blockquote>
+<p> merge只是合并另外一个分支的内容，rebase也合并另外一个分支的内容，但是会把本分支的commits顶到最顶端。具体可以查看下面的说法<br><a href="https://www.zhihu.com/question/36509119/answer/67828312" target="_blank" rel="noopener">https://www.zhihu.com/question/36509119/answer/67828312</a><br><a href="http://www.cnblogs.com/kidsitcn/p/5339382.html" target="_blank" rel="noopener">http://www.cnblogs.com/kidsitcn/p/5339382.html</a><br><a href="http://blog.csdn.net/fybon/article/details/52460516" target="_blank" rel="noopener">http://blog.csdn.net/fybon/article/details/52460516</a></p>
+<ul>
+<li><code>git branch -d a</code> (删除分支 a )</li>
+<li><code>git branch -D a</code> （强制删除分支a，针对于 a 有代码没有合并到master，git branch -d a 删除不了）</li>
+<li><code>git push  --delete origin devloper</code> （删除远程分支）</li>
+<li><code>git tag v1.0</code>（建立版本1.0，查看历史版本）</li>
+<li><code>git checkout v1.0</code> （切换到1.0版本）</li>
+<li><code>git stash</code>   （把当前分支所有没有commit的代码暂时保存起来（执行了add 也无所谓）） </li>
+<li><code>git stash list</code>  （查看暂存区的记录）</li>
+<li><code>git stash apply</code> （回到暂存之前）</li>
+<li><code>git stash drop</code>  （回来之后建议删除stash记录）</li>
+<li><code>git stash pop</code>   （回到暂存之前，并删除记录）</li>
+<li><code>git stash clear</code><br>是清空所有暂存区的记录，drop 是只删除一条，当然后面可以跟 stash_id 参数来删除指<br>定的某条记录，不跟参数就是删除最近的，而 clear 是清空。</li>
+<li><code>git rebase -i HEAD~4</code>    （改变之前4次提交的顺序）</li>
+<li><code>git reset HEAD~a</code>     （回退到某一个版本）（reset只在本地使用，远程推送建议使用<code>revert</code>会再提交一个新的纪录，该记录引入更改–这些更改刚好就是用来撤销上次提交的，回到上次提交之前的状态）</li>
+<li><code>git reset   HEAD^</code>     （回退到上一个版本）</li>
+<li><code>git reset  HEAD^^</code>     （回退到上上个版本）</li>
+<li><code>git reflog</code>  （回退错了，前进）</li>
+<li><code>git revert HEAD</code>(撤销上次提交，用于远程推送)</li>
+</ul>
+</blockquote>
+<h3 id="添加SSH"><a href="#添加SSH" class="headerlink" title="添加SSH"></a>添加SSH</h3><p>在git bash 输入 <code>ssh-keygen -t rsa</code> 生成文件，github创建新的SSH并填入，之后输入 <code>ssh -T git@github.com</code> 测试是否添加成功</p>
+<h3 id="推送或者下拉（先pull再push）"><a href="#推送或者下拉（先pull再push）" class="headerlink" title="推送或者下拉（先pull再push）"></a>推送或者下拉（先pull再push）</h3><p><code>git push origin master</code>    推送</p>
+<p><code>git pull origin master</code>    下拉</p>
+<p><code>git pull origin master --allow-unrelated-histories</code><br> <code>git push -f origin master</code> 更新</p>
+<p><code>git clone git@github.com:ALguojian/test.git</code>下载github上面的项目到本地</p>
+<h3 id="关联giuhub仓库"><a href="#关联giuhub仓库" class="headerlink" title="关联giuhub仓库"></a>关联giuhub仓库</h3><p><code>git remote add origin https://github.com/ALguojian/git_study.git</code></p>
+<p><code>origin</code>就是仓库名字，建议名字和远程仓库一样，较易管理</p>
+<p><code>git remote -v</code>     查看该项目有哪些仓库</p>
+<p><code>git push origin master</code>    提交代码可以到 <code>master</code> 分支，或者其他分支</p>
+<p><code>git remote rm &quot;origin&quot;</code>    删除<code>origin</code>远程仓库</p>
+<h3 id="alias-配置-简短参数"><a href="#alias-配置-简短参数" class="headerlink" title="alias 配置 简短参数"></a>alias 配置 简短参数</h3><p><code>git config --global alias.c checkout</code><br><code>git config --global alias.cm commit</code><br><code>git config --global alias.st status</code><br><code>git config --global alias.br branch</code></p>
+<p><code>git config -l</code> 查看所有配置</p>
+<h3 id="补充，移动到其他提交记录-即HEAD的指向"><a href="#补充，移动到其他提交记录-即HEAD的指向" class="headerlink" title="补充，移动到其他提交记录,即HEAD的指向"></a>补充，移动到其他提交记录,即<code>HEAD</code>的指向</h3><p><code>git  checkout a</code> 不仅用于切换分支还可用于切换提交记录，此时a代表提交记录的哈希值(很长)，不过只需要前几位即可</p>
+<ul>
+<li>使用 <code>^</code> 向上移动 1 个提交记录</li>
+<li>使用<code>~&lt;num&gt;</code> 向上移动多个提交记录，如 <code>~3</code></li>
+</ul>
+<p><code>^</code>后面加数字标识回到父类其他分支用法：<br><code>git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2</code></p>
+<p>并且还支持链式操作：<br><code>git checkout HEAD~^2~2</code></p>
+<p>所以<code>master^</code>相当于“<code>master</code> 的父节点”。<code>master^^</code> 是 <code>master</code> 的第二个父节点，也可以将 <code>HEAD</code> 作为相对引用的参照,可以一直使用 <code>HEAD^</code>向上移动</p>
+<p><code>git branch -f master HEAD~3</code> 将 master 分支强制指向 HEAD 的第 3 级父提交(强行改变分支所处位置)</p>
+<p><code>git cherry-pick C2 C3 C4</code>(改变提交记录与主分支，C2是提交的记录的哈希值)</p>
+<p><code>git fetch</code> 同步绑定的仓库（一般是其他分支）</p>
+<p><code>git pull</code> 就是 <code>git fetch</code> 和 <code>git merge &lt;just-fetched-branch&gt;</code> 的缩写！</p>
+<p><code>git fakeTeamwork foo 3</code>模拟远程提交，可以指定分支和次数</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/28/android有关动画梳理/" rel="next" title="android有关动画梳理">
+                <i class="fa fa-chevron-left"></i> android有关动画梳理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/06/android本地存储目录/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#git-配置，可以重复设置，二者相对应"><span class="nav-number">1.</span> <span class="nav-text">git 配置，可以重复设置，二者相对应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重置远程库的账号密码，针对https连接"><span class="nav-number">2.</span> <span class="nav-text">重置远程库的账号密码，针对https连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git常用命令"><span class="nav-number">3.</span> <span class="nav-text">git常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加SSH"><span class="nav-number">4.</span> <span class="nav-text">添加SSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推送或者下拉（先pull再push）"><span class="nav-number">5.</span> <span class="nav-text">推送或者下拉（先pull再push）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关联giuhub仓库"><span class="nav-number">6.</span> <span class="nav-text">关联giuhub仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#alias-配置-简短参数"><span class="nav-number">7.</span> <span class="nav-text">alias 配置 简短参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补充，移动到其他提交记录-即HEAD的指向"><span class="nav-number">8.</span> <span class="nav-text">补充，移动到其他提交记录,即HEAD的指向</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

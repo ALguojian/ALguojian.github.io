@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="* 请求方式有：  * @Get  * @post  * @PUT  * @DELETE  * @HEAD  * @OPTIONS  * @HTTP (可用于替换上面所有的请求方式)  * &amp;lt;p&amp;gt;  * &amp;lt;p&amp;gt;  * 标记请求方法有：  * @FormUrlEncoded 表示请求是一个Form表单  * 每个键值对需要用@Filed来注解键名，随后的对象需要提供值。  *">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retrofit 各个注解的使用">
+<meta property="og:url" content="http://yoursite.com/2019/03/02/Retrofit 各个注解的使用/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="* 请求方式有：  * @Get  * @post  * @PUT  * @DELETE  * @HEAD  * @OPTIONS  * @HTTP (可用于替换上面所有的请求方式)  * &amp;lt;p&amp;gt;  * &amp;lt;p&amp;gt;  * 标记请求方法有：  * @FormUrlEncoded 表示请求是一个Form表单  * 每个键值对需要用@Filed来注解键名，随后的对象需要提供值。  *">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-10T09:40:02.855Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Retrofit 各个注解的使用">
+<meta name="twitter:description" content="* 请求方式有：  * @Get  * @post  * @PUT  * @DELETE  * @HEAD  * @OPTIONS  * @HTTP (可用于替换上面所有的请求方式)  * &amp;lt;p&amp;gt;  * &amp;lt;p&amp;gt;  * 标记请求方法有：  * @FormUrlEncoded 表示请求是一个Form表单  * 每个键值对需要用@Filed来注解键名，随后的对象需要提供值。  *">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/02/Retrofit 各个注解的使用/">
+
+
+
+
+
+  <title>Retrofit 各个注解的使用 | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/02/Retrofit 各个注解的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Retrofit 各个注解的使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-02T17:20:34+08:00">
+                2019-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>* 请求方式有：
+ * @Get
+ * @post
+ * @PUT
+ * @DELETE
+ * @HEAD
+ * @OPTIONS
+ * @HTTP (可用于替换上面所有的请求方式)
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * 标记请求方法有：
+ * @FormUrlEncoded 表示请求是一个Form表单
+ * 每个键值对需要用@Filed来注解键名，随后的对象需要提供值。
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * @Multipart 表示请求体是一个支持文件上传的Form表单
+ * 每个键值对需要用@Part来注解键名，随后的对象需要提供值。
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * @Streaming 表示返回的数据以流的形式返回，适用于返回数据较大的场景
+ * （如果没有该注解，默认把数据全部载入内存，之后获取数据也是从内存中读取）
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * 网络请求参数如下：
+ * @Headers 添加请求头，固定参数
+ * @Body 以 Post方式 传递 自定义数据类型 给服务器，也可以传递Map，相当于@Field，需要做处理
+ * FormBody.Builder builder = new FormBody.Builder();
+ * builder.add(&quot;key&quot;,&quot;value&quot;);
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * @Field以及@FieldMap 传递单个参数或者一个Map集合
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * @Part &amp; @PartMap，提交文件，注意Map添加参数是，值为responseBody
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * @Query以及@QueryMap 用法与@Field相同
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * @Path 访问的API是：https://api.github.com/users/{user}/repos
+ * 在发起请求时， {user} 会被替换为方法的第一个参数 user（被@Path注解作用）
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * &lt;p&gt;
+ * @Url 当有URL注解时，@GET传入的URL就可以省略,当GET、POST...HTTP等方法中没有设置Url时，则必须使用 {@link Url}提供
+ *
+ *
+ */
+public interface RetrofitApi {
+
+    /**
+     * method：网络请求的方法（区分大小写）
+     * path：网络请求地址路径
+     * hasBody：是否有请求体
+     */
+    @HTTP(method = &quot;GET&quot;, path = &quot;blog/id=8&quot;, hasBody = true)
+    Observable&lt;LoginResponse&gt; testHttp(@Body LoginRequest request);
+
+    @POST(&quot;/post&quot;)
+    Observable&lt;LoginResponse&gt; login(@Body LoginRequest request);
+
+    /**
+     * 添加请求头，不固定形式，参数需要传值
+     *
+     * @param plat 参数值
+     * @return 访问的API是：https://api.github.com/users/{user}/repos
+     * 在发起请求时， {user} 会被替换为方法的第一个参数 user（被@Path注解作用）
+     */
+    @POST(&quot;users/{user}/rew&quot;)
+    @FormUrlEncoded
+    Observable&lt;LoginResponse&gt; getUser(@Path(&quot;user&quot;) String user, @Header(&quot;plat&quot;) String plat, @Field(&quot;userName&quot;) String name, @Field(&quot;age&quot;) int age);
+
+
+    /**
+     * 添加Map集合请求参数
+     *
+     * @param map 当有URL注解时，@GET传入的URL就可以省略,当GET、POST...HTTP等方法中没有设置Url时，则必须使用 {@link Url}提供
+     * @return
+     */
+    @POST
+    @FormUrlEncoded
+    Observable&lt;LoginResponse&gt; testFileMap(@Url String url, @FieldMap Map&lt;String, String&gt; map);
+
+
+    /**
+     * @param name {@link RequestBody}、{@link okhttp3.MultipartBody.Part} 、任意类型
+     * @param age  除 {@link okhttp3.MultipartBody.Part} 以外，
+     *             其它类型都必须带上表单字段({@link okhttp3.MultipartBody.Part} 中已经包含了表单字段的信息)，
+     * @param file
+     * @return
+     */
+    @POST(&quot;/asd&quot;)
+    @Multipart
+    Observable&lt;LoginResponse&gt; testPart(@Part(&quot;name&quot;) RequestBody name, @Part(&quot;age&quot;) RequestBody age, @Part MultipartBody.Part file);
+
+
+    /**
+     * 用于 @GET 方法的查询参数（Query = Url 中 ‘?’ 后面的 key-value）
+     * url = http://www.println.net/?cate=android，其中，Query = cate
+     *
+     * @param cate
+     * @return
+     */
+    @GET
+    Observable&lt;LoginResponse&gt; useQuery(@Query(&quot;cate&quot;) String cate);
+
+    /**
+     * 表单形式上传文件，添加参数到RequestBody
+     *
+     * @param map
+     * @param file
+     * @return
+     */
+    @POST(&quot;asds&quot;)
+    @Multipart
+    Observable&lt;LoginResponse&gt; testPartMap(@PartMap Map&lt;String, RequestBody&gt; map, @Part MultipartBody.Part file);
+
+    /**
+     * 添加固定参数的请求头
+     *
+     * @param request
+     * @param name
+     * @return
+     */
+    @POST(&quot;/post&quot;)
+    @Headers(&quot;plat: 1&quot;)
+    @FormUrlEncoded
+    Observable&lt;LoginResponse&gt; testForm(@Body LoginRequest request, @Field(&quot;userName&quot;) String name);
+
+    @POST
+    Observable&lt;RegisterResponse&gt; register(@Body RegisterRequest request);
+
+    @POST
+    @Multipart
+    Observable&lt;RegisterResponse&gt; testMuilt(@Body RegisterRequest request, @Part(&quot;name&quot;) RequestBody name, @Part MultipartBody.Part file);
+
+    @POST
+    Observable&lt;BookInfoResponse&gt; getBookInfo(@Body BookInfoRequest request);
+
+    @POST
+    Observable&lt;BookCommentResponse&gt; getBookComment(@Body BookCommentRequest request);
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/01/Rxjava2.0笔记-001-基本使用/" rel="next" title="Rxjava2.0笔记-001-基本使用">
+                <i class="fa fa-chevron-left"></i> Rxjava2.0笔记-001-基本使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/03/Rxjava2.0笔记-002-创建操作符/" rel="prev" title="Rxjava2.0笔记-002-创建操作符">
+                Rxjava2.0笔记-002-创建操作符 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

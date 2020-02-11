@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Behavior是CoordinatorLayout的一个抽象内部类 public abstract static class Behavior&amp;lt;V extends View&amp;gt; {       public Behavior() {       }        public Behavior(Context context, AttributeSet attrs) {       }">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义behavior">
+<meta property="og:url" content="http://yoursite.com/2019/03/28/自定义behavior/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="Behavior是CoordinatorLayout的一个抽象内部类 public abstract static class Behavior&amp;lt;V extends View&amp;gt; {       public Behavior() {       }        public Behavior(Context context, AttributeSet attrs) {       }">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-11T08:51:17.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义behavior">
+<meta name="twitter:description" content="Behavior是CoordinatorLayout的一个抽象内部类 public abstract static class Behavior&amp;lt;V extends View&amp;gt; {       public Behavior() {       }        public Behavior(Context context, AttributeSet attrs) {       }">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/28/自定义behavior/">
+
+
+
+
+
+  <title>自定义behavior | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/自定义behavior/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">自定义behavior</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T17:20:34+08:00">
+                2019-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Behavior是CoordinatorLayout的一个抽象内部类</p>
+<pre><code>public abstract static class Behavior&lt;V extends View&gt; {
+      public Behavior() {
+      }
+
+      public Behavior(Context context, AttributeSet attrs) {
+      }
+      ...
+}</code></pre><a id="more"></a>
+
+
+<p>泛型对应的就是监听的view</p>
+<p>自定义behavior有两种情况</p>
+<blockquote>
+<p>1.某个view监听另一个view的状态变化，例如大小、位置、显示状态等</p>
+<blockquote>
+<ul>
+<li>layoutDependsOn  方法</li>
+<li>onDependentViewChanged  方法</li>
+</ul>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>2.某个view监听CoordinatorLayout里的滑动状态</p>
+<blockquote>
+<ul>
+<li>onStartNestedScroll    方法</li>
+<li>onNestedPreScroll 方法</li>
+</ul>
+</blockquote>
+</blockquote>
+<p>下面定义一个behavior ，实现一个view监控另一个view实现滑动</p>
+<pre><code>public class MyBehavior extends CoordinatorLayout.Behavior&lt;View&gt; {
+
+    public MyBehavior(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    @Override
+    public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
+        return super.layoutDependsOn(parent, child, dependency);
+    }
+
+    @Override
+    public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
+        ViewCompat.offsetLeftAndRight();
+        return super.onDependentViewChanged(parent, child, dependency);
+    }
+}</code></pre><p>带有两个参数的这个构造必须重载，因为在CoordinatorLayout里利用反射去获取这个Behavior的时候就是拿的这个构造。重两个方法layoutDependsOn和onDependentViewChanged，这两个方法的参数都是一样的，第二个参数是我们设置这个Behavior的View，第三个是我们关心的那个View。如何知道关心的哪个呢？layoutDependsOn的返回值决定了一切！</p>
+<p>比如一个TextView</p>
+<pre><code>@Override
+public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
+    return dependency instanceof TextView;
+}</code></pre><p>设置了关心谁，就是在该view状态发生变化时我们的view要做出一些变化</p>
+<pre><code>@Override
+public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
+    child.setX(dependency.getX()+200);
+    child.setY(dependency.getY()+200);
+    child.setText(dependency.getX()+&quot;,&quot;+dependency.getY());
+    return true;
+}</code></pre><p>获取两个View的距离顶部值的差，然后让child的位置进行移动</p>
+<p>那么xml我么可以这样写</p>
+<pre><code>&lt;android.support.design.widget.CoordinatorLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;Button
+        android:onclick=&quot;click&quot;
+        android:id=&quot;@+id/button&quot;
+        android:layout_width=&quot;100dp&quot;
+        android:layout_height=&quot;100dp&quot;
+        android:background=&quot;#57caa1&quot;
+        android:gravity=&quot;center&quot;
+        android:textColor=&quot;#fff&quot;
+        android:layout_gravity=&quot;top|left&quot;
+        android:text=&quot;啊哈&quot;/&gt;
+
+    &lt;TextView
+        android:layout_width=&quot;100dp&quot;
+        android:layout_height=&quot;100dp&quot;
+        android:background=&quot;#F26D7E&quot;
+        android:gravity=&quot;center&quot;
+        android:textColor=&quot;@android:color/white&quot;
+        android:layout_gravity=&quot;top|right&quot;
+        app:layout_behavior=&quot;com.emplme.MytBehavior&quot;
+        android:text=&quot;555666&quot;/&gt;
+&lt;/android.support.design.widget.CoordinatorLayout&gt;</code></pre><p>第二个textView就是我们的view设置了我们自定义的behavior</p>
+<p>然后</p>
+<pre><code>@Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    findViewById(R.id.button).setOnTouchListener(new View.OnTouchListener() {
+      @Override public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()){
+
+          case MotionEvent.ACTION_MOVE:
+            v.setX(event.getRawX()-v.getWidth()/2);
+            v.setY(event.getRawY()-v.getHeight()/2);
+            break;
+        }
+        return false;
+      }
+    });
+
+  }
+</code></pre><p>接下来第二种情况</p>
+<pre><code>public class ScrollBehavior extends CoordinatorLayout.Behavior&lt;View&gt; {
+
+    public ScrollBehavior(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    @Override
+    public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
+        return super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
+    }
+
+    @Override
+    public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dx, int dy, int[] consumed) {
+        super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
+    }
+
+    @Override
+    public boolean onNestedPreFling(CoordinatorLayout coordinatorLayout, View child, View target, float velocityX, float velocityY) {
+        return super.onNestedPreFling(coordinatorLayout, child, target, velocityX, velocityY);
+    }
+}</code></pre><p>onStartNestedScroll返回值表示要不要关心CoordinatorLayout滑动，那个方向的</p>
+<pre><code>@Override
+public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
+    return (nestedScrollAxes &amp; ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
+}
+当然我们这是Y轴方向的</code></pre><p>onNestedPreScroll关于滑动的处理</p>
+<pre><code>@Override
+public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dx, int dy, int[] consumed) {
+    super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
+    int leftScrolled = target.getScrollY();
+    child.setScrollY(leftScrolled);
+}</code></pre><p>列子如下：</p>
+<pre><code>public class ScrollAwareFABBehavior extends CoordinatorLayout.Behavior&lt;View&gt; {
+
+    private static final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
+    private boolean mIsAnimatingOut = false;
+
+    public ScrollAwareFABBehavior(Context context, AttributeSet attrs) {
+        super();
+    }
+
+
+    @Override
+    public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) {
+        return axes == ViewCompat.SCROLL_AXIS_VERTICAL;
+
+    }
+
+    @Override
+    public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
+        super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type);
+
+        if (dy&gt;0 &amp;&amp; !this.mIsAnimatingOut &amp;&amp; child.getVisibility() == View.VISIBLE) {
+            animateOut(child);
+        } else if (dy &lt; 0 &amp;&amp; child.getVisibility() != View.VISIBLE) {
+            animateIn(child);
+        }
+    }
+
+    private void animateOut(final View button) {
+
+        ViewCompat.animate(button).translationY(button.getHeight() + getMarginBottom(button)).setInterpolator(INTERPOLATOR).withLayer()
+                .setListener(new ViewPropertyAnimatorListener() {
+                    @Override
+                    public void onAnimationStart(View view) {
+                        ScrollAwareFABBehavior.this.mIsAnimatingOut = true;
+                    }
+
+                    @Override
+                    public void onAnimationEnd(View view) {
+                        ScrollAwareFABBehavior.this.mIsAnimatingOut = false;
+                        view.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(View view) {
+                        ScrollAwareFABBehavior.this.mIsAnimatingOut = false;
+                    }
+                }).start();
+    }
+
+    private void animateIn(View button) {
+        button.setVisibility(View.VISIBLE);
+        ViewCompat.animate(button).translationY(0)
+                .setInterpolator(INTERPOLATOR).withLayer().setListener(null)
+                .start();
+    }
+
+    private int getMarginBottom(View v) {
+        int marginBottom = 0;
+        final ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+            marginBottom = ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
+        }
+        return marginBottom;
+    }
+
+}
+
+</code></pre><p>结尾在放上一些自定义behavior的炫酷效果</p>
+<blockquote>
+<p> <a href="http://androidwing.net/index.php/70" target="_blank" rel="noopener">CoordinatorLayout 自定义Behavior并不难，由简到难手把手带你撸三款</a><br> <a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0717/3196.html" target="_blank" rel="noopener">CoordinatorLayout与滚动的处理–基础</a><br> <a href="http://blog.csdn.net/tiankong1206/article/details/48394393" target="_blank" rel="noopener">自定义CoordinatorLayout的Behavior实现知乎和简书快速返回效果</a><br> <a href="http://blog.csdn.net/qibin0506/article/details/50290421" target="_blank" rel="noopener"> CoordinatorLayout高级用法-自定义Behavior</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/24/android使用jenkins进行自动化打包并且上传到fir或者蒲公英/" rel="next" title="android使用jenkins进行自动化打包并且上传到fir或者蒲公英">
+                <i class="fa fa-chevron-left"></i> android使用jenkins进行自动化打包并且上传到fir或者蒲公英
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/29/自定义view测量onMeasure梳理/" rel="prev" title="自定义view测量onMeasure梳理">
+                自定义view测量onMeasure梳理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

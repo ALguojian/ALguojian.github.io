@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 使用interval进行轮询操作，类似于请求用户消息（之前一直使用handler） /**      * 轮询查询接口-使用操作符interval      * 此处主要展示无限次轮询，若要实现有限次轮询，仅需将interval（）改成intervalRange（）即可      */     private void init() {         /**          * 参数说明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rxjava2.0笔记-003-操作符-搭配Retrofit">
+<meta property="og:url" content="http://yoursite.com/2019/03/04/Rxjava2.0笔记-003-操作符-搭配Retrofit/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="1. 使用interval进行轮询操作，类似于请求用户消息（之前一直使用handler） /**      * 轮询查询接口-使用操作符interval      * 此处主要展示无限次轮询，若要实现有限次轮询，仅需将interval（）改成intervalRange（）即可      */     private void init() {         /**          * 参数说明">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-11T08:53:44.338Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rxjava2.0笔记-003-操作符-搭配Retrofit">
+<meta name="twitter:description" content="1. 使用interval进行轮询操作，类似于请求用户消息（之前一直使用handler） /**      * 轮询查询接口-使用操作符interval      * 此处主要展示无限次轮询，若要实现有限次轮询，仅需将interval（）改成intervalRange（）即可      */     private void init() {         /**          * 参数说明">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/04/Rxjava2.0笔记-003-操作符-搭配Retrofit/">
+
+
+
+
+
+  <title>Rxjava2.0笔记-003-操作符-搭配Retrofit | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/04/Rxjava2.0笔记-003-操作符-搭配Retrofit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Rxjava2.0笔记-003-操作符-搭配Retrofit</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-04T17:20:34+08:00">
+                2019-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-使用interval进行轮询操作，类似于请求用户消息（之前一直使用handler）"><a href="#1-使用interval进行轮询操作，类似于请求用户消息（之前一直使用handler）" class="headerlink" title="1. 使用interval进行轮询操作，类似于请求用户消息（之前一直使用handler）"></a>1. 使用<code>interval</code>进行轮询操作，类似于请求用户消息（之前一直使用handler）</h3><pre><code> /**
+     * 轮询查询接口-使用操作符interval
+     * 此处主要展示无限次轮询，若要实现有限次轮询，仅需将interval（）改成intervalRange（）即可
+     */
+    private void init() {
+        /**
+         * 参数说明：
+         * 参数1==第一次延迟时间，1秒后发送查询请求
+         * 参数2==间隔时间
+         * 参数3==实践单位
+         * 该例子发送的事件特点：延迟2s后发送事件，每隔1秒产生1个数字（从0开始递增1，无限个）
+         */
+        Observable.interval(2, 1, TimeUnit.SECONDS)
+                /**
+                 * 步骤2：每次发送数字前发送1次网络请求（doOnNext（）在执行Next事件前调用）
+                 * 即每隔1秒产生1个数字前，就发送1次网络请求，从而实现轮询需求
+                 */
+                .doOnNext(aLong -&gt; {
+                    KLog.d(TTAG, &quot;第&quot; + aLong + &quot;次查询&quot;);
+
+                    retrofitApi.getCall()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Observer&lt;Translation&gt;() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
+                                    //切断
+                                    d.dispose();
+                                }
+                                @Override
+                                public void onNext(Translation translation) {
+                                    translation.show();
+                                }
+                                @Override
+                                public void onError(Throwable e) {
+                                    KLog.d(TTAG, &quot;请求失败了：失败原因是：&quot; + e.getMessage());
+                                }
+                                @Override
+                                public void onComplete() {
+                                    KLog.d(TTAG, &quot;本次请求结束了&quot;);
+                                }
+                            });
+
+                }).subscribe(aLong -&gt; {
+
+            KLog.d(TTAG, &quot;接收到请求，这是第&quot; + aLong + &quot;次&quot;);
+
+        });
+
+    }</code></pre><a id="more"></a>
+
+<h3 id="2-变换操作符，对时间序列进行加工处理，使其转变成不同的事件-序列"><a href="#2-变换操作符，对时间序列进行加工处理，使其转变成不同的事件-序列" class="headerlink" title="2. 变换操作符，对时间序列进行加工处理，使其转变成不同的事件/序列"></a>2. 变换操作符，对时间序列进行加工处理，使其转变成不同的事件/序列</h3><p>常用变换操作符有：</p>
+<ul>
+<li>map（）</li>
+<li>flatMap（）</li>
+<li>concatMap（）</li>
+<li>buffer（）</li>
+</ul>
+<h4 id="2-1-Map（）"><a href="#2-1-Map（）" class="headerlink" title="2.1 Map（）"></a>2.1 Map（）</h4><p>作用：对 被观察者发送的每1个事件都通过 指定的函数 处理，从而变换成另外一种事件，<br>即， 将被观察者发送的事件转换为任意的类型事件。</p>
+<p>例子如下：使用map（）操作符使事件参数从整形变换成字符串类型</p>
+<pre><code>  Observable.create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; {
+
+            emitter.onNext(1);
+            emitter.onNext(2);
+            emitter.onNext(3);
+        }).map(integer -&gt;
+                &quot;这是发送的第&quot; + integer + &quot;条消息&quot;)
+                .subscribe(s -&gt;
+                        KLog.d(TTAG, &quot;接收事件：：&quot; + s));</code></pre><h4 id="2-2-flatMap（）"><a href="#2-2-flatMap（）" class="headerlink" title="2.2 flatMap（）"></a>2.2 flatMap（）</h4><p>作用：将被观察者发送的事件序列进行 拆分 &amp; 单独转换，再合并成一个新的事件序列，最后再进行发送<br>无序的将被观察者发送的整个事件序列进行变换</p>
+<pre><code> private void flatMap() {
+
+        Observable.create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; {
+            emitter.onNext(1);
+            emitter.onNext(2);
+            emitter.onNext(3);
+        }).flatMap(integer -&gt; {
+            final ArrayList&lt;String&gt; strings = new ArrayList&lt;&gt;();
+            for (int i = 0; i &lt; 3; i++) {
+                strings.add(&quot;我是事件&quot;+integer+&quot;拆分后的子事件&quot;+i);
+            }
+            return Observable.fromIterable(strings);
+
+        }).subscribe(s -&gt; {
+
+            KLog.d(TTAG, s);
+        });
+
+    }</code></pre><h4 id="2-3-ConcatMap（）"><a href="#2-3-ConcatMap（）" class="headerlink" title="2.3 ConcatMap（）"></a>2.3 ConcatMap（）</h4><p>作用：<br>类似于flatMap（），不过是有序的</p>
+<blockquote>
+<p>新合并生成的事件序列顺序是有序的，即 严格按照旧序列发送事件的顺序</p>
+</blockquote>
+<p>日志如下：</p>
+<pre><code>(Main3Activity.java:61)#lambda$flatMap$2$Main3Activity ] 我是事件1拆分后的子事件0
+(Main3Activity.java:61)#lambda$flatMap$2$Main3Activity ] 我是事件1拆分后的子事件1
+(Main3Activity.java:61)#lambda$flatMap$2$Main3Activity ] 我是事件1拆分后的子事件2
+(Main3Activity.java:61)#lambda$flatMap$2$Main3Activity ] 我是事件2拆分后的子事件0
+(Main3Activity.java:61)#lambda$flatMap$2$Main3Activity ] 我是事件2拆分后的子事件1
+(Main3Activity.java:61)#lambda$flatMap$2$Main3Activity ] 我是事件2拆分后的子事件2
+(Main3Activity.java:61)#lambda$flatMap$2$Main3Activity ] 我是事件3拆分后的子事件0
+(Main3Activity.java:61)#lambda$flatMap$2$Main3Activity ] 我是事件3拆分后的子事件1
+(Main3Activity.java:61)#lambda$flatMap$2$Main3Activity ] 我是事件3拆分后的子事件2
+</code></pre><p>实例：接口嵌套</p>
+<pre><code> /**
+     * 接口合并，实例，注册登录
+     */
+    private void concatMap() {
+
+        retrofitApi.getCall().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(translation -&gt; {
+                    translation.show();
+                }).observeOn(Schedulers.io())//注册线程结束，作为新的观察者，切换到io此线程（理应为设置subscribeOn(Schedulers.io())）
+                //作为观察者，下面又有新的观察者，他就作为老的观察者，也就是新的被观察者，所以调控线程用observeOn(Schedulers.io())
+                .concatMap(translation -&gt;
+                        //添加注册失败是的判断返回空对象
+                        null != translation ? retrofitApi.getCall() : Observable.empty())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(translation -&gt; {
+                    translation.show();
+                }, throwable -&gt; {
+                    KLog.d(TTAG, throwable.getMessage());
+                });
+    }
+
+</code></pre><h4 id="2-4-buffer（）"><a href="#2-4-buffer（）" class="headerlink" title="2.4 buffer（）"></a>2.4 buffer（）</h4><blockquote>
+<p>作用：定期从 被观察者（Obervable）需要发送的事件中 获取一定数量的事件 &amp; 放到缓存区中，最终发送</p>
+</blockquote>
+<pre><code> /**
+     * buffer 操作符接受两个参数，buffer(count,skip)，
+     * 作用是将 Observable 中的数据按 skip (步长) 分成最大不超过 count 的 buffer ，然后生成一个  Observable 。
+     * &lt;p&gt;
+     * 意思就是取count个，发射之后，重头开始跳过skip个，在选count个发射，一直到最后一个
+     */
+    private void buffer() {
+
+        Observable.just(1,2,3,4,5,6,7)
+                .buffer(3,1)//设置缓存区大小==每次从被观察者中获取的事件数量
+        //步长：每次获取新事件数量
+        .subscribe(integers -&gt; {
+
+            KLog.d(TTAG, &quot;缓存区数量&quot;+integers.size());
+            for (Integer integer : integers) {
+                KLog.d(TTAG, &quot;事件&quot;+integer);
+            }
+        });
+    }
+</code></pre><h3 id="3-组合操作符"><a href="#3-组合操作符" class="headerlink" title="3. 组合操作符"></a>3. 组合操作符</h3><h4 id="3-1-concat-以及concatArray"><a href="#3-1-concat-以及concatArray" class="headerlink" title="3.1 concat()以及concatArray()"></a>3.1 concat()以及concatArray()</h4><blockquote>
+<p>作用：组合多个被观察者一起发送数据，合并后 按发送顺序串行执行</p>
+</blockquote>
+<blockquote>
+<p>二者区别：组合被观察者的数量，即concat（）组合被观察者数量≤4个，而concatArray（）则可＞4个</p>
+</blockquote>
+<pre><code>  /**
+     * 该类型的操作符的作用 = 组合多个被观察者
+     * 组合多个被观察者一起发送数据，合并后 按发送顺序串行执行
+     *concat()
+     * concatArray()
+     */
+    private void concat() {
+
+        Observable.concat(Observable.just(1,2)//发射者数量不超过4个
+        ,Observable.just(3,4)
+        ,Observable.just(7,8))
+                .subscribe(integer -&gt; {
+                });
+
+
+        Observable.concatArray(Observable.just(1,2)//被观察者数量不受限制
+        ,Observable.just(4,5)
+        ,Observable.just(7,8)
+        ,Observable.just(3,6))
+                .subscribe(integer -&gt; {
+
+                });
+    }</code></pre><h4 id="3-2-merge-以及mergeArray"><a href="#3-2-merge-以及mergeArray" class="headerlink" title="3.2 merge()以及mergeArray()"></a>3.2 merge()以及mergeArray()</h4><blockquote>
+<p>作用：组合多个被观察者一起发送数据，合并后 按时间线并行执行</p>
+</blockquote>
+<blockquote>
+<p>区别为：merge()组合被观察者数量小于等于4，合并后按时间线执行</p>
+</blockquote>
+<pre><code> /**
+     * 合并发射者，按时间线执行
+     */
+    private void merge() {
+
+        Observable.merge(
+                //延迟发送操作符
+                //从0开始发送，工发送3个数据，第一次发件延迟时间1秒。间隔时间1s
+                //
+                Observable.intervalRange(0,3,1,1,TimeUnit.SECONDS),
+                Observable.intervalRange(2,3,1,1,TimeUnit.SECONDS)
+        ).subscribe(aLong -&gt; {
+
+        });
+
+    }
+</code></pre><h4 id="3-3-concatDelayError-以及mergeDelayError"><a href="#3-3-concatDelayError-以及mergeDelayError" class="headerlink" title="3.3 concatDelayError()以及mergeDelayError()"></a>3.3 concatDelayError()以及mergeDelayError()</h4><blockquote>
+<p>作用：使用conat以及merge操作符时，如果某个发射者发出error()时间，则会总结整个流程，我们希望onError（）事件推迟到其他发射者都发送完时间之后后才会触发，即可使用<code>concatDelayError()</code>以及<code>mergeDelayError()</code></p>
+</blockquote>
+<pre><code> /**
+     * 使用conat以及merge操作符时，如果某个发射者发出error()时间，则会总结整个流程，
+     * 我们希望onError（）事件推迟到其他发射者都发送完时间之后后才会触发，
+     * 即可使用` concatDelayError()`以及`mergeDelayError()`
+     */
+    private void concatArrayDelayErrorTest() {
+
+        Observable.concatArrayDelayError(Observable.create(emitter -&gt; {
+
+            emitter.onNext(1);
+            emitter.onNext(2);
+            emitter.onNext(3);
+            // 发送Error事件，因为使用了concatDelayError，所以第2个Observable将会发送事件，等发送完毕后，再发送错误事件
+            emitter.onError(new NullPointerException());
+            emitter.onComplete();
+
+        }),Observable.just(4,5,6))
+                .subscribe(integer -&gt; {
+                });
+    }</code></pre><h3 id="4-合并多个事件"><a href="#4-合并多个事件" class="headerlink" title="4. 合并多个事件"></a>4. 合并多个事件</h3><blockquote>
+<p>作用：该类型的操作符主要是对多个发射者中的事件进行合并处理</p>
+</blockquote>
+<h4 id="4-1-zip-操作符"><a href="#4-1-zip-操作符" class="headerlink" title="4.1 zip()操作符"></a>4.1 zip()操作符</h4><p>作用：合并 多个被观察者（Observable）发送的事件，生成一个新的事件序列（即组合过后的事件序列），并最终发送</p>
+<pre><code> /**
+     * zip，可以用于接口合并
+     * 操作符使用例子
+     * zip 专用于合并事件，该合并不是连接（连接操作符后面会说），
+     * 而是两两配对，也就意味着，最终配对出的 Observable 发射事件数目只和少的那个相同。
+     * &lt;p&gt;
+     * zip 组合事件的过程就是分别从发射器 A 和发射器 B 各取出一个事件来组合，并且一个事件只能被使用一次，
+     * 组合的顺序是严格按照事件发送的顺序来进行的，所以上面截图中，可以看到，1 永远是和 A 结合的，2 永远是和 B 结合的
+     */
+    public static void useZip() {
+
+        Observable.zip(getStringObservable(), getIntegerObservable(),
+                (s, integer) -&gt; s + integer).subscribe(s -&gt; KLog.d(TTAG, &quot;新的消息字段是&quot; + s));
+    }
+
+    private static Observable&lt;String&gt; getStringObservable() {
+        return Observable.create((ObservableOnSubscribe&lt;String&gt;) e -&gt; {
+            if (!e.isDisposed()) {
+                aaa.append(&quot;asd&quot;);
+                e.onNext(&quot;A&quot;);
+                aaa.append(&quot;asd&quot;);
+                e.onNext(&quot;B&quot;);
+                aaa.append(&quot;asd&quot;);
+                aaa.append(&quot;zxczxc&quot;);
+                e.onNext(&quot;C&quot;);
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    private static Observable&lt;Integer&gt; getIntegerObservable() {
+        return Observable.create((ObservableOnSubscribe&lt;Integer&gt;) e -&gt; {
+            if (!e.isDisposed()) {
+
+                e.onNext(1);
+                aaa.append(&quot;--&quot; + 1);
+
+                e.onNext(2);
+                aaa.append(&quot;--&quot; + 2);
+
+                e.onNext(3);
+                aaa.append(&quot;--&quot; + 3);
+
+                e.onNext(4);
+                aaa.append(&quot;--&quot; + 4);
+
+                e.onNext(5);
+                aaa.append(&quot;--&quot; + 5);
+            }
+        }).subscribeOn(Schedulers.io());
+    }</code></pre><h4 id="4-2-combineLatest"><a href="#4-2-combineLatest" class="headerlink" title="4.2 combineLatest()"></a>4.2 combineLatest()</h4><blockquote>
+<p>作用：当两个Observables中的任何一个发送了数据后，将先发送了数据的Observables 的最新（最后）一个数据 与 另外一个Observable发送的每个数据结合，最终基于该函数的结果发送数据</p>
+</blockquote>
+<pre><code> /**
+     * 当两个Observables中的任何一个发送了数据后，
+     * 将先发送了数据的Observables 的最新（最后）一个数据 与
+     * 另外一个Observable发送的每个数据结合，最终基于该函数的结果发送数据
+     */
+    private void combineLatest() {
+
+        Observable.combineLatest(
+                Observable.just(1L, 2L, 3L, 4L, 5L),
+                Observable.intervalRange(0, 3, 1, 1, TimeUnit.SECONDS),
+                (aLong, aLong2) -&gt; {
+                    KLog.d(TTAG, aLong);
+                    KLog.d(TTAG, aLong2);
+                    return aLong+aLong2;
+                }
+        ).subscribe(aLong -&gt; {
+            KLog.d(TTAG, aLong);
+        });
+
+    }
+</code></pre><p>事件接收结果是：</p>
+<pre><code>3  0
+3
+3  1
+4
+3  2
+5</code></pre><h4 id="4-3-reduce（）"><a href="#4-3-reduce（）" class="headerlink" title="4.3 reduce（）"></a>4.3 reduce（）</h4><blockquote>
+<p>作用：把被观察者需要发送的事件聚合成1个事件 &amp; 发送</p>
+</blockquote>
+<pre><code>/**
+     * 每次用一个方法处理一个值，可以有一个 seed 作为初始值
+     */
+    public static void useReduce() {
+
+        Observable.just(1, 2, 3, 4)
+                .reduce((integer, integer2) -&gt; {
+                    KLog.d(TTAG, integer + &quot;&quot;);
+                    KLog.d(TTAG, integer2 + &quot;&quot;);
+
+                    //是所有事件相加
+                    return integer + integer2;
+                }).subscribe(integer -&gt; KLog.d(TTAG, integer + &quot;&quot;));
+    }
+</code></pre><h4 id="4-4-collect"><a href="#4-4-collect" class="headerlink" title="4.4 collect()"></a>4.4 collect()</h4><blockquote>
+<p>作用：将被观察者<code>Observable</code>发送的时间收集到一个数据结构里面</p>
+</blockquote>
+<pre><code>  /**
+     * 将被观察者Observable发送的数据事件收集到一个数据结构里
+     */
+    private void collect() {
+
+        Observable.just(1,2,3,4,5,6,7,8)
+                .collect((Callable&lt;ArrayList&lt;Integer&gt;&gt;) () -&gt;
+                        new ArrayList&lt;&gt;(),
+                        (integers, integer) -&gt; {
+                    integers.add(integer);
+                }).subscribe(integers -&gt;
+                KLog.d(TTAG, integers.toString()));
+
+    }
+</code></pre><h3 id="5-发送事件前追加发送事件"><a href="#5-发送事件前追加发送事件" class="headerlink" title="5. 发送事件前追加发送事件"></a>5. 发送事件前追加发送事件</h3><h4 id="5-1-startWIth（）以及-startWithArray（）"><a href="#5-1-startWIth（）以及-startWithArray（）" class="headerlink" title="5.1 startWIth（）以及 startWithArray（）"></a>5.1 startWIth（）以及 startWithArray（）</h4><blockquote>
+<p>作用： 在一个被观察者发送事件前，追加发送一些数据 / 一个新的被观察者</p>
+</blockquote>
+<pre><code>  /**
+     *  在一个被观察者发送事件前，追加发送一些数据
+     *  后追加，先调用，组合模式
+     */
+    private void startWith() {
+
+        Observable.just(2,3,4,5)
+                .startWith(0)
+                .startWith(Observable.just(7,8))
+                .startWithArray(1)
+                .subscribe(integer -&gt; {
+
+                });
+    }
+</code></pre><h3 id="6-统计发送事件数量"><a href="#6-统计发送事件数量" class="headerlink" title="6. 统计发送事件数量"></a>6. 统计发送事件数量</h3><h4 id="6-1-count（）"><a href="#6-1-count（）" class="headerlink" title="6.1 count（）"></a>6.1 count（）</h4><blockquote>
+<p>作用：统计被观察者发送事件的数量</p>
+</blockquote>
+<pre><code>/**
+     * 统计被观察者发送事件的数量
+     */
+    private void count() {
+
+        Observable.just(1,2,3,4)
+                .count()
+                .subscribe(aLong -&gt; {
+                    KLog.d(TTAG, &quot;发送事件数量是：&quot;+aLong);
+
+                });
+    }</code></pre><h3 id="7-在事件的生命周期中操作"><a href="#7-在事件的生命周期中操作" class="headerlink" title="7. 在事件的生命周期中操作"></a>7. 在事件的生命周期中操作</h3><p>在事件发送以及接收的整个生命周期中进行操作，如发送时间前的初始化，发送事件后的回调请求等</p>
+<h4 id="7-1-操作符-do（-）"><a href="#7-1-操作符-do（-）" class="headerlink" title="7.1 操作符 do（ ）"></a>7.1 操作符 do（ ）</h4><p>作用：在某个时间的生命周期中调用</p>
+<p>类型分为：</p>
+<ul>
+<li><p>当Observable每发送一次数据事件就会调用1次</p>
+<ul>
+<li>doOnEach（）</li>
+<li>含onNext（）、onError（）和onCompleted（）</li>
+</ul>
+</li>
+<li><p>Next事件</p>
+<ul>
+<li>执行Next事件前调用- doOnNext( )</li>
+<li>执行Next事件后调用- doAfterNext（）</li>
+</ul>
+</li>
+<li><p>发送事件完毕后调用</p>
+<ul>
+<li>发送错误事件后- doOnError（）</li>
+<li>正常发送事件完毕后- doOnCompleted（）</li>
+<li>无论正常发送完毕或者异常终止-doOnTerminate（）</li>
+<li>最后执行： doFinally（）</li>
+</ul>
+</li>
+<li><p>订阅相关：</p>
+<ul>
+<li>观察者订阅时调用-doOnSubscribe（）</li>
+<li>观察者取消订阅时调用- doOnUnsubscribe（）</li>
+</ul>
+</li>
+</ul>
+<p>具体代码如下：</p>
+<pre><code> /**
+     * do操作符
+     */
+    private void useDo() {
+
+        Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() {
+            @Override
+            public void subscribe(ObservableEmitter&lt;Integer&gt; emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+                emitter.onError(new Throwable(&quot;发送错误&quot;));
+            }
+            //1. 当Observable每发送1次数据事件就会调用1次
+        }).doOnEach(new Consumer&lt;Notification&lt;Integer&gt;&gt;() {
+            @Override
+            public void accept(Notification&lt;Integer&gt; integerNotification) throws Exception {
+
+                KLog.d(TTAG, &quot;doOnEach:&quot; + integerNotification);
+            }
+            // 2. 执行Next事件前调用
+        }).doOnNext(new Consumer&lt;Integer&gt;() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                KLog.d(TTAG, &quot;doOnNext:&quot; + integer);
+            }
+            //3.执行Next事件后调用
+        }).doAfterNext(new Consumer&lt;Integer&gt;() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+
+            }
+        }).doOnComplete(new Action() {
+            @Override
+            public void run() throws Exception {
+                KLog.d(TTAG, &quot;doOnCompleted:&quot;);
+            }
+        }).doOnError(new Consumer&lt;Throwable&gt;() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+
+                KLog.d(TTAG, &quot;doOnError:&quot; + throwable.getMessage());
+            }
+        }).doOnSubscribe(new Consumer&lt;Disposable&gt;() {
+            @Override
+            public void accept(Disposable disposable) throws Exception {
+                KLog.d(TTAG, &quot;doOnSubscribe:&quot;);
+            }
+        }).doAfterTerminate(new Action() {
+            @Override
+            public void run() throws Exception {
+                KLog.d(TTAG, &quot;doAfterTerminate&quot;);
+            }
+        }).doFinally(new Action() {
+            @Override
+            public void run() throws Exception {
+                KLog.d(TTAG, &quot;doFinally&quot;);
+            }
+        }).subscribe(new Observer&lt;Integer&gt;() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                KLog.d(TTAG, &quot;开始发射了&quot;);
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                KLog.d(TTAG, &quot;接收到事件：&quot; + integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                KLog.d(TTAG, &quot;发生错误了：&quot; + e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                KLog.d(TTAG, &quot;处理完成了&quot;);
+            }
+        });
+
+    }
+
+(Main3Activity.java:116)#accept ] doOnSubscribe:
+(Main3Activity.java:131)#onSubscribe ] 开始发射了
+(Main3Activity.java:88)#accept ] doOnEach:OnNextNotification[1]
+(Main3Activity.java:94)#accept ] doOnNext:1
+(Main3Activity.java:136)#onNext ] 接收到事件：1
+(Main3Activity.java:88)#accept ] doOnEach:OnNextNotification[2]
+(Main3Activity.java:94)#accept ] doOnNext:2
+(Main3Activity.java:136)#onNext ] 接收到事件：2
+ (Main3Activity.java:88)#accept ] doOnEach:OnNextNotification[3]
+(Main3Activity.java:94)#accept ] doOnNext:3
+(Main3Activity.java:136)#onNext ] 接收到事件：3
+(Main3Activity.java:88)#accept ] doOnEach:OnErrorNotification[java.lang.Throwable: 发送错误]
+(Main3Activity.java:111)#accept ] doOnError:发送错误
+(Main3Activity.java:141)#onError ] 发生错误了：发送错误
+(Main3Activity.java:126)#run ] doFinally
+(Main3Activity.java:121)#run ] doAfterTerminate
+</code></pre><h3 id="8-关于错误处理："><a href="#8-关于错误处理：" class="headerlink" title="8.  关于错误处理："></a>8.  关于错误处理：</h3><ul>
+<li>onErrorReturn( )</li>
+<li>onErrorResumeNext( )</li>
+<li>onExceptionResumeNext( )</li>
+<li>retry( )</li>
+<li>retryUntil( )</li>
+<li>retryWhen( )</li>
+</ul>
+<p>解决方案：</p>
+<ol>
+<li><p>发送数据：</p>
+<ul>
+<li><p>发送一个特殊事件&amp;正常终止- onErrorReturn( )</p>
+</li>
+<li><p>发送一个新的Observable，有如下两种：</p>
+<ul>
+<li>onErrorResumeNext( )</li>
+<li>onExceptionResumeNext( )</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>重试： </p>
+</li>
+</ol>
+<p>-直接重试  retry（）</p>
+<ul>
+<li><p>让Observable重新订阅 - retryUntil( )</p>
+</li>
+<li><p>将错误传递给另一个Observable来决定是否要重新订阅改Observable-  retryWhen( )</p>
+</li>
+</ul>
+<p>具体使用见下面代码：</p>
+<h4 id="8-1-onErrorReturn"><a href="#8-1-onErrorReturn" class="headerlink" title="8.1 onErrorReturn"></a>8.1 onErrorReturn</h4><pre><code>/**
+     * 关于错误的解决方案
+     */
+    private void onErrorReturn() {
+
+
+        /**
+         * 方案1
+         * 发送一个特殊书剑，正常结束
+         */
+        Observable.create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; {
+            emitter.onComplete();
+            emitter.onNext(1);
+            emitter.onNext(2);
+            emitter.onNext(3);
+            emitter.onNext(4);
+            emitter.onError(new Throwable(&quot;发生错误了&quot;));
+        }).onErrorReturn(throwable -&gt; {
+            KLog.d(TTAG, &quot;在onErrorReturn处理了错误::&quot; + throwable.getMessage());
+
+            //发生错误时发送一个事件，正常结束
+            return 666;
+        }).subscribe(new Observer&lt;Integer&gt;() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                KLog.d(TTAG, &quot;接收到事件：&quot; + integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                KLog.d(TTAG, &quot;失败了&quot;);
+            }
+
+            @Override
+            public void onComplete() {
+                KLog.d(TTAG, &quot;结束了&quot;);
+            }
+        });
+    }</code></pre><h4 id="8-2-onErrorResumeNext"><a href="#8-2-onErrorResumeNext" class="headerlink" title="8.2 onErrorResumeNext"></a>8.2 onErrorResumeNext</h4><pre><code> /**
+     * 方案2
+     * 发送新的eObservable
+     * 两种方式
+     * onErrorResumeNext( )拦截的错误=Throwable；需要拦截Exception使用下面的方式
+     * &lt;p&gt;
+     * onExceptionResumeNext( )如果拦截的错误=Exception，则会发送新的Observable，不会走onerror（）方法
+     * 如果拦截到Throwable错误，会将错误传递给观察者的onError方法，不在发送新的Observable
+     */
+    private void onErrorResumeNext() {
+
+        Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() {
+            @Override
+            public void subscribe(ObservableEmitter&lt;Integer&gt; emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+                emitter.onNext(4);
+                emitter.onError(new Throwable(&quot;发生错误了呢&quot;));
+            }
+        }).onErrorResumeNext(new Function&lt;Throwable, ObservableSource&lt;? extends Integer&gt;&gt;() {
+            @Override
+            public ObservableSource&lt;? extends Integer&gt; apply(Throwable throwable) throws Exception {
+
+                KLog.d(TTAG, &quot;onErrorResumeNext:&quot; + throwable.getMessage());
+
+                return Observable.just(7, 3, 6, 8);
+            }
+        }).subscribe(new Observer&lt;Integer&gt;() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+
+                KLog.d(TTAG, &quot;接收到事件：&quot; + integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                KLog.d(TTAG, &quot;失败了&quot;);
+            }
+
+            @Override
+            public void onComplete() {
+                KLog.d(TTAG, &quot;结束了&quot;);
+            }
+        });
+    }</code></pre><h4 id="8-3-onExceptionResumeNext"><a href="#8-3-onExceptionResumeNext" class="headerlink" title="8.3 onExceptionResumeNext"></a>8.3 onExceptionResumeNext</h4><pre><code> private void onExceptionResumeNext() {
+
+        Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() {
+            @Override
+            public void subscribe(ObservableEmitter&lt;Integer&gt; emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+                emitter.onNext(4);
+                emitter.onError(new Exception(&quot;发生错误了呢&quot;));
+            }
+        }).onExceptionResumeNext(new Observable&lt;Integer&gt;() {
+            @Override
+            protected void subscribeActual(Observer&lt;? super Integer&gt; observer) {
+
+                observer.onNext(11);
+                observer.onNext(22);
+                observer.onComplete();
+            }
+        }).subscribe(new Observer&lt;Integer&gt;() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+
+                KLog.d(TTAG, &quot;接收到事件：&quot; + integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                KLog.d(TTAG, &quot;失败了&quot;);
+            }
+
+            @Override
+            public void onComplete() {
+                KLog.d(TTAG, &quot;结束了&quot;);
+            }
+        });
+
+    }</code></pre><h4 id="8-4-retry"><a href="#8-4-retry" class="headerlink" title="8.4 retry"></a>8.4 retry</h4><pre><code> /**
+     * 当出现错误时，让被观察者（Observable）重新发射数据
+     * Throwable 和 Exception都可拦截
+     * &lt;p&gt;
+     * 1. retry（）
+     * 作用：出现错误时，让被观察者重新发送数据
+     * 注：若一直错误，则一直重新发送
+     * &lt;p&gt;
+     * 2. retry（long time）
+     * 作用：出现错误时，让被观察者重新发送数据（具备重试次数限制
+     * 参数 = 重试次数
+     * &lt;p&gt;
+     * 3. retry（Predicate predicate）
+     * 作用：出现错误后，判断是否需要重新发送数据（若需要重新发送&amp; 持续遇到错误，则持续重试）
+     * 参数 = 判断逻辑
+     * &lt;p&gt;
+     * 4. retry（new BiPredicate&lt;Integer, Throwable&gt;）
+     * 作用：出现错误后，判断是否需要重新发送数据（若需要重新发送 &amp; 持续遇到错误，则持续重试
+     * 参数 =  判断逻辑（传入当前重试次数 &amp; 异常错误信息）
+     * &lt;p&gt;
+     * 5. retry（long time,Predicate predicate）
+     * 作用：出现错误后，判断是否需要重新发送数据（具备重试次数限制
+     * 参数 = 设置重试次数 &amp; 判断逻辑
+     */
+    private void retry() {
+
+        Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() {
+            @Override
+            public void subscribe(ObservableEmitter&lt;Integer&gt; emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+                emitter.onError(new Throwable(&quot;发送错误了&quot;));
+                emitter.onNext(5);
+                emitter.onNext(6);
+            }
+            //遇到错误时，让被观察者重新发射数据（若一直错误，则一直重新发送
+        }).retry()
+                //遇到错误时，重试3次
+                .retry(3)
+                //拦截错误后，判断是否需要重新发送请求
+                .retry(new Predicate&lt;Throwable&gt;() {
+                    @Override
+                    public boolean test(Throwable throwable) throws Exception {
+                        KLog.d(TTAG, &quot;错误是：&quot; + throwable.getMessage());
+
+                        //返回false = 不重新重新发送数据 &amp; 调用观察者的onError结束
+                        //返回true = 重新发送请求（若持续遇到错误，就持续重新发送）
+                        return throwable.getMessage().equals(&quot;我是判定错误&quot;);
+                    }
+                    //出现错误后，判断是否需要重新发送数据（若需要重新发送 &amp; 持续遇到错误，则持续重试
+                    // 参数 =  判断逻辑（传入当前重试次数 &amp; 异常错误信息）
+                }).retry(new BiPredicate&lt;Integer, Throwable&gt;() {
+            @Override
+            public boolean test(Integer integer, Throwable throwable) throws Exception {
+                KLog.d(TTAG, &quot;错误是：&quot; + throwable.getMessage());
+                KLog.d(TTAG, &quot;重试次数是：&quot; + integer);
+
+                return true;
+            }
+            // 作用：出现错误后，判断是否需要重新发送数据（具备重试次数限制
+            // 参数 = 设置重试次数 &amp; 判断逻辑
+        }).retry(3, new Predicate&lt;Throwable&gt;() {
+            @Override
+            public boolean test(Throwable throwable) throws Exception {
+                KLog.d(TTAG, &quot;错误是：&quot; + throwable.getMessage());
+
+                //返回false = 不重新重新发送数据 &amp; 调用观察者的onError（）结束
+                //返回true = 重新发送请求（最多重新发送3次）
+                return true;
+            }
+        }).subscribe(new Observer&lt;Integer&gt;() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+
+    }
+</code></pre><h4 id="8-5-retryUntil"><a href="#8-5-retryUntil" class="headerlink" title="8.5 retryUntil"></a>8.5 retryUntil</h4><pre><code> /**
+     * 出现错误后，判断是否需要重新发送数据
+     * &lt;p&gt;
+     * 若需要重新发送 &amp; 持续遇到错误，则持续重试
+     * 作用类似于retry（Predicate predicate）
+     * 返回false就一直重试
+     * 返回true结束
+     */
+    private void retryUntil() {
+
+        Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() {
+            @Override
+            public void subscribe(ObservableEmitter&lt;Integer&gt; emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+                emitter.onError(new Exception(&quot;发生错误了&quot;));
+                emitter.onNext(5);
+                emitter.onNext(8);
+            }
+        }).retryUntil(new BooleanSupplier() {
+            @Override
+            public boolean getAsBoolean() throws Exception {
+
+                //返回false就一直重试
+                //返回true结束
+                return true;
+            }
+        }).subscribe(new Observer&lt;Integer&gt;() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+
+                KLog.d(TTAG, &quot;onNext:&quot; + integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+                KLog.d(TTAG, &quot;错误是：&quot; + e.getMessage());
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+    }
+</code></pre><h4 id="8-6-retryWhen"><a href="#8-6-retryWhen" class="headerlink" title="8.6 retryWhen"></a>8.6 retryWhen</h4><pre><code>  /**
+     * 出现错误后，判断是否需要重新发送数据
+     * &lt;p&gt;
+     * 若需要重新发送 &amp; 持续遇到错误，则持续重试
+     * 作用类似于retry（Predicate predicate）
+     * 返回false就一直重试
+     * 返回true结束
+     */
+    private void retryUntil() {
+
+        Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() {
+            @Override
+            public void subscribe(ObservableEmitter&lt;Integer&gt; emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+                emitter.onError(new Exception(&quot;发生错误了&quot;));
+                emitter.onNext(5);
+                emitter.onNext(8);
+            }
+        }).retryUntil(new BooleanSupplier() {
+            @Override
+            public boolean getAsBoolean() throws Exception {
+
+                //返回false就一直重试
+                //返回true结束
+                return true;
+            }
+        }).subscribe(new Observer&lt;Integer&gt;() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+
+                KLog.d(TTAG, &quot;onNext:&quot; + integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+                KLog.d(TTAG, &quot;错误是：&quot; + e.getMessage());
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+    }</code></pre><h3 id="9-重复发送操作："><a href="#9-重复发送操作：" class="headerlink" title="9. 重复发送操作："></a>9. 重复发送操作：</h3><h4 id="9-1-repeat（）"><a href="#9-1-repeat（）" class="headerlink" title="9.1 repeat（）"></a>9.1 repeat（）</h4><blockquote>
+<p>作用：无条件地、重复发送 被观察者事件，具备重载方法，可设置重复创建次数</p>
+</blockquote>
+<pre><code>/**
+     * 无条件地、重复发送 被观察者事件
+     */
+    private void repeat() {
+
+        Observable.just(1, 2, 3, 4)
+                //设置重复发送次数3次
+                .repeat(3)
+                .subscribe(new Observer&lt;Integer&gt;() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        KLog.d(TTAG, &quot;开始了链接&quot;);
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        KLog.d(TTAG, &quot;接收事件是：&quot; + integer);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        KLog.d(TTAG, &quot;收到错误了&quot;);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        KLog.d(TTAG, &quot;完成&quot;);
+                    }
+                });
+
+    }</code></pre><h4 id="9-2-repeartWhen（）"><a href="#9-2-repeartWhen（）" class="headerlink" title="9.2  repeartWhen（）"></a>9.2  repeartWhen（）</h4><blockquote>
+<p>作用：有条件地、重复发送 被观察者事件，将原始 Observable 停止发送事件的标识（Complete（） /  Error（）） 转换成1个 Object 类型数据传递给1个新被观察者（Observable），以此决定是否重新订阅 &amp; 发送原来的 Observable</p>
+</blockquote>
+<pre><code>**
+     * 有条件地、重复发送 被观察者事件
+     * 将原始 Observable 停止发送事件的标识（Complete（） /  Error（））
+     * 转换成1个 Object 类型数据传递给1个新被观察者（Observable），以此决定是否重新订阅 &amp; 发送原来的 Observable
+     * &lt;p&gt;
+     * 返回结果分为两种情况：
+     * 1.若新被观察者（Observable）返回1个Complete / Error事件，则不重新订阅 &amp; 发送原来的 Observable
+     * 2.若新被观察者（Observable）返回其余事件时，则重新订阅 &amp; 发送原来的 Observable
+     */
+    private void repeatWhen() {
+
+        Observable.just(1,2,3)
+                .repeatWhen(new Function&lt;Observable&lt;Object&gt;, ObservableSource&lt;?&gt;&gt;() {
+                    @Override
+                    public ObservableSource&lt;?&gt; apply(Observable&lt;Object&gt; objectObservable) throws Exception {
+
+                        // 在Function函数中，必须对输入的 Observable&lt;Object&gt;进行处理，这里使用的是flatMap操作符接收上游的数据
+
+                        return objectObservable.flatMap(new Function&lt;Object, ObservableSource&lt;?&gt;&gt;() {
+                            @Override
+                            public ObservableSource&lt;?&gt; apply(Object o) throws Exception {
+
+                                //情况1：若新被观察者（Observable）返回1个Complete（） /  Error（）事件，则不重新订阅 &amp; 发送原来的 Observable
+
+                                // Observable.empty() = 发送Complete事件，但不会回调观察者的onComplete（）
+
+                                // return Observable.error(new Throwable(&quot;不再重新订阅事件&quot;));
+                                // 返回Error事件 = 回调onError（）事件，并接收传过去的错误信息。
+
+                                // 情况2：若新被观察者（Observable）返回其余事件，则重新订阅 &amp; 发送原来的 Observable
+                                 return Observable.just(1);
+                                // 仅仅是作为1个触发重新订阅被观察者的通知，发送的是什么数据并不重要，只要不是Complete（） /  Error（）事件
+                            }
+                        });
+                    }
+                }).subscribe(new Observer&lt;Integer&gt;() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                KLog.d(TTAG, &quot;开始连接&quot;);
+            }
+            @Override
+            public void onNext(Integer integer) {
+                KLog.d(TTAG, &quot;收到事件：&quot; + integer);
+            }
+            @Override
+            public void onError(Throwable e) {
+                KLog.d(TTAG, &quot;收到错误是：&quot;+e.getMessage());
+            }
+            @Override
+            public void onComplete() {
+                KLog.d(TTAG, &quot;完成&quot;);
+            }
+        });
+
+    }</code></pre><h3 id="10-线程调控"><a href="#10-线程调控" class="headerlink" title="10. 线程调控"></a>10. 线程调控</h3><blockquote>
+<p>注意：Observable.subscribeOn（）可以多次指定，但是只有第一次有效，Observable.observeOn（）每次都会生效</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>含义</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Schedulers.immediate()</td>
+<td>当前线程 == 不指定线程</td>
+<td>默认线程</td>
+</tr>
+<tr>
+<td>AndroidSchedulers.mainThread()</td>
+<td>Android主线程</td>
+<td>操作UI</td>
+</tr>
+<tr>
+<td>Schedulers.newThread()</td>
+<td>常规新线程</td>
+<td>进行耗时操作</td>
+</tr>
+<tr>
+<td>Schedulers.io()</td>
+<td>IO操作线程</td>
+<td>网络请求，读写文件等IO密集型操作</td>
+</tr>
+<tr>
+<td>Schedulers.computation()</td>
+<td>CPU计算操作线程</td>
+<td>大量计算操作</td>
+</tr>
+</tbody></table>
+<h3 id="11-取消订阅"><a href="#11-取消订阅" class="headerlink" title="11. 取消订阅"></a>11. 取消订阅</h3><blockquote>
+<p>使用Disposable.dispose()</p>
+</blockquote>
+<blockquote>
+<p>多个Disposable时，可采用RxJava内置容器CompositeDisposable进行统一管理</p>
+</blockquote>
+<pre><code>
+CompositeDisposable compositeDisposable = new CompositeDisposable();
+compositeDisposable.add();
+compositeDisposable.clear();
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/03/Rxjava2.0笔记-002-创建操作符/" rel="next" title="Rxjava2.0笔记-002-创建操作符">
+                <i class="fa fa-chevron-left"></i> Rxjava2.0笔记-002-创建操作符
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/05/Rxjava2.0笔记-004-合并,过滤操作符实际应用/" rel="prev" title="Rxjava2.0笔记-004-合并,过滤操作符实际应用">
+                Rxjava2.0笔记-004-合并,过滤操作符实际应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-使用interval进行轮询操作，类似于请求用户消息（之前一直使用handler）"><span class="nav-number">1.</span> <span class="nav-text">1. 使用interval进行轮询操作，类似于请求用户消息（之前一直使用handler）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-变换操作符，对时间序列进行加工处理，使其转变成不同的事件-序列"><span class="nav-number">2.</span> <span class="nav-text">2. 变换操作符，对时间序列进行加工处理，使其转变成不同的事件/序列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-Map（）"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Map（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-flatMap（）"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 flatMap（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-ConcatMap（）"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 ConcatMap（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-buffer（）"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 buffer（）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-组合操作符"><span class="nav-number">3.</span> <span class="nav-text">3. 组合操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-concat-以及concatArray"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 concat()以及concatArray()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-merge-以及mergeArray"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 merge()以及mergeArray()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-concatDelayError-以及mergeDelayError"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 concatDelayError()以及mergeDelayError()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-合并多个事件"><span class="nav-number">4.</span> <span class="nav-text">4. 合并多个事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-zip-操作符"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 zip()操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-combineLatest"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 combineLatest()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-reduce（）"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 reduce（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-collect"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 collect()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-发送事件前追加发送事件"><span class="nav-number">5.</span> <span class="nav-text">5. 发送事件前追加发送事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-startWIth（）以及-startWithArray（）"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 startWIth（）以及 startWithArray（）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-统计发送事件数量"><span class="nav-number">6.</span> <span class="nav-text">6. 统计发送事件数量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-count（）"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 count（）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-在事件的生命周期中操作"><span class="nav-number">7.</span> <span class="nav-text">7. 在事件的生命周期中操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-操作符-do（-）"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 操作符 do（ ）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-关于错误处理："><span class="nav-number">8.</span> <span class="nav-text">8.  关于错误处理：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-1-onErrorReturn"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 onErrorReturn</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-onErrorResumeNext"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 onErrorResumeNext</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-3-onExceptionResumeNext"><span class="nav-number">8.3.</span> <span class="nav-text">8.3 onExceptionResumeNext</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-4-retry"><span class="nav-number">8.4.</span> <span class="nav-text">8.4 retry</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-5-retryUntil"><span class="nav-number">8.5.</span> <span class="nav-text">8.5 retryUntil</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-6-retryWhen"><span class="nav-number">8.6.</span> <span class="nav-text">8.6 retryWhen</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-重复发送操作："><span class="nav-number">9.</span> <span class="nav-text">9. 重复发送操作：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#9-1-repeat（）"><span class="nav-number">9.1.</span> <span class="nav-text">9.1 repeat（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-2-repeartWhen（）"><span class="nav-number">9.2.</span> <span class="nav-text">9.2  repeartWhen（）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-线程调控"><span class="nav-number">10.</span> <span class="nav-text">10. 线程调控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-取消订阅"><span class="nav-number">11.</span> <span class="nav-text">11. 取消订阅</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

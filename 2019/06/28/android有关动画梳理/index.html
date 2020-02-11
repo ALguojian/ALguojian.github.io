@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="补间动画 只能作用在view上，只有四种动画，只是改变view的视觉效果，不会改变view真正的属性效果有：平移(Translate)，缩放(scale)，旋转(rotate)，透明度(alpha)  补间动画使用方式，在anim创建xml文件，使用代码动态开启动画">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android有关动画梳理">
+<meta property="og:url" content="http://yoursite.com/2019/06/28/android有关动画梳理/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="补间动画 只能作用在view上，只有四种动画，只是改变view的视觉效果，不会改变view真正的属性效果有：平移(Translate)，缩放(scale)，旋转(rotate)，透明度(alpha)  补间动画使用方式，在anim创建xml文件，使用代码动态开启动画">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-11T08:49:28.880Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android有关动画梳理">
+<meta name="twitter:description" content="补间动画 只能作用在view上，只有四种动画，只是改变view的视觉效果，不会改变view真正的属性效果有：平移(Translate)，缩放(scale)，旋转(rotate)，透明度(alpha)  补间动画使用方式，在anim创建xml文件，使用代码动态开启动画">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/28/android有关动画梳理/">
+
+
+
+
+
+  <title>android有关动画梳理 | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/28/android有关动画梳理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">android有关动画梳理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-28T17:20:34+08:00">
+                2019-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="补间动画"><a href="#补间动画" class="headerlink" title="补间动画"></a>补间动画</h1><blockquote>
+<p>只能作用在view上，只有四种动画，只是改变view的视觉效果，不会改变view真正的属性<br>效果有：平移(Translate)，缩放(scale)，旋转(rotate)，透明度(alpha)</p>
+</blockquote>
+<p><strong>补间动画使用方式，在anim创建xml文件，使用代码动态开启动画</strong></p>
+<a id="more"></a>
+
+<h2 id="平移动画-translate"><a href="#平移动画-translate" class="headerlink" title="平移动画 translate"></a>平移动画 translate</h2><h4 id="使用xml"><a href="#使用xml" class="headerlink" title="使用xml"></a>使用xml</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;translate xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+
+    android:duration=&quot;3000&quot; // 动画持续时间（ms），必须设置，动画才有效果
+    android:startOffset =&quot;1000&quot; // 动画延迟开始时间（ms）
+    android:fillBefore = “true” // 动画播放完后，视图是否会停留在动画开始的状态，默认为true
+    android:fillAfter = “false” // 动画播放完后，视图是否会停留在动画结束的状态，优先于fillBefore值，默认为false
+    android:fillEnabled= “true” // 是否应用fillBefore值，对fillAfter值无影响，默认为true
+    android:repeatMode= “restart” // 选择重复播放动画模式，restart代表正序重放，reverse代表倒序回放，默认为restart|
+    android:repeatCount = “0” // 重放次数（所以动画的播放次数=重放次数+1），为infinite时无限重复
+    android:interpolator = @[package:]anim/interpolator_resource // 插值器，即影响动画的播放速度,下面会详细讲
+
+    android:fromXDelta=&quot;0&quot; // 视图在水平方向x 移动的起始值
+    android:toXDelta=&quot;500&quot; // 视图在水平方向x 移动的结束值
+    android:fromYDelta=&quot;0&quot; // 视图在竖直方向y 移动的起始值
+    android:toYDelta=&quot;500&quot; // 视图在竖直方向y 移动的结束值 /&gt;</code></pre><h4 id="java代码"><a href="#java代码" class="headerlink" title="java代码"></a>java代码</h4><pre><code>        Animation animation = AnimationUtils.loadAnimation(this, R.anim.translateanim);
+        button.startAnimation(animation);
+
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 500, 0, 500);
+        translateAnimation.setDuration(2000);
+        button.startAnimation(translateAnimation);</code></pre><h2 id="缩放动画-scale"><a href="#缩放动画-scale" class="headerlink" title="缩放动画 scale"></a>缩放动画 scale</h2><h4 id="使用xml-1"><a href="#使用xml-1" class="headerlink" title="使用xml"></a>使用xml</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;scale  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+
+    android:fromXScale=&quot;0.0&quot; 
+    // 动画在水平方向X的起始缩放倍数
+    // 0.0表示收缩到没有；1.0表示正常无伸缩
+    // 值小于1.0表示收缩；值大于1.0表示放大
+
+    android:toXScale=&quot;2&quot;  //动画在水平方向X的结束缩放倍数
+
+    android:fromYScale=&quot;0.0&quot; //动画开始前在竖直方向Y的起始缩放倍数
+    android:toYScale=&quot;2&quot; //动画在竖直方向Y的结束缩放倍数
+
+    android:pivotX=&quot;50%&quot; // 缩放轴点的x坐标
+    android:pivotY=&quot;50%&quot; // 缩放轴点的y坐标
+    // 轴点 = 视图缩放的中心点
+
+    // pivotX pivotY,可取值为数字，百分比，或者百分比p
+    // 设置为数字时（如50），轴点为View的左上角的原点在x方向和y方向加上50px的点。在Java代码里面设置这个参数的对应参数是Animation.ABSOLUTE。
+    // 设置为百分比时（如50%），轴点为View的左上角的原点在x方向加上自身宽度50%和y方向自身高度50%的点。在Java代码里面设置这个参数的对应参数是Animation.RELATIVE_TO_SELF。
+    // 设置为百分比p时（如50%p），轴点为View的左上角的原点在x方向加上父控件宽度50%和y方向父控件高度50%的点。在Java代码里面设置这个参数的对应参数是Animation.RELATIVE_TO_PARENT /&gt;</code></pre><h4 id="java-代码"><a href="#java-代码" class="headerlink" title="java 代码"></a>java 代码</h4><pre><code>        Button mButton = (Button) findViewById(R.id.Button);
+        // 步骤1:创建 需要设置动画的 视图View
+        Animation rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.view_animation);
+        // 步骤2:创建 动画对象 并传入设置的动画效果xml文件
+        mButton.startAnimation(scaleAnimation);
+
+
+
+        Button mButton = (Button) findViewById(R.id.Button);
+        Animation rotateAnimation = new ScaleAnimation(0,2,0,2,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        // 步骤2：创建缩放动画的对象 &amp; 设置动画效果：缩放动画对应的Animation子类为RotateAnimation
+        // 参数说明:
+        // 1. fromX ：动画在水平方向X的结束缩放倍数
+        // 2. toX ：动画在水平方向X的结束缩放倍数
+        // 3. fromY ：动画开始前在竖直方向Y的起始缩放倍数
+        // 4. toY：动画在竖直方向Y的结束缩放倍数
+        // 5. pivotXType:缩放轴点的x坐标的模式
+        // 6. pivotXValue:缩放轴点x坐标的相对值
+        // 7. pivotYType:缩放轴点的y坐标的模式
+        // 8. pivotYValue:缩放轴点y坐标的相对值
+
+        // pivotXType = Animation.ABSOLUTE:缩放轴点的x坐标 =  View左上角的原点 在x方向 加上 pivotXValue数值的点(y方向同理)
+        // pivotXType = Animation.RELATIVE_TO_SELF:缩放轴点的x坐标 = View左上角的原点 在x方向 加上 自身宽度乘上pivotXValue数值的值(y方向同理)
+        // pivotXType = Animation.RELATIVE_TO_PARENT:缩放轴点的x坐标 = View左上角的原点 在x方向 加上 父控件宽度乘上pivotXValue数值的值 (y方向同理)
+
+        scaleAnimation.setDuration(3000);
+        mButton.startAnimation(scaleAnimation);</code></pre><h2 id="旋转动画-rotate"><a href="#旋转动画-rotate" class="headerlink" title="旋转动画 rotate"></a>旋转动画 rotate</h2><h4 id="使用xml-2"><a href="#使用xml-2" class="headerlink" title="使用xml"></a>使用xml</h4><pre><code>      &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+      &lt;rotate xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+
+        android:duration=&quot;1000&quot;
+        android:fromDegrees=&quot;0&quot; // 动画开始时 视图的旋转角度(正数 = 顺时针，负数 = 逆时针)
+        android:toDegrees=&quot;270&quot; // 动画结束时 视图的旋转角度(正数 = 顺时针，负数 = 逆时针)
+        android:pivotX=&quot;50%&quot; // 旋转轴点的x坐标
+        android:pivotY=&quot;0&quot; // 旋转轴点的y坐标 /&gt;</code></pre><h4 id="java-代码-1"><a href="#java-代码-1" class="headerlink" title="java 代码"></a>java 代码</h4><pre><code>        Animation rotateAnimation = new RotateAnimation(0, 270, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnimation.setDuration(2000);
+        button.startAnimation(rotateAnimation);
+</code></pre><h2 id="透明度"><a href="#透明度" class="headerlink" title="透明度"></a>透明度</h2><h4 id="使用-xml"><a href="#使用-xml" class="headerlink" title="使用 xml"></a>使用 xml</h4><pre><code>      &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+      &lt;alpha xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+         // 以下参数是透明度动画特有的属性
+        android:fromAlpha=&quot;1.0&quot; // 动画开始时视图的透明度(取值范围: -1 ~ 1)
+        android:toAlpha=&quot;0.0&quot;// 动画结束时视图的透明度(取值范围: -1 ~ 1)/&gt;</code></pre><h4 id="java-代码-2"><a href="#java-代码-2" class="headerlink" title="java 代码"></a>java 代码</h4><pre><code>        Button mButton = (Button) findViewById(R.id.Button);
+        // 步骤1:创建 需要设置动画的 视图View
+
+        Animation alphaAnimation = new AlphaAnimation(1,0);
+        // 步骤2：创建透明度动画的对象 &amp; 设置动画效果：透明度动画对应的Animation子类为AlphaAnimation
+        // 参数说明:
+        // 1. fromAlpha:动画开始时视图的透明度(取值范围: -1 ~ 1)
+        // 2. toAlpha:动画结束时视图的透明度(取值范围: -1 ~ 1)
+
+        alphaAnimation.setDuration(3000);
+        // 固定属性的设置都是在其属性前加“set”，如setDuration（）
+
+        mButton.startAnimation(alphaAnimation);</code></pre><h2 id="组合动画"><a href="#组合动画" class="headerlink" title="组合动画"></a>组合动画</h2><h4 id="使用-xml-1"><a href="#使用-xml-1" class="headerlink" title="使用 xml"></a>使用 xml</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+// 采用&lt; Set/&gt;标签
+&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+
+// 组合动画独特的属性
+    android:shareinterpolator = “true”
+    // 表示组合动画中的动画是否和集合共享同一个差值器
+    // 如果集合不指定插值器，那么子动画需要单独设置
+
+// 组合动画播放时是全部动画同时开始
+// 如果想不同动画不同时间开始就要使用android:startOffset属性来延迟单个动画播放时间
+
+
+    &lt;rotate
+        android:duration=&quot;1000&quot;
+        android:fromDegrees=&quot;0&quot;
+        android:toDegrees=&quot;360&quot;
+        android:pivotX=&quot;50%&quot;
+        android:pivotY=&quot;50%&quot;
+        android:repeatMode=&quot;restart&quot;
+        android:repeatCount=&quot;infinite&quot;/&gt;
+
+    &lt;translate
+        android:duration=&quot;10000&quot;
+        android:startOffset = “1000”
+        android:fromXDelta=&quot;-50%p&quot;
+        android:fromYDelta=&quot;0&quot;
+        android:toXDelta=&quot;50%p&quot;
+        android:toYDelta=&quot;0&quot; /&gt;
+
+    &lt;alpha
+        android:startOffset=&quot;7000&quot;
+        android:duration=&quot;3000&quot;
+        android:fromAlpha=&quot;1.0&quot;
+        android:toAlpha=&quot;0.0&quot; /&gt;
+
+    &lt;scale
+        android:startOffset=&quot;4000&quot;
+        android:duration=&quot;1000&quot;
+        android:fromXScale=&quot;1.0&quot;
+        android:fromYScale=&quot;1.0&quot;
+        android:pivotX=&quot;50%&quot;
+        android:pivotY=&quot;50%&quot;
+        android:toXScale=&quot;0.5&quot;
+        android:toYScale=&quot;0.5&quot;/&gt;
+
+    1. 在组合动画里scale缩放动画设置的repeatCount（重复播放）和fillBefore（播放完后，视图是否会停留在动画开始的状态）是无效的。
+    2. 所以如果需要重复播放或者回到原位的话需要在set标签里设置
+    3. 但是由于此处rotate旋转动画里已设置repeatCount为infinite，所以动画不会结束，也就看不到重播和回复原位
+&lt;/set&gt;</code></pre><h4 id="使用-java代码"><a href="#使用-java代码" class="headerlink" title="使用 java代码"></a>使用 java代码</h4><pre><code>        Button mButton = (Button) findViewById(R.id.Button);
+        // 创建 需要设置动画的 视图View
+
+        // 组合动画设置
+        AnimationSet setAnimation = new AnimationSet(true);
+        // 步骤1:创建组合动画对象(设置为true)
+
+
+        // 步骤2:设置组合动画的属性
+        // 特别说明以下情况
+        // 因为在下面的旋转动画设置了无限循环(RepeatCount = INFINITE)
+        // 所以动画不会结束，而是无限循环
+        // 所以组合动画的下面两行设置是无效的
+        setAnimation.setRepeatMode(Animation.RESTART);
+        setAnimation.setRepeatCount(1);// 设置了循环一次,但无效
+
+        // 子动画1:旋转动画
+        Animation rotate = new RotateAnimation(0,360,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        rotate.setDuration(1000);
+        rotate.setRepeatMode(Animation.RESTART);
+        rotate.setRepeatCount(Animation.INFINITE);
+
+        // 子动画2:平移动画
+        Animation translate = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_PARENT,-0.5f,
+                TranslateAnimation.RELATIVE_TO_PARENT,0.5f,
+                TranslateAnimation.RELATIVE_TO_SELF,0
+                ,TranslateAnimation.RELATIVE_TO_SELF,0);
+        translate.setDuration(10000);
+
+        // 子动画3:透明度动画
+        Animation alpha = new AlphaAnimation(1,0);
+        alpha.setDuration(3000);
+        alpha.setStartOffset(7000);
+
+        // 子动画4:缩放动画
+        Animation scale1 = new ScaleAnimation(1,0.5f,1,0.5f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        scale1.setDuration(1000);
+        scale1.setStartOffset(4000);
+
+        // 步骤4:将创建的子动画添加到组合动画里
+        setAnimation.addAnimation(alpha);
+        setAnimation.addAnimation(rotate);
+        setAnimation.addAnimation(translate);
+        setAnimation.addAnimation(scale1);
+
+        mButton.startAnimation(setAnimation);</code></pre><h1 id="帧动画，将动画切割为多张图片"><a href="#帧动画，将动画切割为多张图片" class="headerlink" title="帧动画，将动画切割为多张图片"></a>帧动画，将动画切割为多张图片</h1><h4 id="使用xml创建"><a href="#使用xml创建" class="headerlink" title="使用xml创建"></a>使用xml创建</h4><pre><code>  &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+  &lt;animation-list
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:oneshot=&quot;true&quot; 
+    // 设置是否只播放一次，默认为false&gt;
+
+    //item = 动画图片资源；duration = 设置一帧持续时间(ms)
+    &lt;item android:drawable=&quot;@drawable/a0&quot; android:duration=&quot;100&quot;/&gt;
+    &lt;item android:drawable=&quot;@drawable/a1&quot; android:duration=&quot;100&quot;/&gt;
+    &lt;item android:drawable=&quot;@drawable/a2&quot; android:duration=&quot;100&quot;/&gt;
+    &lt;item android:drawable=&quot;@drawable/a3&quot; android:duration=&quot;100&quot;/&gt;
+    &lt;item android:drawable=&quot;@drawable/a4&quot; android:duration=&quot;100&quot;/&gt;
+    &lt;item android:drawable=&quot;@drawable/a5&quot; android:duration=&quot;100&quot;/&gt;
+    &lt;item android:drawable=&quot;@drawable/a6&quot; android:duration=&quot;100&quot;/&gt;
+    &lt;item android:drawable=&quot;@drawable/a7&quot; android:duration=&quot;100&quot;/&gt;
+&lt;/animation-list&gt;</code></pre><h4 id="使用java代码"><a href="#使用java代码" class="headerlink" title="使用java代码"></a>使用java代码</h4><pre><code>        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(R.drawable.ic_launcher_background);
+        AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getDrawable();
+        animationDrawable.start();
+        animationDrawable.stop();
+
+
+        //动态创建帧动画
+        AnimationDrawable animationDrawable1 = new AnimationDrawable();
+        for (int i = 0; i &lt; 10; i++) {
+            int drawable = getResources().getIdentifier(&quot;aaa&quot; + i, &quot;drawable&quot;, getPackageName());
+            Drawable drawable1 = getResources().getDrawable(drawable);
+            animationDrawable1.addFrame(drawable1,100);
+        }
+        animationDrawable1.setOneShot(true);
+        ImageView imageView1 = new ImageView(this);
+        imageView.setImageResource(R.drawable.ic_launcher_background);
+        //开启动画之前先停止动画，不然第一次动画之后会停留在最后一帧，这样动画就只会触发一次
+        animationDrawable1.stop();
+        animationDrawable1.start();
+</code></pre><h2 id="监听动画过程"><a href="#监听动画过程" class="headerlink" title="监听动画过程"></a>监听动画过程</h2><pre><code>    alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });</code></pre><h4 id="属性动画可以采用以下监听"><a href="#属性动画可以采用以下监听" class="headerlink" title="属性动画可以采用以下监听"></a>属性动画可以采用以下监听</h4><pre><code> ValueAnimator valueAnimator = ValueAnimator.ofFloat(0.0f, 120f);
+        valueAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+            }
+        });</code></pre><h1 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h1><blockquote>
+<p>3.0之后出现。顾名思义，为了改变view的某一个属性的动画</p>
+</blockquote>
+<p>使用步骤如下：</p>
+<ol>
+<li><p>设置动画运行时长，动画效果以及对应属性的初始值和结束值</p>
+</li>
+<li><p>设置从开始到结束的变化逻辑</p>
+<ul>
+<li>设置值变化的模式趋势使用插值器，自定义插值器需要实现interpolator接口</li>
+<li>设置值变化的具体数值使用估值器，自定义估值器实现TypeEvaluator接口</li>
+</ul>
+</li>
+<li><p>根据变化不断改变值得效果</p>
+</li>
+<li><p>值每改变一次，就赋值给view的属性一次，</p>
+<ul>
+<li>手动赋值使用-valueAnimator</li>
+<li>自动赋值使用-ObjectAnimator</li>
+</ul>
+</li>
+<li><p>每次调用invalidate();不断刷新视图直到初始值变为结束值</p>
+</li>
+</ol>
+<h3 id="ValueAnimator-手动赋值给对象的属性，实现动画效果"><a href="#ValueAnimator-手动赋值给对象的属性，实现动画效果" class="headerlink" title="ValueAnimator 手动赋值给对象的属性，实现动画效果"></a>ValueAnimator 手动赋值给对象的属性，实现动画效果</h3><p>自带估值器有：</p>
+<ul>
+<li>ValueAnimator ofInt(int… values)，整型估值器</li>
+<li>ValueAnimator ofFloat(float… values) ，浮点型估值器</li>
+<li>ValueAnimator ofObject(TypeEvaluator evaluator, Object… values)操作对象实现动画效果</li>
+</ul>
+<h4 id="整型或者浮点型估值器"><a href="#整型或者浮点型估值器" class="headerlink" title="整型或者浮点型估值器"></a>整型或者浮点型估值器</h4><pre><code>        //设置动画属性的初始值以及结束值，ofInt创建动画实例,讲传入的多个Int型参数进行平滑过渡，内置整型估值器，直接使用默认
+        final ValueAnimator valueAnimator = ValueAnimator.ofInt(100, 180, 500, 700, 600);
+
+        mButton = findViewById(R.id.button2);
+
+        valueAnimator.setDuration(2000);//播放时间
+        valueAnimator.setStartDelay(100);//延迟播放时间
+        valueAnimator.setRepeatCount(0);//设置播放次数,-1就是无限循环
+        valueAnimator.setRepeatMode(ValueAnimator.REVERSE);//设置重复播放模式ValueAnimator.RESTART(默认):正序重放，ValueAnimator.REVERSE:倒序回放
+
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int animatedValue = (Integer) valueAnimator.getAnimatedValue();
+
+                mButton.setText(&quot;---&quot; + animatedValue);
+
+                mButton.setTranslationX(animatedValue);
+                mButton.getLayoutParams().width = animatedValue;
+                mButton.getLayoutParams().height = animatedValue;
+                mButton.setRotation(animatedValue);
+                mButton.setAlpha(animatedValue);
+
+                mButton.requestLayout();//刷新view的位置
+            }
+        });
+        valueAnimator.start();</code></pre><h4 id="ValueAnimator-ofObject（）将初始值-以对象的形式-过渡到结束值"><a href="#ValueAnimator-ofObject（）将初始值-以对象的形式-过渡到结束值" class="headerlink" title="ValueAnimator.ofObject（）将初始值 以对象的形式 过渡到结束值"></a>ValueAnimator.ofObject（）将初始值 以对象的形式 过渡到结束值</h4><pre><code>public class ObjectEvaluatorView extends View {
+
+    private Paint mPaint;
+    private Point mPoint;
+
+    private static final int ROUND = 81;
+
+    public ObjectEvaluatorView(Context context) {
+        this(context, null);
+    }
+
+    public ObjectEvaluatorView(Context context, @Nullable AttributeSet attrs) {
+
+        this(context, attrs, 0);
+    }
+
+    public ObjectEvaluatorView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setColor(Color.YELLOW);
+        mPaint.setTextSize(120);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (mPoint == null) {
+            mPoint = new Point(ROUND,ROUND);
+
+            canvas.drawCircle(ROUND,ROUND,ROUND,mPaint);
+
+            Point point = new Point(600, 800);
+            Point point3 = new Point(80, 1200);
+            Point point4 = new Point(80, 80);
+
+            ValueAnimator valueAnimator = ValueAnimator.ofObject(new ObjectEvaluator(), mPoint, point,point3,point4);
+            valueAnimator.setDuration(3000);
+            valueAnimator.setRepeatCount(-1);
+
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    mPoint = (Point) animation.getAnimatedValue();
+
+                    invalidate();
+                }
+            });
+
+            valueAnimator.start();
+
+        }else {
+            canvas.drawText(&quot;😄&quot;,mPoint.getX(),mPoint.getY(),mPaint);
+        }
+    }
+}</code></pre><h3 id="ObjectAnimator自动赋值实现动画效果，直接操作对象的属性"><a href="#ObjectAnimator自动赋值实现动画效果，直接操作对象的属性" class="headerlink" title="ObjectAnimator自动赋值实现动画效果，直接操作对象的属性"></a>ObjectAnimator自动赋值实现动画效果，直接操作对象的属性</h3><h4 id="基本的四种属性："><a href="#基本的四种属性：" class="headerlink" title="基本的四种属性："></a>基本的四种属性：</h4><pre><code>        ObjectAnimator alpha = ObjectAnimator.ofFloat(mButton3, &quot;alpha&quot;, 1f, 0f, 100f);
+        alpha.setDuration(3000);
+        alpha.setRepeatCount(-1);
+        alpha.start();
+
+        ObjectAnimator rotation = ObjectAnimator.ofFloat(mButton3, &quot;rotation&quot;, 1f, 360f, 100f);
+        rotation.setDuration(3000);
+        rotation.setRepeatCount(-1);
+        rotation.start();
+
+        ObjectAnimator translationX = ObjectAnimator.ofFloat(mButton3, &quot;translationY&quot;, 1f, 360f, 100f);
+        translationX.setDuration(3000);
+        translationX.setRepeatCount(-1);
+        translationX.start();
+
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(mButton3, &quot;scaleY&quot;, 1f, 4f, 1f);
+        scaleY.setDuration(3000);
+        scaleY.setRepeatCount(-1);
+        scaleY.start();</code></pre><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Alpha</td>
+<td>控制view的透明度</td>
+</tr>
+<tr>
+<td>TranslationX</td>
+<td>控制x轴方向位移</td>
+</tr>
+<tr>
+<td>TranslationY</td>
+<td>K通知y轴方向位移</td>
+</tr>
+<tr>
+<td>ScaleX</td>
+<td>控制x轴方向缩放倍数</td>
+</tr>
+<tr>
+<td>ScaleY</td>
+<td>控制y轴方向缩放倍数</td>
+</tr>
+<tr>
+<td>Rotation</td>
+<td>控制以屏幕方向为轴的旋转度数</td>
+</tr>
+<tr>
+<td>RotationX</td>
+<td>控制以x轴为轴的旋转度数</td>
+</tr>
+<tr>
+<td>RotationY</td>
+<td>控制以y轴为轴的旋转度数</td>
+</tr>
+</tbody></table>
+<h4 id="扩展自定义属性"><a href="#扩展自定义属性" class="headerlink" title="扩展自定义属性"></a>扩展自定义属性</h4><p>两种方式：</p>
+<ol>
+<li>通过集成原始类，添加get（）和set（）方法 </li>
+</ol>
+<pre><code>public class MyView2 extends View {
+    // 设置需要用到的变量
+    public static final float RADIUS = 100f;// 圆的半径 = 100
+    private Paint mPaint;// 绘图画笔
+
+    private String color;
+    // 设置背景颜色属性
+
+    // 设置背景颜色的get() &amp; set()方法
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+        mPaint.setColor(Color.parseColor(color));
+        // 将画笔的颜色设置成方法参数传入的颜色
+        invalidate();
+        // 调用了invalidate()方法,即画笔颜色每次改变都会刷新视图，然后调用onDraw()方法重新绘制圆
+        // 而因为每次调用onDraw()方法时画笔的颜色都会改变,所以圆的颜色也会改变
+    }
+
+
+    // 构造方法(初始化画笔)
+    public MyView2(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        // 初始化画笔
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setColor(Color.BLUE);
+    }
+
+    // 复写onDraw()从而实现绘制逻辑
+    // 绘制逻辑:先在初始点画圆,通过监听当前坐标值(currentPoint)的变化,每次变化都调用onDraw()重新绘制圆,从而实现圆的平移动画效果
+    @Override
+    protected void onDraw(Canvas canvas) {
+        canvas.drawCircle(500, 500, RADIUS, mPaint);
+    }
+}</code></pre><ol start="2">
+<li>添加包装类，传递对象进入，封装get（）和set（）方法</li>
+</ol>
+<pre><code>
+        ObjectAnimator alpha = ObjectAnimator.ofObject(new Test(mButton3), &quot;text&quot;, new Bbb(), &quot;asdasd&quot;, &quot;qweqweqweqw&quot;, &quot;zxczxczxczc&quot;);
+        alpha.setDuration(3000);
+        alpha.setRepeatCount(-1);
+        alpha.start();
+
+
+    //自定义包装类
+     private class Test{
+        private Button mView;
+
+        public Test(Button view) {
+            mView = view;
+        }
+        public String getText(){
+            return mView.getText().toString();
+        }
+        public void setText(String s){
+            mView.setText(s);
+        }
+    }
+
+
+    //自定义估值器
+    private class Bbb implements TypeEvaluator {
+
+        @Override
+        public Object evaluate(float fraction, Object startValue, Object endValue) {
+            return startValue;
+        }
+    }
+</code></pre><h3 id="组合动画-1"><a href="#组合动画-1" class="headerlink" title="组合动画"></a>组合动画</h3><pre><code>AnimatorSet.play(Animator anim)   ：播放动画
+AnimatorSet.after(long delay)   ：动画延迟x毫秒后执行
+AnimatorSet.with(Animator anim)   ：现有动画和传入的动画同时执行
+AnimatorSet.after(Animator anim)   ：现有动画插入到传入的动画之后执行
+AnimatorSet.before(Animator anim) ：  现有动画插入到传入的动画之前执行
+</code></pre><h4 id="使用方式如下："><a href="#使用方式如下：" class="headerlink" title="使用方式如下："></a>使用方式如下：</h4><pre><code>// 步骤1：设置需要组合的动画效果
+ObjectAnimator translation = ObjectAnimator.ofFloat(mButton, &quot;translationX&quot;, curTranslationX, 300,curTranslationX);  
+
+ObjectAnimator rotate = ObjectAnimator.ofFloat(mButton, &quot;rotation&quot;, 0f, 360f);  
+
+ObjectAnimator alpha = ObjectAnimator.ofFloat(mButton, &quot;alpha&quot;, 1f, 0f, 1f);  
+
+AnimatorSet animSet = new AnimatorSet();  
+
+animSet.play(translation).with(rotate).before(alpha);  
+animSet.setDuration(5000);  
+animSet.start();</code></pre><h3 id="属性动画简写方式："><a href="#属性动画简写方式：" class="headerlink" title="属性动画简写方式："></a>属性动画简写方式：</h3><pre><code>        mButton = (Button) findViewById(R.id.Button);
+        mButton.animate().alpha(0f);
+        mButton.animate().alpha(0f).setDuration(5000).setInterpolator(new BounceInterpolator());
+        mButton.animate().alpha(0f).x(500).y(500);</code></pre><h1 id="插值器和估值器"><a href="#插值器和估值器" class="headerlink" title="插值器和估值器"></a>插值器和估值器</h1><ul>
+<li>设置值变化的模式趋势使用插值器，自定义插值器需要实现interpolator接口</li>
+<li>设置值变化的具体数值使用估值器，自定义估值器实现TypeEvaluator接口</li>
+</ul>
+<p>系统默认自带插值器有：<br>|java类|作用|<br>|–|–|<br>|AccelerateInterpolator|加速，开始时慢中间加速，系统默认|<br>|DecelerateInterpolator|减速，开始时快然后减速|<br>|AccelerateDecelerateInterolator|先加速后减速，开始结束时慢，中间加速|<br>|AnticipateInterpolator|反向，先向相反方向改变一段再加速播放|<br>|AnticipateOvershootInterpolator|反向加超越，先向相反方向改变，再加速播放，会超出目的值然后缓慢移动至目的值|<br>|BounceInterpolator|跳跃，快到目的值时值会跳跃，如目的值100，后面的值可能依次为85，77，70，80，90，100|<br>|CycleIinterpolator|循环，动画循环一定次数，值的改变为一正弦函数：Math.sin(2* mCycles* Math.PI* input)|<br>|LinearInterpolator|线性，线性均匀改变|<br>|OvershootInterpolator|超越，最后超出目的值然后缓慢改变到目的值|</p>
+<h3 id="自定义插值器"><a href="#自定义插值器" class="headerlink" title="自定义插值器"></a>自定义插值器</h3><blockquote>
+<p><strong>补间动画 实现 Interpolator接口；属性动画实现TimeInterpolator接口</strong></p>
+</blockquote>
+<pre><code>     private class Ccc implements TimeInterpolator {
+        /**
+         * @param input 范围变化1-0，
+         * @return
+         */
+        @Override
+        public float getInterpolation(float input) {
+            float aa;
+            if (input &lt;= 0.5) {
+                aa = (float) ((Math.sin(Math.PI * input)) / 2);
+            } else {
+                aa = (float) (2 - Math.sin(Math.PI * input) / 2);
+            }
+            return aa;
+        }
+    }</code></pre><h3 id="自定义估值器"><a href="#自定义估值器" class="headerlink" title="自定义估值器"></a>自定义估值器</h3><pre><code>    private class Bbb implements TypeEvaluator {
+
+        @Override
+        public Object evaluate(float fraction, Object startValue, Object endValue) {
+
+            return startValue;
+        }
+    }</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/26/自定义viewGroup位置摆放onLayout以及设置margin梳理/" rel="next" title="自定义viewGroup位置摆放onLayout以及设置margin梳理">
+                <i class="fa fa-chevron-left"></i> 自定义viewGroup位置摆放onLayout以及设置margin梳理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/23/再不学git我们就老了/" rel="prev" title="再不学git我们就老了">
+                再不学git我们就老了 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#补间动画"><span class="nav-number">1.</span> <span class="nav-text">补间动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#平移动画-translate"><span class="nav-number">1.1.</span> <span class="nav-text">平移动画 translate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用xml"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">使用xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java代码"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">java代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缩放动画-scale"><span class="nav-number">1.2.</span> <span class="nav-text">缩放动画 scale</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用xml-1"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">使用xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java-代码"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">java 代码</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#旋转动画-rotate"><span class="nav-number">1.3.</span> <span class="nav-text">旋转动画 rotate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用xml-2"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">使用xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java-代码-1"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">java 代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#透明度"><span class="nav-number">1.4.</span> <span class="nav-text">透明度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-xml"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">使用 xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java-代码-2"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">java 代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组合动画"><span class="nav-number">1.5.</span> <span class="nav-text">组合动画</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-xml-1"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">使用 xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-java代码"><span class="nav-number">1.5.0.2.</span> <span class="nav-text">使用 java代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帧动画，将动画切割为多张图片"><span class="nav-number">2.</span> <span class="nav-text">帧动画，将动画切割为多张图片</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用xml创建"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">使用xml创建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用java代码"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">使用java代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监听动画过程"><span class="nav-number">2.1.</span> <span class="nav-text">监听动画过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#属性动画可以采用以下监听"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">属性动画可以采用以下监听</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#属性动画"><span class="nav-number">3.</span> <span class="nav-text">属性动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ValueAnimator-手动赋值给对象的属性，实现动画效果"><span class="nav-number">3.0.1.</span> <span class="nav-text">ValueAnimator 手动赋值给对象的属性，实现动画效果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#整型或者浮点型估值器"><span class="nav-number">3.0.1.1.</span> <span class="nav-text">整型或者浮点型估值器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ValueAnimator-ofObject（）将初始值-以对象的形式-过渡到结束值"><span class="nav-number">3.0.1.2.</span> <span class="nav-text">ValueAnimator.ofObject（）将初始值 以对象的形式 过渡到结束值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ObjectAnimator自动赋值实现动画效果，直接操作对象的属性"><span class="nav-number">3.0.2.</span> <span class="nav-text">ObjectAnimator自动赋值实现动画效果，直接操作对象的属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本的四种属性："><span class="nav-number">3.0.2.1.</span> <span class="nav-text">基本的四种属性：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#扩展自定义属性"><span class="nav-number">3.0.2.2.</span> <span class="nav-text">扩展自定义属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合动画-1"><span class="nav-number">3.0.3.</span> <span class="nav-text">组合动画</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用方式如下："><span class="nav-number">3.0.3.1.</span> <span class="nav-text">使用方式如下：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性动画简写方式："><span class="nav-number">3.0.4.</span> <span class="nav-text">属性动画简写方式：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插值器和估值器"><span class="nav-number">4.</span> <span class="nav-text">插值器和估值器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义插值器"><span class="nav-number">4.0.1.</span> <span class="nav-text">自定义插值器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义估值器"><span class="nav-number">4.0.2.</span> <span class="nav-text">自定义估值器</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

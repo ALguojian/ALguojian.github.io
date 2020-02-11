@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="关于合并数据源：之前使用了flatMap()以及concatMap（）进行嵌套调用，，注册之后登陆 合并数据源2：合并数据（获取图书详情以及评论）统一展示到客户端：采用merge()或者zip（）操作符  merge（）例子：实现较为简单的从（网络+本地）获取数据，，统一展示   zip（）例子：结合Retrofit以及Rxjava,实现多个网络请求合并获得数据，，统一展示   二者区别为：mer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rxjava2.0笔记-004-合并,过滤操作符实际应用">
+<meta property="og:url" content="http://yoursite.com/2019/03/05/Rxjava2.0笔记-004-合并,过滤操作符实际应用/index.html">
+<meta property="og:site_name" content="-ccccccal">
+<meta property="og:description" content="关于合并数据源：之前使用了flatMap()以及concatMap（）进行嵌套调用，，注册之后登陆 合并数据源2：合并数据（获取图书详情以及评论）统一展示到客户端：采用merge()或者zip（）操作符  merge（）例子：实现较为简单的从（网络+本地）获取数据，，统一展示   zip（）例子：结合Retrofit以及Rxjava,实现多个网络请求合并获得数据，，统一展示   二者区别为：mer">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-11T08:53:28.052Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rxjava2.0笔记-004-合并,过滤操作符实际应用">
+<meta name="twitter:description" content="关于合并数据源：之前使用了flatMap()以及concatMap（）进行嵌套调用，，注册之后登陆 合并数据源2：合并数据（获取图书详情以及评论）统一展示到客户端：采用merge()或者zip（）操作符  merge（）例子：实现较为简单的从（网络+本地）获取数据，，统一展示   zip（）例子：结合Retrofit以及Rxjava,实现多个网络请求合并获得数据，，统一展示   二者区别为：mer">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/05/Rxjava2.0笔记-004-合并,过滤操作符实际应用/">
+
+
+
+
+
+  <title>Rxjava2.0笔记-004-合并,过滤操作符实际应用 | -ccccccal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">-ccccccal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">默默码码的copy-seven</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/05/Rxjava2.0笔记-004-合并,过滤操作符实际应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="alguojian">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="-ccccccal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Rxjava2.0笔记-004-合并,过滤操作符实际应用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-05T17:20:34+08:00">
+                2019-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>关于合并数据源：之前使用了flatMap()以及concatMap（）进行嵌套调用，，注册之后登陆</p>
+<p>合并数据源2：合并数据（获取图书详情以及评论）统一展示到客户端：采用merge()或者zip（）操作符</p>
+<blockquote>
+<p>merge（）例子：实现较为简单的从（网络+本地）获取数据，，统一展示</p>
+</blockquote>
+<blockquote>
+<p>zip（）例子：结合<code>Retrofit</code>以及Rxjava,实现多个网络请求合并获得数据，，统一展示</p>
+</blockquote>
+<blockquote>
+<p>二者区别为：merge()只添加被观察者合并数据源的操作在observable观察者的onnext（）里面处理，进行合并，合并的结果在<code>onComplete（）</code>处理，zip（）可以直接添加发射者，再添加合并数据源的bean，在转主线程，订阅，可以使用<code>new Consumer&lt;Bean&gt;() )</code>里面处理合并结果</p>
+</blockquote>
+<a id="more"></a>
+
+
+<pre><code>/**
+     * 合并发射者，按时间线执行
+     * 合并事件，还是merge（）比较方便好用
+     */
+
+    String resultss = &quot;数据源来自：&quot;;
+
+    private void merge() {
+
+//        Observable.merge(
+//                //延迟发送操作符
+//                //从0开始发送，发送3个数据，第一次发件延迟时间1秒。间隔时间1s
+//                //
+//                Observable.intervalRange(0,3,1,1,TimeUnit.SECONDS),
+//                Observable.intervalRange(2,3,1,1,TimeUnit.SECONDS)
+//        ).subscribe(aLong -&gt; {
+//
+//        });
+
+        Observable.merge(
+                Observable.just(&quot;网络&quot;),
+                Observable.just(&quot;本地文件&quot;)
+        ).subscribe(new Observer&lt;String&gt;() {
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
+            @Override
+            public void onNext(String s) {
+                resultss += s;
+            }
+            @Override
+            public void onError(Throwable e) {
+            }
+            @Override
+            public void onComplete() {
+
+                KLog.d(TTAG, &quot;接收完成统一处理事件：&quot; + resultss);
+            }
+        });
+    }</code></pre><h3 id="下面使用zip操作："><a href="#下面使用zip操作：" class="headerlink" title="下面使用zip操作："></a>下面使用zip操作：</h3><pre><code>  /**
+     * 合并数据源
+     */
+    private void zip() {
+
+        Observable.zip(
+                retrofitApi.getCall().subscribeOn(Schedulers.io()),
+                retrofitApi.getCall().subscribeOn(Schedulers.io()),
+                (translation, translation2) -&gt;
+                        translation.toString() + translation2.toString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -&gt; {
+
+                    KLog.d(TTAG, &quot;合并的数据源是：&quot; + s.toString());
+                }, throwable -&gt; {
+
+                });
+    }</code></pre><h3 id="concat（）实例"><a href="#concat（）实例" class="headerlink" title="concat（）实例"></a>concat（）实例</h3><pre><code> /**
+     * 该类型的操作符的作用 = 组合多个被观察者
+     * 组合多个被观察者一起发送数据，合并后 按发送顺序串行执行
+     * concat()
+     * concatArray()
+     * 
+     * 实例：从内存以及磁盘和网络获取缓存
+     */
+
+    String memoryCache = null;
+    String diskCache = &quot;磁盘缓存数据&quot;;
+
+    private void concat() {
+
+
+        Observable.concat(
+                Observable.create(emitter -&gt; {
+
+                    //判断内存是否含有缓存
+                    if (null == memoryCache) {
+                        emitter.onComplete();
+                    } else {
+                        emitter.onNext(memoryCache);
+                    }
+                }),
+                Observable.create(emitter -&gt; {
+
+                    //判断磁盘
+                    if (null == diskCache) {
+                        emitter.onComplete();
+                    } else {
+                        emitter.onNext(diskCache);
+                    }
+                }),
+                Observable.create((ObservableOnSubscribe&lt;String&gt;) emitter -&gt; {
+
+                    emitter.onNext(&quot;从网络获取缓存数据&quot;);
+                })
+                //通过firstElement()，从串联队列中取出并发送第1个有效事件（Next事件），即依次判断检查memory、disk、network
+        ).firstElement()
+                // 即本例的逻辑为：
+                // a. firstElement()取出第1个事件 = memory，即先判断内存缓存中有无数据缓存；由于memoryCache = null，即内存缓存中无数据，所以发送结束事件（视为无效事件）
+                // b. firstElement()继续取出第2个事件 = disk，即判断磁盘缓存中有无数据缓存：由于diskCache ≠ null，即磁盘缓存中有数据，所以发送Next事件（有效事件）
+                // c. 即firstElement()已发出第1个有效事件（disk事件），所以停止判断。
+
+                .subscribe(s -&gt; {
+
+                    KLog.d(TTAG, &quot;缓存获得路径是：&quot; + s.toString());
+                });
+    }</code></pre><h3 id="combineLatest（）实例"><a href="#combineLatest（）实例" class="headerlink" title="combineLatest（）实例"></a>combineLatest（）实例</h3><p>进行多个输入框判断，有一个为空时按钮不可点击，都不为空时才可以点击（并且改变输入框颜色）</p>
+<pre><code> /**
+     * 通过combineLatest（）合并事件 &amp; 联合判断
+     * &lt;p&gt;
+     * 当两个Observables中的任何一个发送了数据后，
+     * 将先发送了数据的Observables 的最新（最后）一个数据 与
+     * 另外一个Observable发送的每个数据结合，最终基于该函数的结果发送数据
+     */
+    private void init() {
+
+        nameObser = RxTextView.textChanges(name).skip(1);
+        ageObser = RxTextView.textChanges(age).skip(1);
+        jobObser = RxTextView.textChanges(job).skip(1);
+
+        Observable.combineLatest(nameObser, ageObser, jobObser,
+                (charSequence, charSequence2, charSequence3) -&gt; {
+                    boolean nameIsNOtEmpty = !TextUtils.isEmpty(name.getText());
+
+                   // boolean nameIs = !TextUtils.isEmpty(name.getText()) &amp;&amp; name.getText().toString().length() &lt;= 10;
+                    boolean ageIsNotEmpty = !TextUtils.isEmpty(age.getText());
+                    boolean jobIsNotEmpty = !TextUtils.isEmpty(job.getText());
+
+                    return nameIsNOtEmpty &amp;&amp; ageIsNotEmpty &amp;&amp; jobIsNotEmpty;
+                }
+        ).subscribe(aBoolean -&gt; {
+
+            KLog.d(TTAG, &quot;点击结果是：&quot; + aBoolean);
+            push.setEnabled(aBoolean);
+        });
+    }</code></pre><h3 id="有条件的轮询操作："><a href="#有条件的轮询操作：" class="headerlink" title="有条件的轮询操作："></a>有条件的轮询操作：</h3><p>使用关键字：repeatWhen</p>
+<pre><code>// 设置变量 = 模拟轮询服务器次数
+    private int i = 0 ;
+    /**
+     * 有条件的轮询
+     * 使用操作符：repeatWhen
+     */
+    private void init3() {
+
+
+        RetrofitApi retrofitApi = OkHttpUtils.newInstance().create(RetrofitApi.class);
+
+        retrofitApi.getCall()
+                .repeatWhen(objectObservable -&gt; {
+
+                    // 将原始 Observable 停止发送事件的标识（Complete（） /  Error（））转换成1个 Object 类型数据传递给1个新被观察者（Observable）
+                    // 以此决定是否重新订阅 &amp; 发送原来的 Observable，即轮询
+                    // 此处有2种情况：
+                    // 1. 若返回1个Complete（） /  Error（）事件，则不重新订阅 &amp; 发送原来的 Observable，即轮询结束
+                    // 2. 若返回其余事件，则重新订阅 &amp; 发送原来的 Observable，即继续轮询
+
+                    return objectObservable.flatMap((Function&lt;Object, ObservableSource&lt;?&gt;&gt;) o -&gt; {
+
+                        // 加入判断条件：当轮询次数 = 5次后，就停止轮询
+                        if (i&gt;3){
+                            return Observable.error(new Throwable(&quot;轮询结束&quot;));
+                        }
+                        // 若轮询次数＜4次，则发送1Next事件以继续轮询
+                        // 注：此处加入了delay操作符，作用 = 延迟一段时间发送（此处设置 = 2s），以实现轮询间间隔设置
+
+                        return Observable.just(1).delay(2000, TimeUnit.MILLISECONDS);
+                    });
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer&lt;Translation&gt;() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Translation translation) {
+
+                        translation.show();
+                        i++;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
+    }
+</code></pre><h3 id="有条件的网络请求出错，重试，可以设置条件"><a href="#有条件的网络请求出错，重试，可以设置条件" class="headerlink" title="有条件的网络请求出错，重试，可以设置条件"></a>有条件的网络请求出错，重试，可以设置条件</h3><pre><code> /**
+     * 请求出错去重复查询，可以设置条件
+     * 使用操作符：retryWhen
+     * 发送网络请求 &amp; 通过retryWhen（）进行重试
+     * 主要异常才会回调retryWhen（）进行重试
+     *   参数Observable&lt;Throwable&gt;中的泛型 = 上游操作符抛出的异常，可通过该条件来判断异常的类型
+     */
+
+    // 设置变量
+    // 可重试次数
+    private int maxConnectCount = 10;
+    // 当前已重试次数
+    private int currentRetryCount = 0;
+    // 重试等待时间
+    private int waitRetryTime = 0;
+
+    private void init4() {
+
+        retrofitApi.getCall()
+                .retryWhen(throwableObservable -&gt;
+
+                        throwableObservable.flatMap((Function&lt;Throwable, ObservableSource&lt;?&gt;&gt;) throwable -&gt; {
+
+                            if (throwable instanceof IOException) {
+
+                                if (currentRetryCount &lt; maxConnectCount) {
+                                    currentRetryCount++;
+                                    waitRetryTime = 1000 + currentRetryCount * 1000;
+
+                                    return Observable.just(1).delay(waitRetryTime, TimeUnit.MILLISECONDS);
+                                } else {
+
+                                    return Observable.error(new Throwable(&quot;超过重试次数：&quot; + currentRetryCount));
+                                }
+                            } else {
+                                return Observable.error(new Throwable(&quot;发生异常，非网络&quot;));
+                            }
+                        }))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer&lt;Translation&gt;() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(Translation translation) {
+                        translation.show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }</code></pre><h3 id="有关过滤操作符"><a href="#有关过滤操作符" class="headerlink" title="有关过滤操作符"></a>有关过滤操作符</h3><h4 id="ofType"><a href="#ofType" class="headerlink" title="ofType"></a>ofType</h4><pre><code>  /**
+     * 过滤操作符
+     */
+    private void useOfType() {
+
+        Observable.just(1, &quot;asd&quot;, 2, 3, 4, &quot;qwe&quot;)
+                .ofType(Integer.class)
+                .subscribe(integer -&gt; {
+
+                    KLog.d(TTAG, &quot;获得的整型消息事件是：&quot; + integer);
+
+                });
+    }</code></pre><h4 id="Skip，，，SkipLast"><a href="#Skip，，，SkipLast" class="headerlink" title="Skip，，，SkipLast"></a>Skip，，，SkipLast</h4><pre><code>  /**
+     * 跳转开头和跳过结尾消息
+     */
+    private void userSkipAndSkipLast() {
+
+        // 使用1：根据顺序跳过数据项
+        Observable.just(1, 2, 3, 4, 5)
+                .skip(1) // 跳过正序的前1项
+                .skipLast(2) // 跳过正序的后2项
+                .subscribe(integer -&gt; KLog.d(TTAG, &quot;获取到的整型事件元素是： &quot; + integer));
+
+// 使用2：根据时间跳过数据项
+        // 发送事件特点：发送数据0-5，每隔1s发送一次，每次递增1；第1次发送延迟0s
+        Observable.intervalRange(0, 5, 0, 1, TimeUnit.SECONDS)
+                .skip(1, TimeUnit.SECONDS) // 跳过第1s发送的数据
+                .skipLast(1, TimeUnit.SECONDS) // 跳过最后1s发送的数据
+                .subscribe(along -&gt; KLog.d(TTAG, &quot;获取到的整型事件元素是： &quot; + along));
+    }
+</code></pre><h4 id="throttleFirst（），，throttleLast（）"><a href="#throttleFirst（），，throttleLast（）" class="headerlink" title="throttleFirst（），，throttleLast（）"></a>throttleFirst（），，throttleLast（）</h4><p>在某段时间内，只发送该段时间内第1次事件 / 最后1次事件</p>
+<pre><code>&lt;&lt;- 在某段时间内，只发送该段时间内第1次事件 -&gt;&gt;
+Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() {
+            @Override
+            public void subscribe(ObservableEmitter&lt;Integer&gt; e) throws Exception {
+                // 隔段事件发送时间
+                e.onNext(1);
+                Thread.sleep(500);
+
+                e.onNext(2);
+                Thread.sleep(400);
+
+                e.onNext(3);
+                Thread.sleep(300);
+
+                Thread.sleep(300);
+                e.onComplete();
+            }
+        }).throttleFirst(1, TimeUnit.SECONDS)//每1秒中采用数据
+                .subscribe(new Observer&lt;Integer&gt;() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, &quot;开始采用subscribe连接&quot;);
+                    }
+
+                    @Override
+                    public void onNext(Integer value) {
+                        Log.d(TAG, &quot;接收到了事件&quot;+ value  );
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, &quot;对Error事件作出响应&quot;);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, &quot;对Complete事件作出响应&quot;);
+                    }
+                });
+
+
+&lt;&lt;- 在某段时间内，只发送该段时间内最后1次事件 -&gt;&gt;
+Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() {
+            @Override
+            public void subscribe(ObservableEmitter&lt;Integer&gt; e) throws Exception {
+                // 隔段事件发送时间
+                e.onNext(1);
+                Thread.sleep(500);
+
+                e.onNext(2);
+                Thread.sleep(400);
+
+                Thread.sleep(300);
+                e.onComplete();
+            }
+        }).throttleLast(1, TimeUnit.SECONDS)//每1秒中采用数据
+                .subscribe(new Observer&lt;Integer&gt;() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        KLog.d(TTAG, &quot;开始采用subscribe连接&quot;);
+                    }
+
+                    @Override
+                    public void onNext(Integer value) {
+                        KLog.d(TTAG, &quot;接收到了事件&quot;+ value  );
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        KLog.d(TTAG, &quot;对Error事件作出响应&quot;);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                       K Log.d(TTAG, &quot;对Complete事件作出响应&quot;);
+                    }
+                });</code></pre><p>实际应用：规定时间内，多次点击按钮禁止多次操作使用throttleFirst，操作符</p>
+<pre><code>        RxView.clicks(button)
+                .throttleFirst(2, TimeUnit.SECONDS)  // 才发送 2s内第1次点击按钮的事件
+                .subscribe(new Observer&lt;Object&gt;() {
+                    @Override
+                    public void onSubscribe(Disposable d) {  
+                    }
+                    @Override
+                    public void onNext(Object value) {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });</code></pre><h4 id="Sample（）实例应用实时搜索"><a href="#Sample（）实例应用实时搜索" class="headerlink" title="Sample（）实例应用实时搜索"></a>Sample（）实例应用实时搜索</h4><p>在某段时间内，只发送该段时间内最新（最后）1次事件,与 throttleLast（） 操作符类似</p>
+<h4 id="throttleWithTimeout-（）-debounce（）"><a href="#throttleWithTimeout-（）-debounce（）" class="headerlink" title="throttleWithTimeout （） / debounce（）"></a>throttleWithTimeout （） / debounce（）</h4><p>发送数据事件时，若2次发送事件的间隔＜指定时间，就会丢弃前一次的数据，直到指定时间内都没有新数据发射时才会发送后一次的数据</p>
+<pre><code>        RxTextView.textChanges(ed)
+                .debounce(1, TimeUnit.SECONDS)
+                .skip(1) //跳过 第1次请求 = 初始输入框的空字符状态
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer&lt;CharSequence&gt;() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+                    @Override
+                    public void onNext(CharSequence charSequence) {
+                        tv.setText(&quot;发送给服务器的字符 = &quot; + charSequence.toString());
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                    @Override
+                    public void onComplete() {
+                      }
+                });</code></pre><h4 id="firstElement（）-，，-lastElement（）"><a href="#firstElement（）-，，-lastElement（）" class="headerlink" title="firstElement（） ，， lastElement（）"></a>firstElement（） ，， lastElement（）</h4><p>仅选取第1个元素 ，，最后一个元素</p>
+<pre><code>// 获取第1个元素
+        Observable.just(1, 2, 3, 4, 5)
+                  .firstElement()
+                  .subscribe(new Consumer&lt;Integer&gt;() {
+                      @Override
+                      public void accept( Integer integer) throws Exception {
+                          KLog.d(TTAG,&quot;获取到的第一个事件是： &quot;+ integer);
+                      }
+        });
+
+// 获取最后1个元素
+        Observable.just(1, 2, 3, 4, 5)
+                .lastElement()
+                .subscribe(new Consumer&lt;Integer&gt;() {
+                    @Override
+                    public void accept( Integer integer) throws Exception {
+                        KLog.d(TTAG,&quot;获取到的最后1个事件是： &quot;+ integer);
+                    }
+                });</code></pre><h4 id="elementAt"><a href="#elementAt" class="headerlink" title="elementAt()"></a>elementAt()</h4><p>指定接收某个消息，根据索引，可以设置默认消息</p>
+<pre><code>  private void userEleMentAt() {
+        // 使用1：获取位置索引 = 2的 元素
+        // 位置索引从0开始
+        Observable.just(1, 2, 3, 4, 5)
+                .elementAt(2)
+                .subscribe(integer -&gt; KLog.d(TTAG,&quot;获取到的事件元素是： &quot;+ integer));
+
+// 使用2：获取的位置索引 ＞ 发送事件序列长度时，设置默认参数
+        Observable.just(1, 2, 3, 4, 5)
+                .elementAt(6,10)
+                .subscribe(integer -&gt; KLog.d(TTAG,&quot;获取到的事件元素是： &quot;+ integer));
+    }
+</code></pre><h4 id="elementAtOrError（）"><a href="#elementAtOrError（）" class="headerlink" title="elementAtOrError（）"></a>elementAtOrError（）</h4><p>在elementAt（）的基础上，当出现越界情况（即获取的位置索引 ＞ 发送事件序列长度）时，即抛出异常</p>
+<pre><code> private void userElementAtOrError() {
+        Observable.just(1, 2, 3, 4, 5)
+                .elementAtOrError(6)
+                .subscribe(integer -&gt; KLog.d(TTAG,&quot;获取到的事件元素是： &quot;+ integer));
+
+    }</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/04/Rxjava2.0笔记-003-操作符-搭配Retrofit/" rel="next" title="Rxjava2.0笔记-003-操作符-搭配Retrofit">
+                <i class="fa fa-chevron-left"></i> Rxjava2.0笔记-003-操作符-搭配Retrofit
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/07/Android自定义属性/" rel="prev" title="Android自定义属性">
+                Android自定义属性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">alguojian</p>
+              <p class="site-description motion-element" itemprop="description">默默码码的copy-seven</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#下面使用zip操作："><span class="nav-number">1.</span> <span class="nav-text">下面使用zip操作：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#concat（）实例"><span class="nav-number">2.</span> <span class="nav-text">concat（）实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#combineLatest（）实例"><span class="nav-number">3.</span> <span class="nav-text">combineLatest（）实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有条件的轮询操作："><span class="nav-number">4.</span> <span class="nav-text">有条件的轮询操作：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有条件的网络请求出错，重试，可以设置条件"><span class="nav-number">5.</span> <span class="nav-text">有条件的网络请求出错，重试，可以设置条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有关过滤操作符"><span class="nav-number">6.</span> <span class="nav-text">有关过滤操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ofType"><span class="nav-number">6.1.</span> <span class="nav-text">ofType</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Skip，，，SkipLast"><span class="nav-number">6.2.</span> <span class="nav-text">Skip，，，SkipLast</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#throttleFirst（），，throttleLast（）"><span class="nav-number">6.3.</span> <span class="nav-text">throttleFirst（），，throttleLast（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sample（）实例应用实时搜索"><span class="nav-number">6.4.</span> <span class="nav-text">Sample（）实例应用实时搜索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#throttleWithTimeout-（）-debounce（）"><span class="nav-number">6.5.</span> <span class="nav-text">throttleWithTimeout （） / debounce（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#firstElement（）-，，-lastElement（）"><span class="nav-number">6.6.</span> <span class="nav-text">firstElement（） ，， lastElement（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#elementAt"><span class="nav-number">6.7.</span> <span class="nav-text">elementAt()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#elementAtOrError（）"><span class="nav-number">6.8.</span> <span class="nav-text">elementAtOrError（）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">alguojian</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
